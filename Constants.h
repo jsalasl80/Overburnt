@@ -1,8 +1,14 @@
-#ifndef CONSTANTS.H
-#define CONSTANTS.H
+#ifndef CONSTANTS
+#define CONSTANTS
 
 //Miscellaneous
 #define NONE 0
+
+#define FILES_DIRECTORY "bin/"
+#define READ_MODE "r"
+
+#define UNLOCKED false
+#define LOCKED true
 
 //May need to change to milliseconds
 #define PREP_DELAY 2
