@@ -1,10 +1,31 @@
 #include "Includes.h"
 #include "Constants.h"
-using namespace std;
+#include "Table.h"
 
-class order Table{
-    private:
-        int tableNumber;
-        bool status;//false = empty, true = occupied
-        Customer c
+Table::Table(int id) : id(id), status("free") {}
+
+int Table::getId() const {
+    return id;
+}
+
+std::string Table::getStatus() const {
+    return status;
+}
+
+std::vector<Customer> Table::getCustomers() const {
+    return customers;
+}
+
+void Table::seatCustomers(const std::vector<Customer>& customers) {
+    this->customers = customers;
+    status = "occupied";
+}
+
+void Table::clearTable() {
+    customers.clear();
+    status = "free";
+}
+
+bool Table::isOccupied() const {
+    return status == "occupied";
 }
