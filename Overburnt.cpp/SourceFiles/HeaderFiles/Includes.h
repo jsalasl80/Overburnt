@@ -1,0 +1,22 @@
+#ifndef INCLUDES
+#define INCLUDES
+
+#include <fstream>
+#include <sstream>
+#include <iostream>
+#include <cstdio>
+
+#include <vector>
+#include <map>
+#include <queue>
+
+#include <string>
+#include <cstring>
+
+#include <stdexcept>
+#include <chrono>
+#include <thread>
+#include <mutex>
+#include <algorithm>
+
+#endif
