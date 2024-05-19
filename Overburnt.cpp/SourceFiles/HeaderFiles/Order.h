@@ -11,9 +11,7 @@ private:
     int waitTime;
 
 public:
-    Order(int recipeId){
-        this->recipeId = recipeId;
-    }
+    Order(int recipeId) : recipeId(recipeId) {}
 
     int getRecipeId();
     int getWaitTime();

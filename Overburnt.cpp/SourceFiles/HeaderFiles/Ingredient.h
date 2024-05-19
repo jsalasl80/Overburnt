@@ -16,7 +16,7 @@ class Ingredient{
                 name(_name),
                 totalPortions(_totalPortions),
                 unitaryCost(_unitaryCost),
-                consumedPortions(NONE){}
+                consumedPortions(NONE){} 
         string toString();
 
         void consumePortions(int);
