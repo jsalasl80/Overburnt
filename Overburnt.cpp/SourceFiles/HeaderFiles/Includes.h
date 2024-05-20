@@ -18,5 +18,9 @@
 #include <thread>
 #include <mutex>
 #include <algorithm>
+#include <functional>
+#include <future>
+
+#include <random>
 
 #endif
