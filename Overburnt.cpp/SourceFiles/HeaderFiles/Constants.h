@@ -105,6 +105,10 @@ const std::string LAST_NAMES[NAMES_AMOUNTS] = {
 #define OCCUPIED true
 #define UNOCCUPIED false
 
+//Constants for orders
+#define READY true
+#define NOT_READY false
+
 #define PREP_DELAY 2
 #define MIN_PREP_TIME 10
 

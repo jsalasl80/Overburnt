@@ -1,22 +1,26 @@
 #include "Order.h"
 
-int Order::getRecipeId() {
-    return recipeId;
+int Order::getTableId() {
+    return tableId;
 }
 
-int Order::getWaitTime() {
-    return waitTime;
+int Order::getCustomerId() {
+    return customerId;
 }
 
-void Order::calculateWaitTime() {
-    // Aquí se calcularía el tiempo de espera basado en algunos criterios
-    waitTime = 10; // Ejemplo de tiempo de espera fijo
+bool Order::getOrderState() {
+    return orderState;
 }
 
-bool Order::isReady() const {
-    return waitTime <= 0;
+int Order::getOrderPrepTime() {
+    return recipe -> getApproxPrepTime();
+}
+
+int Order::getOrderEatingTime() {
+    return recipe -> getApproxEatingTime();
 }
 
 void Order::markAsCompleted() {
-    waitTime = 0;
+    orderState = READY;
 }
+
