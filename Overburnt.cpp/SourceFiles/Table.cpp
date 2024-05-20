@@ -1,31 +1,27 @@
-#include "Includes.h"
-#include "Constants.h"
-#include "Table.h"
+#include "HeaderFiles/Table.h"
 
-Table::Table(int id) : id(id), status("free") {}
-
-int Table::getId() const {
+int Table::getId() {
     return id;
 }
 
-std::string Table::getStatus() const {
+bool Table::getStatus() {
     return status;
 }
 
-std::vector<Customer> Table::getCustomers() const {
+std::vector<Customer*> Table::getCustomers() {
     return customers;
 }
 
-void Table::seatCustomers(const std::vector<Customer>& customers) {
+void Table::seatCustomers(std::vector<Customer*> customers) {
     this->customers = customers;
-    status = "occupied";
+    status = OCCUPIED;
 }
 
 void Table::clearTable() {
     customers.clear();
-    status = "free";
+    status = UNOCCUPIED;
 }
 
-bool Table::isOccupied() const {
-    return status == "occupied";
+bool Table::isOccupied() {
+    return status;
 }

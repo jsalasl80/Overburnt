@@ -1,5 +1,6 @@
 #ifndef CONSTANTS
 #define CONSTANTS
+#include "Includes.h"
 
 //Miscellaneous Constants
 #define NONE 0
@@ -20,6 +21,89 @@
 //RecipeReader Constants
 #define RECIPE_MAIN_ELEMENTS 4
 #define INGREDIENT_AND_AMOUNT_PAIR 2
+
+//Customer Constants
+#define WAITING "waiting"
+#define EATING "eating"
+#define FINISHED "finished"
+#define NAMES_AMOUNTS 30
+const std::string NAMES[NAMES_AMOUNTS] = {
+    "John",
+    "Wei",
+    "Miguel",
+    "Aisha",
+    "Akira",
+    "Maria",
+    "Liam",
+    "Sofia",
+    "Raj",
+    "Emma",
+    "Ethan",
+    "Isabella",
+    "Yuki",
+    "Carlos",
+    "Leila",
+    "Nikolai",
+    "Ming",
+    "Fatima",
+    "Viktor",
+    "Ines",
+    "Dmitri",
+    "Priya",
+    "Anna",
+    "Javier",
+    "Hana",
+    "Ravi",
+    "Elena",
+    "Ahmed",
+    "Lina",
+    "Hiroshi"
+};
+
+const std::string LAST_NAMES[NAMES_AMOUNTS] = {
+    "Smith",
+    "Wang",
+    "Garcia",
+    "Ahmed",
+    "Tanaka",
+    "Martinez",
+    "Johnson",
+    "Hernandez",
+    "Patel",
+    "Kumar",
+    "Chen",
+    "Nguyen",
+    "Lopez",
+    "Kim",
+    "Rodriguez",
+    "Singh",
+    "Davies",
+    "Ivanov",
+    "Muller",
+    "Kowalski",
+    "Popov",
+    "Nakamura",
+    "Santos",
+    "Brown",
+    "Murphy",
+    "Schmidt",
+    "Takahashi",
+    "Rossi",
+    "Gonzalez",
+    "Lee"
+};
+
+//Constants for customer spawner
+#define SPAWNING true
+#define HALT_SPAWNING false
+#define MIN_CUSTOMER_COUNT 1
+#define MAX_CUSTOMER_COUNT 6
+#define SPAWN_RATE 5
+
+//Constants for tables
+#define TABLES_AMOUNT 6
+#define OCCUPIED true
+#define UNOCCUPIED false
 
 #define PREP_DELAY 2
 #define MIN_PREP_TIME 10

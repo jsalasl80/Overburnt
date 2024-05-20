@@ -1,9 +1,4 @@
-#include "Includes.h"
-#include "Constants.h"
-#include "Customer.h"
-
-Customer::Customer(int id,std::string& name)
-    : id(id), name(name), status("waiting"), waitTime(0), eatingTime(0) {}
+#include "HeaderFiles/Customer.h"
 
 int Customer::getId()  {
     return id;
@@ -13,11 +8,12 @@ std::string Customer::getName()  {
     return name;
 }
 
+//do we need this tho. we do need a toString
 std::string Customer::getStatus()  {
     return status;
 }
 
-Order Customer::getOrder()  {
+Order *Customer::getOrder()  {
     return order;
 }
 
@@ -29,11 +25,11 @@ int Customer::getEatingTime()  {
     return eatingTime;
 }
 
-void Customer::placeOrder( std::vector<int>& menuItems) {
-    
+int Customer::placeOrder() {
+    //generate random number from 0 to total amount of menu items - 1
 }
 
-void Customer::updateStatus( std::string& newStatus) {
+void Customer::updateStatus(std::string newStatus) {
     status = newStatus;
 }
 

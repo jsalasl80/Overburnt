@@ -10,22 +10,23 @@ private:
     int id;
     std::string name;
     std::string status;
-    Order order;
+    Order *order;
     int waitTime;
     int eatingTime;
 
 public:
-    Customer(int id,  std::string& name);
+    Customer(int id, std::string& name):
+        id(id), name(name), status(WAITING), waitTime(NONE), eatingTime(NONE){};
 
     int getId();
     std::string getName();
     std::string getStatus();
-    Order getOrder();
+    Order* getOrder(); // do we need this 
     int getWaitTime();
     int getEatingTime();
 
-    void placeOrder(std::vector<int>& menuItems);
-    void updateStatus(std::string& newStatus);
+    int placeOrder();
+    void updateStatus(std::string newStatus);
     int calculateTotalWait();
 };
 
