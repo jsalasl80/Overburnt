@@ -1,4 +1,4 @@
-#include "HeaderFiles/Random.h"
+#include "Random.h"
 
 int Random::generateRandomInRange(int start, int end){
     uniform_int_distribution<int> dist(start, end);
