@@ -24,6 +24,6 @@ Recipe* Order::getRecipe(){
     return recipe;
 }
 void Order::markAsCompleted() {
-    orderState = READY;
+    orderState = true;
 }
 

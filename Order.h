@@ -11,13 +11,15 @@ private:
     int tableId;
     int customerId;
     bool orderState;
+    int preparationTime;
+    int eatingTime;
 
 public:
     Order(int _tableId, int _customerId,  Recipe* _recipe):
         tableId(_tableId),
         customerId(_customerId),
         recipe(_recipe),
-        orderState(IN_PREPARATION)
+        orderState(false)
         {};
 
     int getTableId();
