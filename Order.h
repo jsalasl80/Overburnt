@@ -7,18 +7,29 @@
 
 class Order {
 private:
-    Recipe recipeId;
-    int waitTime;
+    Recipe *recipe;
+    int tableId;
+    int customerId;
+    bool orderState;
 
 public:
-    Order(int recipeId) : recipeId(recipeId) {}
+    Order(int _tableId, int _customerId,  Recipe* _recipe):
+        tableId(_tableId),
+        customerId(_customerId),
+        recipe(_recipe),
+        orderState(IN_PREPARATION)
+        {};
 
-    int getRecipeId();
-    int getWaitTime();
-
-    void calculateWaitTime();
-    bool isReady();
+    int getTableId();
+    int getCustomerId();
+    bool getOrderState();
+    int getOrderPrepTime();
+    int getOrderEatingTime();
+    Recipe* getRecipe();
+    
     void markAsCompleted();
+    
+    
 };
 
-#endif // ORDER_H
+#endif 
