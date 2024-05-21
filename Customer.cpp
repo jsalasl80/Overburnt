@@ -17,8 +17,8 @@ std::string Customer::getStatus()  {
     return status;
 }
 
-Order Customer::getOrder()  {
-    return order;
+int Customer::getOrderNumber()  {
+    return orderNumber;
 }
 
 int Customer::getWaitTime()  {
