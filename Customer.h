@@ -3,14 +3,15 @@
 
 #include "Includes.h"
 #include "Constants.h"
-#include "Order.h"
+#include "CustomerStatus.h"
+
 
 class Customer {
 private:
     int id;
     std::string name;
-    std::string status;
-    Order order;
+    CustomerStatus status;
+    int orderNumber;
     int waitTime;
     int eatingTime;
 
@@ -19,13 +20,14 @@ public:
 
     int getId();
     std::string getName();
-    std::string getStatus();
-    Order getOrder();
+    CustomerStatus getStatus();
+    int getOrderNumber();
     int getWaitTime();
     int getEatingTime();
+    
 
     void placeOrder(std::vector<int>& menuItems);
-    void updateStatus(std::string& newStatus);
+    void updateStatus(CustomerStatus newStatus);
     int calculateTotalWait();
 };
 
