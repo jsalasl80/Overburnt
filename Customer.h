@@ -5,7 +5,6 @@
 #include "Constants.h"
 #include "CustomerStatus.h"
 
-
 class Customer {
 private:
     int id;
@@ -16,19 +15,18 @@ private:
     int eatingTime;
 
 public:
-    Customer(int id,  std::string& name);
+    Customer(int id, const std::string& name);
 
-    int getId();
-    std::string getName();
-    CustomerStatus getStatus();
-    int getOrderNumber();
-    int getWaitTime();
-    int getEatingTime();
-    
+    int getId() const;
+    std::string getName() const;
+    CustomerStatus getStatus() const;
+    int getOrderNumber() const;
+    int getWaitTime() const;
+    int getEatingTime() const;
 
-    void placeOrder(std::vector<int>& menuItems);
+    void placeOrder(const std::vector<int>& menuItems);
     void updateStatus(CustomerStatus newStatus);
-    int calculateTotalWait();
+    int calculateTotalWait() const;
 };
 
 #endif // CUSTOMER_H
