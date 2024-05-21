@@ -1,5 +1,5 @@
-#include "HeaderFiles/Ingredient.h"
-#include "HeaderFiles/Includes.h"
+#include "Ingredient.h"
+#include "Includes.h"
 using namespace std;
 
 string Ingredient::toString(){

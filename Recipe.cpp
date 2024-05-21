@@ -1,4 +1,4 @@
-#include "HeaderFiles/Recipe.h"
+#include "Recipe.h"
 
 int Recipe::getTotalIngredientsStored(){
     return ingredients.size();
