@@ -3,12 +3,10 @@
 
 enum class CustomerStatus {
     Waiting,
-    Seated,
     Ordering,
     WaitingForFood,
     Eating,
-    WaitingForBill,//could be removed
-    Paying,//could be removed
+    WaitingToLeave,
     Leaving,
     Left//used to determine if it should be removed
 };
