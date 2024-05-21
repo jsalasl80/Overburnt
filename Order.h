@@ -7,24 +7,29 @@
 
 class Order {
 private:
-    int customerId;
-    int preparationTime;// based on formula Tiempo estimado + (Tiempo estimado * BINARY_RANDOM(1,-1) * RANDOM_RANGE(0, PREP_DELAY))
+    Recipe *recipe;
     int tableId;
-    bool isReady;
-    Recipe recipe;//the recipe assigned to this recipeID, can be removed based on how waiter manages the recipe
+    int customerId;
+    bool orderState;
 
 public:
-    Order(int _customerId) : 
+    Order(int _tableId, int _customerId,  Recipe* _recipe):
+        tableId(_tableId),
         customerId(_customerId),
-         {}
+        recipe(_recipe),
+        orderState(IN_PREPARATION)
+        {};
 
-
-    int getRecipeId();
-    int getWaitTime();
-
-    void calculateWaitTime();
-    bool isReady();
+    int getTableId();
+    int getCustomerId();
+    bool getOrderState();
+    int getOrderPrepTime();
+    int getOrderEatingTime();
+    Recipe* getRecipe();
+    
     void markAsCompleted();
+    
+    
 };
 
-#endif // ORDER_H
+#endif 
