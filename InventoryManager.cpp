@@ -1,5 +1,5 @@
-#include "HeaderFiles/InventoryManager.h"
-#include "HeaderFiles/Constants.h"
+#include "InventoryManager.h"
+#include "Constants.h"
 using namespace std;
 
 void InventoryManager::storeIngredient(string ingredientName, int amount, float unitaryCost){
