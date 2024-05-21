@@ -1,4 +1,4 @@
-#include "HeaderFiles/FileWriter.h"
+#include "FileWriter.h"
 
 void FileWriter::appendLine(string line){
     fstream file;

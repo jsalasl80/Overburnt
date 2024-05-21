@@ -1,4 +1,4 @@
-#include "HeaderFiles/RecipeReader.h"
+#include "RecipeReader.h"
 
 void RecipeReader::storeRecipe(string recipeName, float recipePrice, int approxPrepTime, int approxEatingTime, vector<string> ingredients, vector<int> ingredientsAmounts){
     Recipe *recipe = new Recipe(recipeName, recipePrice, approxPrepTime, approxEatingTime, ingredients, ingredientsAmounts);
