@@ -29,8 +29,8 @@ int Customer::getEatingTime() const {
     return eatingTime;
 }
 
-void Customer::placeOrder(const std::vector<int>& menuItems) {
-    // Implementation needed
+void Customer::setEatingTime(int time) {
+    eatingTime = time;
 }
 
 void Customer::updateStatus(CustomerStatus newStatus) {
@@ -38,5 +38,13 @@ void Customer::updateStatus(CustomerStatus newStatus) {
 }
 
 int Customer::calculateTotalWait() const {
-    // Implementation needed
+    return waitTime + eatingTime;
+}
+
+void Customer::eat(){
+    if(getStatus() == CustomerStatus::WaitingForFood){
+        updateStatus(CustomerStatus::Eating);
+        std::this_thread::sleep_for(std::chrono::seconds(getEatingTime()));
+        updateStatus(CustomerStatus::WaitingToLeave);
+    }
 }

@@ -11,8 +11,8 @@ private:
     std::string name;
     CustomerStatus status;
     int orderNumber;
-    int waitTime;
-    int eatingTime;
+    int waitTime;//amount of time waited 
+    int eatingTime;// amount of time needed to eat, will be sent to the statistics aswell.
 
 public:
     Customer(int id, const std::string& name);
@@ -24,9 +24,12 @@ public:
     int getWaitTime() const;
     int getEatingTime() const;
 
-    void placeOrder(const std::vector<int>& menuItems);
+    void setEatingTime(int time);
+
     void updateStatus(CustomerStatus newStatus);
     int calculateTotalWait() const;
+
+    void eat();
 };
 
 #endif // CUSTOMER_H
