@@ -1,4 +1,4 @@
-#include "HeaderFiles/CSVReader.h"
+#include "CSVReader.h"
 using namespace std;
 
 void CSVReader::skipLine(){
