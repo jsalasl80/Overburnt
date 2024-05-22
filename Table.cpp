@@ -21,14 +21,14 @@ void Table::setStatus(bool _status){
 
 void Table::seatCustomers(const std::vector<Customer>& customers) {
     this->customers = customers;
-    setStatus(true);
+    setStatus(OCCUPIED);
 }
 
 void Table::clearTable() {
     customers.clear();
-    status = "free";
+    status = UNOCCUPIED;
 }
 
 bool Table::isOccupied() const {
-    return status == "occupied";
+    return status == OCCUPIED;
 }
