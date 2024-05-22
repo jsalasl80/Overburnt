@@ -26,4 +26,9 @@ Recipe* Order::getRecipe(){
 void Order::markAsCompleted() {
     orderState = true;
 }
+int Order::calculateTime(int baseTime,int delay){
+    Random randomGenerator;
+    int calculatedTime = baseTime +(baseTime*randomGenerator.generateBinaryRandom(1,-1)*randomGenerator.generateRandomInRange(0,delay));
+    return (calculatedTime<0) ? MIN_PREP_TIME : calculatedTime;
+}
 

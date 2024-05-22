@@ -4,6 +4,7 @@
 #include "Includes.h"
 #include "Constants.h"
 #include "Recipe.h"
+#include "Random.h"
 
 class Order {
 private:
@@ -19,8 +20,10 @@ public:
         tableId(_tableId),
         customerId(_customerId),
         recipe(_recipe),
-        orderState(false)
-        {};
+        orderState(false){
+        preparationTime = calculateTime(recipe->getApproxPrepTime(),PREP_DELAY);
+        eatingTime = calculateTime(recipe->getApproxEatingTime(),EATING_DELAY);
+        };
 
     int getTableId();
     int getCustomerId();
@@ -30,6 +33,7 @@ public:
     Recipe* getRecipe();
     
     void markAsCompleted();
+    int calculateTime(int baseTime,int delay);
     
     
 };
