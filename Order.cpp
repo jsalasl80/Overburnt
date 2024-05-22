@@ -1,22 +1,43 @@
 #include "Order.h"
 
-int Order::getRecipeId() {
-    return recipeId;
+Order::Order(int _tableId, int _customerId,  Recipe* _recipe):
+    tableId(_tableId),
+    customerId(_customerId),
+    recipe(_recipe),
+    orderState(false),
+    preparationTime(calculateTime(recipe->getApproxPrepTime(),PREP_DELAY)),
+    eatingTime(calculateTime(recipe->getApproxEatingTime(),EATING_DELAY))
+    {};
+
+int Order::getTableId() {
+    return tableId;
 }
 
-int Order::getWaitTime() {
-    return waitTime;
+int Order::getCustomerId() {
+    return customerId;
 }
 
-void Order::calculateWaitTime() {
-    // Aquí se calcularía el tiempo de espera basado en algunos criterios
-    waitTime = 10; // Ejemplo de tiempo de espera fijo
+bool Order::getOrderState() {
+    return orderState;
 }
 
-bool Order::isReady() const {
-    return waitTime <= 0;
+int Order::getOrderPrepTime() {
+    return recipe -> getApproxPrepTime();
 }
 
+int Order::getOrderEatingTime() {
+    return recipe -> getApproxEatingTime();
+}
+
+Recipe* Order::getRecipe(){
+    return recipe;
+}
 void Order::markAsCompleted() {
-    waitTime = 0;
+    orderState = true;
 }
+int Order::calculateTime(int baseTime,int delay){
+    Random randomGenerator;
+    int calculatedTime = baseTime +(baseTime*randomGenerator.generateBinaryRandom(1,-1)*randomGenerator.generateRandomInRange(0,delay));
+    return (calculatedTime<0) ? MIN_PREP_TIME : calculatedTime;
+}
+

@@ -3,30 +3,33 @@
 
 #include "Includes.h"
 #include "Constants.h"
-#include "Order.h"
+#include "CustomerStatus.h"
 
 class Customer {
 private:
     int id;
     std::string name;
-    std::string status;
-    Order order;
-    int waitTime;
-    int eatingTime;
+    CustomerStatus status;
+    int orderNumber;
+    int waitTime;//amount of time waited 
+    int eatingTime;// amount of time needed to eat, will be sent to the statistics aswell.
 
 public:
-    Customer(int id,  std::string& name);
+    Customer(int id, const std::string& name);
 
-    int getId();
-    std::string getName();
-    std::string getStatus();
-    Order getOrder();
-    int getWaitTime();
-    int getEatingTime();
+    int getId() const;
+    std::string getName() const;
+    CustomerStatus getStatus() const;
+    int getOrderNumber() const;
+    int getWaitTime() const;
+    int getEatingTime() const;
 
-    void placeOrder(std::vector<int>& menuItems);
-    void updateStatus(std::string& newStatus);
-    int calculateTotalWait();
+    void setEatingTime(int time);
+
+    void updateStatus(CustomerStatus newStatus);
+    int calculateTotalWait() const;
+
+    void eat();
 };
 
 #endif // CUSTOMER_H
