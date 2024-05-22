@@ -23,9 +23,6 @@
 #define INGREDIENT_AND_AMOUNT_PAIR 2
 
 //Customer Constants
-#define WAITING "waiting"
-#define EATING "eating"
-#define FINISHED "finished"
 #define NAMES_AMOUNTS 30
 const std::string NAMES[NAMES_AMOUNTS] = {
     "John",
@@ -92,6 +89,7 @@ const std::string LAST_NAMES[NAMES_AMOUNTS] = {
     "Gonzalez",
     "Lee"
 };
+#define MILLI_TO_SEC_CONV 1000
 
 //Constants for customer spawner
 #define SPAWNING true
