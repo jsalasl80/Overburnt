@@ -5,8 +5,8 @@ Order::Order(int _tableId, int _customerId,  Recipe* _recipe):
     customerId(_customerId),
     recipe(_recipe),
     orderState(false),
-    preparationTime(calculateTime(recipe->getApproxPrepTime(),PREP_DELAY)),
-    eatingTime(calculateTime(recipe->getApproxEatingTime(),EATING_DELAY))
+    preparationTime(calculateTime(recipe->getApproxPrepTime(), PREP_DELAY)),
+    eatingTime(calculateTime(recipe->getApproxEatingTime(), EATING_DELAY))
     {};
 
 int Order::getTableId() {
@@ -37,7 +37,7 @@ void Order::markAsCompleted() {
 }
 int Order::calculateTime(int baseTime,int delay){
     Random randomGenerator;
-    int calculatedTime = baseTime +(baseTime*randomGenerator.generateBinaryRandom(1,-1)*randomGenerator.generateRandomInRange(0,delay));
-    return (calculatedTime<0) ? MIN_PREP_TIME : calculatedTime;
+    int calculatedTime = baseTime +(baseTime*randomGenerator.generateBinaryRandom(NEGATIVE, POSITIVE)*randomGenerator.generateRandomInRange(0, delay));
+    return (calculatedTime <= NONE) ? baseTime : calculatedTime;
 }
 
