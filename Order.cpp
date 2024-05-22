@@ -1,5 +1,14 @@
 #include "Order.h"
 
+Order::Order(int _tableId, int _customerId,  Recipe* _recipe):
+    tableId(_tableId),
+    customerId(_customerId),
+    recipe(_recipe),
+    orderState(false),
+    preparationTime(calculateTime(recipe->getApproxPrepTime(),PREP_DELAY)),
+    eatingTime(calculateTime(recipe->getApproxEatingTime(),EATING_DELAY))
+    {};
+
 int Order::getTableId() {
     return tableId;
 }
