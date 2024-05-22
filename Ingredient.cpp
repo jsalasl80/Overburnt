@@ -1,6 +1,11 @@
 #include "Ingredient.h"
-#include "Includes.h"
 using namespace std;
+
+Ingredient::Ingredient(string& _name, int _totalPortions, float _unitaryCost):
+    name(_name),
+    totalPortions(_totalPortions),
+    unitaryCost(_unitaryCost),
+    consumedPortions(NONE){} 
 
 string Ingredient::toString(){
     return name + ": " + to_string(totalPortions);
