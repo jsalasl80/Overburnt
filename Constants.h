@@ -27,5 +27,4 @@
 #define EATING_DELAY 3
 #define MIN_EATING_TIME 10
 
-
 #endif
