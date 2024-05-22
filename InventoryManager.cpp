@@ -31,23 +31,24 @@ void InventoryManager::setUpInventory(){
     CSVReader::closeFile();
 }
 
-bool InventoryManager::checkIngredientsAvailability(map<string,int>& totalIngredientsAndAmounts){
+void InventoryManager::checkIngredientsAvailability(std::promise<bool>&& availabilityPromise, map<string,int>& totalIngredientsAndAmounts){
     std::unique_lock<mutex> ul(inventoryMutex);
     cv.wait(ul, inventory->getAvailability());
 
     bool allIngredientsAvailable = true;
+
     Ingredient *ingredient;
     for (auto itr = totalIngredientsAndAmounts.begin(); itr != totalIngredientsAndAmounts.end() && allIngredientsAvailable; ++itr){
         ingredient = inventory -> getIngredient(itr->first);
         allIngredientsAvailable = ingredient -> checkConsumability(itr->second);
     }
-    
+
+    availabilityPromise.set_value(allIngredientsAvailable);
+
     if (allIngredientsAvailable){
         //must be sure that all ingredients will be used to update inventory
         updateInventory(totalIngredientsAndAmounts);
     }
-
-    return allIngredientsAvailable;
 }
 
 void InventoryManager::updateInventory(map<string,int>& totalIngredientsAndAmounts){
