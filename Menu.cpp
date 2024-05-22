@@ -7,6 +7,7 @@ void Menu::storeRecipe(Recipe* recipe){
 Recipe* Menu::getRecipe(int index){
     return menu[index];
 }
+
 int Menu::getMenuSize(){
     return menu.size();
 }
