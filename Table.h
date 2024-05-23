@@ -46,7 +46,8 @@ public:
     int seatAndAttendCustomers(const vector<Customer*>& customers);
 
     void deliverOrder(int customerId);
-
+    string reportCurrentState();
+    
     void clearTableAndOrders();
 };
 
