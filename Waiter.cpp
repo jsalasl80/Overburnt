@@ -1,41 +1,43 @@
 #include "Waiter.h"
 
-bool Waiter::attendTable(Table* table){
-    //vector<int> orders = table->getOrders();
-    //int* orders = table->getOrders();
-    vector<int> orders;
+Waiter::Waiter(InventoryManager *_inventoryManager):
+    inventoryManager(_inventoryManager){}
+    
+void Waiter::attendTable(std::promise<bool>&& ordersPromise, vector<Order*>& orders){
+    customerOrders = orders;
     Recipe *recipe;
-    Order *order;
     int tableId;
     int customerId;
 
+    for (Order* order : customerOrders){
+        recipe = order -> getRecipe();
+        extractIngredientsAndAmounts(recipe);
+    }
+    
+    std::promise<bool> availabilityPromise;
+    std::future<bool> availabilityFuture = availabilityPromise.get_future();
+
+    thread t(InventoryManager::checkIngredientsAvailability, *inventoryManager, std::move(availabilityPromise), ordersTotalIngredientsAmounts);
+    bool ordersDoable = availabilityFuture.get();
+    ordersPromise.set_value(ordersDoable);  
+    
+    if (ordersDoable){
+        sendOrdersToKitchen();
+    }
+
+    t.join();
+}
+
+void Waiter::extractIngredientsAndAmounts(Recipe* recipe){
     vector<string> ingredients;
     vector<int> ingredientsAmounts;
 
-    bool ordersDoable;
+    ingredients = recipe -> getAllIngredients();
+    ingredientsAmounts = recipe -> getAllIngredientsAmounts();
 
-    for (int i = 0; i < orders.size(); ++i){
-        recipe = menu -> getRecipe(orders[i]);
-
-        tableId = table -> getId();
-        customerId = i;
-
-        order = new Order(tableId, customerId, recipe);
-        addOrder(order);
-        ingredients = recipe -> getAllIngredients();
-        ingredientsAmounts = recipe -> getAllIngredientsAmounts();
-
-        for (int j = 0; j < ingredients.size(); ++j){
-            insertIngredientAmount(ingredients[j], ingredientsAmounts[j]);
-        }
-
-        ordersDoable = inventoryManager -> checkIngredientsAvailability(ordersTotalIngredientsAmounts);
+    for (int j = 0; j < ingredients.size(); ++j){
+        insertIngredientAmount(ingredients[j], ingredientsAmounts[j]);
     }
-    
-}
-
-void Waiter::addOrder(Order *order){
-    orders.enqueue(order);
 }
 
 void Waiter::insertIngredientAmount(string ingredientName, int amount){
@@ -48,17 +50,11 @@ void Waiter::insertIngredientAmount(string ingredientName, int amount){
 }
 
 void Waiter::sendOrdersToKitchen(){
-    while (!orders.isEmpty()){
-        Order *order = customerOrders.dequeue();
-        //kitchenThreadpool.enqueue(order);
+    for (Order* order : customerOrders){
+        //send to kitchen via queue
     }
-}
-
-void deliveOrder(Order* order){
-    //deliver order to customer
-    int tableId;
-    int customerId;
-    
+    customerOrders.clear();
+    clearMap();
 }
 
 void Waiter::clearMap(){

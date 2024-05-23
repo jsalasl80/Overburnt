@@ -4,29 +4,25 @@
 #include "Includes.h"
 #include "Constants.h"
 #include "InventoryManager.h"
-#include "Table.h"
 #include "Order.h"
-#include "Menu.h"
-#include "Kitchen.h"
+
 
 class Waiter{
 private:
     InventoryManager *inventoryManager;
-    Menu *menu;
     map<string, int> ordersTotalIngredientsAmounts;
-    queue<Order*> customerOrders;
+    vector<Order*> customerOrders;
 
 public:
-    Waiter(InventoryManager *_inventoryManager, Menu *_menu):
-        inventoryManager(_inventoryManager),
-        menu(_menu){};
+    Waiter(InventoryManager* _inventoryManager);
     
-    bool attendTable(Table*);
-    void addOrder(Order*);
+    void attendTable(std::promise<bool>&& ordersPromise, vector<Order*>& orders);
+    void extractIngredientsAndAmounts(Recipe* recipe);
 
-    void insertIngredientAmount(string, int);
+    void insertIngredientAmount(string ingredientName, int ingredientAmount);
     void sendOrdersToKitchen();
-    void deliverOrder(Order*);
+
+    void deliverOrder(Order* order);
     
     void clearMap();
 };
