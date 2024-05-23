@@ -4,15 +4,23 @@
 #include "Includes.h"
 #include "Constants.h"
 #include "CustomerStatus.h"
+#include "Random.h"
 
 class Customer {
 private:
     int id;
     std::string name;
+    std::string orderedMenuItemName;
     CustomerStatus status;
-    int orderNumber;
-    int waitTime;//amount of time waited 
-    int eatingTime;// amount of time needed to eat, will be sent to the statistics aswell.
+    double waitingTime;//amount of time waited 
+    int eatingTime;// amount of time needed to eat, will be sent to the statistics as well.
+    std::chrono::time_point<std::chrono::system_clock> waitingTimeStart, eatingTimeStart;
+    
+    std::chrono::duration<double> getElapsedWaitTime();
+    std::chrono::duration<double> getElapsedEatingTime();
+    std::string durationToString(std::chrono::duration<double>& duration);
+    double durationToDouble(std::chrono::duration<double>& duration);
+
 
 public:
     Customer(int id, const std::string& name);
@@ -20,16 +28,21 @@ public:
     int getId() const;
     std::string getName() const;
     CustomerStatus getStatus() const;
-    int getOrderNumber() const;
-    int getWaitTime() const;
-    int getEatingTime() const;
+
+    int orderFromMenu(int availableMenuItems);
 
     void setEatingTime(int time);
+    void setOrderedMenuItem(string& itemName);
+    void setWaitingTimeStart();
+    void setEatingTimeStart();
+    void setTotalWaitingTime();
 
     void updateStatus(CustomerStatus newStatus);
     int calculateTotalWait() const;
 
-    void eat();
+    void eat(int eatingTime);
+    
+    std::string toStringStatus();
 };
 
 #endif // CUSTOMER_H
