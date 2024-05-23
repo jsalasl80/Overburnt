@@ -23,12 +23,12 @@ private:
 public:
     Accountant();
 
-    void updateExpenses(Ingredient*);
-    void updateWinnings(Recipe*);
+    void updateExpenses(Ingredient* ingredient);
+    void updateWinnings(Recipe* recipe);
 
     void setAsReporting();
     void reportWinnings();
 };
 
 
-#endif
+#endif //ACCOUNTANT_H

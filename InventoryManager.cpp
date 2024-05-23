@@ -33,7 +33,9 @@ void InventoryManager::setUpInventory(){
 
 void InventoryManager::checkIngredientsAvailability(std::promise<bool>&& availabilityPromise, map<string,int>& totalIngredientsAndAmounts){
     std::unique_lock<mutex> ul(inventoryMutex);
-    cv.wait(ul, inventory->getAvailability());
+    cv.wait(ul, [this](){
+        return inventory->getAvailability();
+        });
 
     bool allIngredientsAvailable = true;
 
