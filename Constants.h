@@ -90,6 +90,8 @@ const std::string LAST_NAMES[NAMES_AMOUNTS] = {
     "Lee"
 };
 #define MILLI_TO_SEC_CONV 1000
+#define EATING false
+#define FINISHED true
 
 //Constants for customer spawner
 #define SPAWNING true
