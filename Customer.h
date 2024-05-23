@@ -16,10 +16,9 @@ private:
     int eatingTime;// amount of time needed to eat, will be sent to the statistics as well.
     std::chrono::time_point<std::chrono::system_clock> waitingTimeStart, eatingTimeStart;
     
-    std::chrono::duration<double> getElapsedWaitTime();
-    std::chrono::duration<double> getElapsedEatingTime();
-    std::string durationToString(std::chrono::duration<double>& duration);
-    double durationToDouble(std::chrono::duration<double>& duration);
+    double getElapsedWaitTime() const;
+    double getElapsedEatingTime() const;
+    std::string durationToString(double) const;
 
 public:
     Customer(int id, const std::string& name);
@@ -31,7 +30,7 @@ public:
     int orderFromMenu(int availableMenuItems);
 
     void setEatingTime(int time);
-    void setOrderedMenuItem(string& itemName);
+    void setOrderedMenuItem(std::string& itemName);
     void setWaitingTimeStart();
     void setEatingTimeStart();
     void setTotalWaitingTime();
