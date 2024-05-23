@@ -8,7 +8,7 @@ using namespace std;
 
 class Inventory{
 private:
-    map<string, Ingredient*> inventory;
+    unordered_map<string, Ingredient*> inventory;
     bool locked;
 
 public:
@@ -17,8 +17,8 @@ public:
         clearInventory();
     }
     
-    void addIngredient(string, Ingredient*);
-    Ingredient* getIngredient(string);
+    void addIngredient(string ingredientName, Ingredient* ingredient);
+    Ingredient* getIngredient(string ingredientName);
     void clearInventory();
     bool getAvailability() const;
     void lock();
@@ -27,4 +27,4 @@ public:
 
 };
 
-#endif
+#endif //INVENTORY_H

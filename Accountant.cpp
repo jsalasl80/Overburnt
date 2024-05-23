@@ -9,7 +9,9 @@ Accountant::Accountant():
 
 void Accountant::updateWinnings(Recipe* recipe){
     std::unique_lock<mutex> ul(winningsMutex);
-    cv.wait(ul, status == ACCOUNTING);
+    cv.wait(ul, [this](){
+        return status == ACCOUNTING;
+    });
     int newWinnings = recipe -> getPrice();
     totalWinnings += newWinnings;
 }
