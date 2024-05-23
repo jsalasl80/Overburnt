@@ -8,7 +8,7 @@
 
 class Order {
 private:
-    Recipe *recipe;//need some way to translate the number from the customer to a recipe on the menu
+    Recipe *recipe; //need some way to translate the number from the customer to a recipe on the menu
     int tableId;
     int customerId;
     bool orderState;
@@ -18,7 +18,6 @@ private:
 public:
     Order(int _tableId, int _customerId,  Recipe* _recipe);
         
-
     int getTableId();
     int getCustomerId();
     bool getOrderState();

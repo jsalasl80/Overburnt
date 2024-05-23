@@ -17,6 +17,7 @@ public:
 
     void storeRecipe(Recipe*);
     Recipe* getRecipe(int);
+    int getMenuSize();
 };
 
 #endif
