@@ -5,8 +5,8 @@ void Inventory::addIngredient(string ingredientName, Ingredient* ingredient){
     inventory.insert(pair<string, Ingredient*>(ingredientName, ingredient));
 }
 
-Ingredient* Inventory:: getIngredient(string key){
-    return inventory[key];
+Ingredient* Inventory:: getIngredient(string ingredientName){
+    return inventory[ingredientName];
 }
 
 void Inventory:: clearInventory(){
