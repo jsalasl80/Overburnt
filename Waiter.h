@@ -21,8 +21,6 @@ public:
 
     void insertIngredientAmount(string ingredientName, int ingredientAmount);
     void sendOrdersToKitchen();
-
-    void deliverOrder(Order* order);
     
     void clearMap();
 };

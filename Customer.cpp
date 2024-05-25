@@ -1,4 +1,5 @@
 #include "Customer.h"
+using namespace std;
 
 Customer::Customer(int id, const std::string& name)
     : id(id), name(name), orderedMenuItemName(""), status(CustomerStatus::Waiting), waitingTime(0.0), eatingTime(NONE) {}
@@ -24,7 +25,7 @@ void Customer::setEatingTime(int time) {
     eatingTime = time;
 }
 
-void Customer::setOrderedMenuItem(string& itemName){
+void Customer::setOrderedMenuItem(std::string& itemName){
     orderedMenuItemName = itemName;
 }
 
@@ -37,7 +38,7 @@ void Customer:: setEatingTimeStart(){
 }
 
 void Customer:: setTotalWaitingTime(){
-    waitingTime = durationToDouble(getElapsedWaitTime());
+    waitingTime = getElapsedWaitTime();
 }
 
 void Customer::updateStatus(CustomerStatus newStatus) {
@@ -90,18 +91,18 @@ std::string Customer::toStringStatus(){
     return statusString;
 }
 
-std::chrono::duration<double> Customer::getElapsedWaitTime(){
+double Customer::getElapsedWaitTime() const{
     std::chrono::duration<double> elapsed = std::chrono::system_clock::now() - waitingTimeStart;
-    return elapsed;
+    return elapsed.count();
 }
 
-std::chrono::duration<double>Customer::getElapsedEatingTime(){
+double Customer::getElapsedEatingTime() const{
     std::chrono::duration<double> elapsed = std::chrono::system_clock::now() - eatingTimeStart;
-    return elapsed;
+    return elapsed.count();
 }
 
-std::string Customer::durationToString(std::chrono::duration<double>& duration){
-    double duration_in_seconds = duration.count() / MILLI_TO_SEC_CONV;
+std::string Customer::durationToString(double duration) const{
+    double duration_in_seconds = duration;
     std::stringstream ss;
 
     // insert the duration value into the stream
@@ -111,8 +112,4 @@ std::string Customer::durationToString(std::chrono::duration<double>& duration){
     std::string duration_str = ss.str();
 
     return duration_str;
-}
-
-double Customer::durationToDouble(std::chrono::duration<double>& duration){
-    return duration.count() / MILLI_TO_SEC_CONV;
 }
