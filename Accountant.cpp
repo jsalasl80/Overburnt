@@ -9,9 +9,14 @@ Accountant::Accountant():
 
 void Accountant::updateWinnings(Recipe* recipe){
     std::unique_lock<mutex> ul(winningsMutex);
-    cv.wait(ul, [this](){
-        return status == ACCOUNTING;
-    });
+    //Only if accountant is reporting do we have to wait for it to stop
+    //Otherwise it gets blocked here since it needs a notify to work
+    if (status == REPORTING){
+        cv.wait(ul, [this](){
+            return status == ACCOUNTING;
+        });
+    }
+    
     int newWinnings = recipe -> getPrice();
     totalWinnings += newWinnings;
 }
