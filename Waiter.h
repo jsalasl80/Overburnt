@@ -20,6 +20,8 @@ public:
     Waiter(InventoryManager* _inventoryManager, Accountant *_accountant, ResultsQueue<Order*> *_ordersToDo);
     
     void attendTable(std::promise<bool>&& ordersPromise, vector<Order*>& orders);
+    bool attendTable(vector<Order*>& orders);
+
     void extractIngredientsAndAmounts(Recipe* recipe);
 
     void insertIngredientAmount(string ingredientName, int ingredientAmount);
@@ -29,5 +31,4 @@ public:
     void clearMap();
     void clearOrders();
 };
-
-#endif //WAITER_H
+#endif

@@ -12,8 +12,8 @@
 #define CSV_DIRECTORY "bin/"
 #define REPORT_TXT "RestaurantReport.txt"
 #define REPORT_HEADER_MESSAGE "Restaurant Report:\nInventory State\n<Ingredient>: <AmountLeft>\n"
-#define INVENTORY_CSV "bin/ingredientes.csv"
-#define RECIPES_CSV "bin/recetas.csv"
+#define INVENTORY_CSV "/mnt/data/doesnt_run/SourceFiles/bin/ingredientes.csv"
+#define RECIPES_CSV "/mnt/data/doesnt_run/SourceFiles/bin/recetas.csv"
 #define READ_MODE "r"
 
 //Constants for Inventory
@@ -103,10 +103,10 @@ const std::string LAST_NAMES[NAMES_AMOUNTS] = {
 #define HALT_SPAWNING false
 #define MIN_CUSTOMER_COUNT 1
 #define MAX_CUSTOMER_COUNT 6
-#define SPAWN_RATE 5000
+#define SPAWN_RATE 2000
 
 //Constants for tables
-#define TABLES_AMOUNT 6
+#define TABLES_AMOUNT 1
 #define OCCUPIED true
 #define UNOCCUPIED false
 
@@ -119,8 +119,8 @@ const std::string LAST_NAMES[NAMES_AMOUNTS] = {
 #define EATING_DELAY 1000
 
 //Constants for LineCook and Deliverer
-#define LINE_COOKS_AMOUNT 5
-#define DELIVERERS_AMOUNT 5
+#define LINE_COOKS_AMOUNT 1
+#define DELIVERERS_AMOUNT 1
 #define COOKING true
 #define CHILLING false
 #define DELIVERING true

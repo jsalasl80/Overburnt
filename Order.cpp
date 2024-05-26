@@ -23,11 +23,11 @@ bool Order::getOrderState() const{
 }
 
 int Order::getOrderPrepTime() const{
-    return preparationTime;
+    return recipe -> getApproxPrepTime();
 }
 
 int Order::getOrderEatingTime() const{
-    return eatingTime;
+    return recipe -> getApproxEatingTime();
 }
 
 Recipe* Order::getRecipe() const{
@@ -47,4 +47,3 @@ int Order::calculateTime(int baseTime, int delay){
     int calculatedTime = baseTime +(baseTime*randomGenerator.generateBinaryRandom(NEGATIVE, POSITIVE)*randomGenerator.generateRandomInRange(0, delay));
     return (calculatedTime <= NONE) ? baseTime : calculatedTime;
 }
-

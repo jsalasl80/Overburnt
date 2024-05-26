@@ -7,7 +7,6 @@
 #include "Customer.h"
 #include "CustomersInLine.h"
 
-
 class CustomerSpawner{
 private:
     Random random;

@@ -25,7 +25,7 @@ void Table:: takeCustomersOrders() {
     Order *order;
     Recipe *recipe;
     int customerChoice;
-
+    amountOfItemsInMenu = menu -> getMenuSize();
     for (int customerIndex = 0; customerIndex < customersSeated; ++customerIndex){
         customerChoice = customers[customerIndex] -> orderFromMenu(amountOfItemsInMenu);
         recipe = menu -> getRecipe(customerChoice);
@@ -34,14 +34,18 @@ void Table:: takeCustomersOrders() {
         order = new Order(id, customerIndex, recipe, associatedCustomer);
         orders.push_back(order);
 
+        customers[customerIndex] -> updateStatus(CustomerStatus::WaitingForFood);
         setCustomerOrder(customerIndex, recipe);
     }
+
+    printf("Table %i Orders Taken\n", id);
 }
 
 void Table::seatAndAttendCustomers(const std::vector<Customer*>& customers) {
     std::lock_guard<mutex> lg(tableMutex); 
     this->customers = customers;
     customersSeated = customers.size();
+    printf("Attending %i customers at table %i\n", customersSeated, id);
     customersDoneEating = NONE;
 
     takeCustomersOrders();
@@ -49,7 +53,7 @@ void Table::seatAndAttendCustomers(const std::vector<Customer*>& customers) {
     std::promise<bool> attendablePromise;
     std::future<bool> attendableFuture = attendablePromise.get_future();
 
-    thread t(&Waiter::attendTable, waiter, std::move(attendablePromise), orders);
+    std::thread([&]() { waiter->attendTable(std::move(attendablePromise), orders); }).detach();
     
     bool customersAttendable = attendableFuture.get();
 
@@ -60,8 +64,6 @@ void Table::seatAndAttendCustomers(const std::vector<Customer*>& customers) {
         int unsatisfiedCustomersCount = customersSeated;
         customersUnsatisfied -> enqueue(unsatisfiedCustomersCount);
     }
-
-    t.join();
 
     clearTableAndOrders();
 }
@@ -114,16 +116,17 @@ void Table::clearTableAndOrders() {
         orders.clear();
         setStatus(UNOCCUPIED);
     }
+
+    printf("Table %i cleared\n", id);
 }
 
-void Table::isOccupied(std::promise<bool>&& occupiedPromise)  {
+bool Table::isOccupied(){
+    bool occupied = OCCUPIED;
     if (tableMutex.try_lock()){
-        occupiedPromise.set_value(status);
+        occupied = status;
         tableMutex.unlock();
     }
-    else{
-        occupiedPromise.set_value(OCCUPIED);
-    }
+    return occupied;
 }
 
 void Table::setStatus(bool _status){

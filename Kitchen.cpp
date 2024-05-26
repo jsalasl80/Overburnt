@@ -14,10 +14,9 @@ Kitchen::Kitchen(Accountant *accountant, ResultsQueue<Order*> *ordersToDo){
 }
 
 Kitchen::~Kitchen(){
+    printf("Kitchen Destructor called\n");
     delete inventoryManager;
     delete ordersToDeliver;
-    delete threadPoolLineCooks;
-    delete threadPoolDeliverers;
     deleteLineCooks();
     deleteDeliverers();
 }
@@ -28,6 +27,8 @@ void Kitchen::startOperating(){
     std::thread poolDeliverers(&ThreadPoolDeliverers::run, threadPoolDeliverers);
     poolLineCooks.join();
     poolDeliverers.join();
+    delete threadPoolDeliverers;
+    delete threadPoolLineCooks;
 }
 
 void Kitchen::stopOperating(){

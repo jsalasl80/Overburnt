@@ -25,7 +25,7 @@ void InventoryManager::setUpInventory(){
     while (CSVReader::readInventory(ingredientName, amount, unitaryCost)){
         storeIngredient(ingredientName, amount, unitaryCost);
         ingredientNames.push_back(ingredientName); 
-        printf("%s: %i %f\n", ingredientName.c_str(), amount, unitaryCost);
+        //printf("%s: %i %f\n", ingredientName.c_str(), amount, unitaryCost);
     }
 
     CSVReader::closeFile();
@@ -39,7 +39,7 @@ void InventoryManager::checkIngredientsAvailability(std::promise<bool>&& availab
         return inventory->getAvailability();}
         );
     }
-    
+    printf("Checking ingredient availability\n");
     bool allIngredientsAvailable = true;
 
     Ingredient *ingredient;
@@ -49,19 +49,52 @@ void InventoryManager::checkIngredientsAvailability(std::promise<bool>&& availab
     }
 
     availabilityPromise.set_value(allIngredientsAvailable);
+    printf("Availability determined\n");
 
     if (allIngredientsAvailable){
         //must be sure that all ingredients will be used to update inventory
         updateInventory(totalIngredientsAndAmounts);
     }
+
+    printf("Inventory manager freed\n");
+}
+
+
+bool InventoryManager::checkIngredientsAvailability(map<string,int>& totalIngredientsAndAmounts){
+    std::unique_lock<mutex> ul(inventoryMutex);
+    bool inventoryAvailable = inventory-> getAvailability();
+    if (!inventoryAvailable){
+        cv.wait(ul, [this](){
+        return inventory->getAvailability();}
+        );
+    }
+    printf("Checking ingredient availability\n");
+    bool allIngredientsAvailable = true;
+
+    Ingredient *ingredient;
+    for (auto itr = totalIngredientsAndAmounts.begin(); itr != totalIngredientsAndAmounts.end() && allIngredientsAvailable; ++itr){
+        ingredient = inventory -> getIngredient(itr->first);
+        allIngredientsAvailable = ingredient -> checkConsumability(itr->second);
+    }
+    printf("Availability determined\n");
+    
+    if (allIngredientsAvailable){
+        //must be sure that all ingredients will be used to update inventory
+        updateInventory(totalIngredientsAndAmounts);
+    }
+
+    printf("Inventory manager freed\n");
+    return allIngredientsAvailable;
 }
 
 void InventoryManager::updateInventory(map<string,int>& totalIngredientsAndAmounts){
     Ingredient *ingredient;
+    int portionsUsed;
     for (auto itr = totalIngredientsAndAmounts.begin(); itr != totalIngredientsAndAmounts.end(); ++itr){
         ingredient = inventory -> getIngredient(itr->first);
-        ingredient -> consumePortions(itr->second);
-        accountant -> updateExpenses(ingredient);
+        portionsUsed = itr -> second;
+        ingredient -> consumePortions(portionsUsed);
+        accountant -> updateExpenses(ingredient, portionsUsed);
     }
 }
 

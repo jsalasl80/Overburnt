@@ -16,6 +16,8 @@ void RecipeReader::setUpMenu(){
     CSVReader::skipLine();
     while (CSVReader::readRecipes(recipeName, recipePrice, approxPrepTime, approxEatingTime, ingredients, ingredientsAmounts)){
         storeRecipe(recipeName, recipePrice, approxPrepTime, approxEatingTime, ingredients, ingredientsAmounts);
-        printf("%s: %f, Prep: %d, Eat: %d\n", recipeName.c_str(), recipePrice, approxPrepTime, approxEatingTime);
+        //printf("%s: %f, Prep: %d, Eat: %d\n", recipeName.c_str(), recipePrice, approxPrepTime, approxEatingTime);
     }
+
+    CSVReader::closeFile();
 }

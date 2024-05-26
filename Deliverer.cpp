@@ -6,8 +6,9 @@ Deliverer::Deliverer(){
 
 void Deliverer::deliverOrder(Order* order){
     std::lock_guard<mutex> lg(delivererMutex);
-
+    
     Customer* targetCustomer = order -> getAssociatedCustomer();
+    printf("Deliverer delivering to %s\n",targetCustomer -> getName().c_str());
     
     int eatingTime = order -> getOrderEatingTime();
     targetCustomer -> eat(eatingTime);
@@ -15,15 +16,13 @@ void Deliverer::deliverOrder(Order* order){
     this -> setState (CHILLING);
 }
 
-void Deliverer::getAvailability(std::promise<bool>&& availablePromise){
-    //If it is able to lock the mutex, then the chef is available
+bool Deliverer::getAvailability(){
+    bool availability = COOKING;
     if (delivererMutex.try_lock()){
-        availablePromise.set_value(state); //In case when a deliverer is assigned, but we come back to check way too soon
+        availability = state;
         delivererMutex.unlock();
     }
-    else{
-        availablePromise.set_value(DELIVERING);
-    }
+    return availability;
 }
 
 void Deliverer::setState(bool _state){

@@ -7,6 +7,7 @@ Waiter::Waiter(InventoryManager *_inventoryManager, Accountant *_accountant, Res
     {}
     
 void Waiter::attendTable(std::promise<bool>&& ordersPromise, vector<Order*>& orders){
+    printf("Waiter attending table\n");
     customersOrders = orders;
     Recipe *recipe;
     int tableId;
@@ -15,24 +16,58 @@ void Waiter::attendTable(std::promise<bool>&& ordersPromise, vector<Order*>& ord
     for (Order* order : customersOrders){
         recipe = order -> getRecipe();
         extractIngredientsAndAmounts(recipe);
+        printf("Waiter extracted orders\n");
     }
 
     std::promise<bool> availabilityPromise;
     std::future<bool> availabilityFuture = availabilityPromise.get_future();
 
-    thread t(InventoryManager::checkIngredientsAvailability, *inventoryManager, std::move(availabilityPromise), ordersTotalIngredientsAmounts);
+    std::thread([&]() { 
+        inventoryManager->checkIngredientsAvailability(std::move(availabilityPromise), ordersTotalIngredientsAmounts); 
+        }).detach();
+
     bool ordersDoable = availabilityFuture.get();
     ordersPromise.set_value(ordersDoable);  
-    
+
     if (ordersDoable){
         sendOrdersToKitchen();
         addWinnings();
+        printf("Orders sent to kitchen\n");
     }
 
     clearOrders();
-    clearMap();
+    clearMap(); 
 
-    t.join();
+    printf("Waiter chilling\n");
+}
+
+bool Waiter::attendTable(vector<Order*>& orders){
+    printf("Waiter attending table\n");
+    customersOrders = orders;
+    Recipe *recipe;
+    int tableId;
+    int customerId;
+
+    for (Order* order : customersOrders){
+        recipe = order -> getRecipe();
+        extractIngredientsAndAmounts(recipe);
+        printf("Waiter extracted orders\n");
+    }
+
+    bool ordersDoable = inventoryManager -> checkIngredientsAvailability(ordersTotalIngredientsAmounts);
+
+    if (ordersDoable){
+        sendOrdersToKitchen();
+        addWinnings();
+        printf("Orders sent to kitchen\n");
+    }
+
+    clearOrders();
+    clearMap(); 
+
+    printf("Waiter chilling\n");
+
+    return ordersDoable;
 }
 
 void Waiter::extractIngredientsAndAmounts(Recipe* recipe){

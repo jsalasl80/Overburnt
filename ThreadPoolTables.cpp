@@ -3,20 +3,17 @@
 ThreadPoolTables::ThreadPoolTables(Table** _tables, CustomersInLine *_customersInLine): 
     ThreadPool(TABLES_AMOUNT),
     tables(_tables),
-    customersInLine(_customersInLine)
+    customersInLine(_customersInLine),
+    running(true)
     {};
 
 Table* ThreadPoolTables::getUnoccupiedTable(){
-    std::promise<bool> occupiedPromise;
-    std::future<bool> occupiedFuture = occupiedPromise.get_future();
     bool tableOccupied;
     Table* ptrTable = nullptr;
 
-    //Check for the first available table, using promise and future
+    //Check for the first available table
     for (int i = 0; i < TABLES_AMOUNT; ++i){
-        thread t(&Table::isOccupied, tables[i], std::move(occupiedPromise));
-        tableOccupied = occupiedFuture.get();
-        t.join();
+        tableOccupied = tables[i] -> isOccupied();
 
         if (!tableOccupied){
             ptrTable = tables[i];
@@ -30,13 +27,14 @@ Table* ThreadPoolTables::getUnoccupiedTable(){
 void ThreadPoolTables::run(){
     bool tablesCheckable = true; //Controls whether we must check for a table
     Table *table = nullptr;
-    while (!stop){
+    while (running){
         //If we already have a table to assign, and it hasn't been assigned, no need to get another one
         if (tablesCheckable){
             table = getUnoccupiedTable();
         }
         
         if (table != nullptr){
+            printf("Table addable\n");
             tablesCheckable = addTasksToQueue(table);
         }
         else{
@@ -45,7 +43,7 @@ void ThreadPoolTables::run(){
             std::this_thread::sleep_for(std::chrono::milliseconds(4*MILLI_TO_SEC_CONV));
         }
         
-        std::this_thread::sleep_for(std::chrono::milliseconds(MILLI_TO_SEC_CONV));
+        std::this_thread::sleep_for(std::chrono::milliseconds(SPAWN_RATE / 2));
 
     }
 }
@@ -61,6 +59,7 @@ bool ThreadPoolTables::addTasksToQueue(Table *table){
         );
 
     if (!customersExist.get()){
+        printf("assigning table\n");
         customersToAttend = std::async(std::launch::async, [this]{
             return customersInLine -> extractCustomers();}
         );
@@ -71,4 +70,8 @@ bool ThreadPoolTables::addTasksToQueue(Table *table){
     }
 
     return addedTask;
+}
+
+void ThreadPoolTables::stopRunning(){
+    running = false;
 }

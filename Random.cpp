@@ -1,7 +1,7 @@
 #include "Random.h"
 
 int Random::generateRandomInRange(int start, int end){
-    uniform_int_distribution<int> dist(start, end);
+    std::uniform_int_distribution<int> dist(start, end);
     return dist(rd);
 }
 

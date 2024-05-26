@@ -18,7 +18,7 @@ private:
     int eatingTime;
 
 public:
-    Order(int _tableId, int _customerId, Recipe* _recipe, Customer *_associatedCustomer);
+    Order(int _tableId, int _customerId,  Recipe* _recipe, Customer *_associatedCustomer);
         
     int getTableId() const;
     int getCustomerId() const;

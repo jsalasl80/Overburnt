@@ -1,5 +1,5 @@
-#ifndef RECIPE_H
-#define RECIPE_H
+#ifndef RECIPE
+#define RECIPE
 #include "Includes.h"
 
 using namespace std;
@@ -23,19 +23,17 @@ public:
         ingredientsAmounts (_ingredientsAmounts){};
 
     int getTotalIngredientsStored();
+    string toStringIngredients();
 
-    //Extracts ingredients and amounts via index, to avoid having to return the entire vector
-    string getIngredient(int index);
-    int getIngredientAmount(int index);
+    string getIngredient(int);
+    int getIngredientAmount(int);
 
     string getRecipeName();
     float getPrice();
     int getApproxEatingTime();
     int getApproxPrepTime();
-
-    //TESTING PURPOSES
     string toString();
-    string toStringIngredients();
+
 };
 
-#endif //RECIPE_H
+#endif

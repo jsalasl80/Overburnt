@@ -18,3 +18,4 @@ void FileWriter::wipeAndRestartFile(string openingLine){
         file.close();
     }
 }
+

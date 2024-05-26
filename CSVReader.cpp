@@ -1,10 +1,11 @@
 #include "CSVReader.h"
 using namespace std;
 
-CSVReader::CSVReader(const char *filename) {
+CSVReader::CSVReader(const char* filename) {
+    cerr << "Attempting to open file: " << filename << endl;
     CSVFile = fopen(filename, READ_MODE);
     if (!CSVFile) {
-        cerr << "Failed to open file" << endl;
+        cerr << "Failed to open file: " << filename << endl;
         exit(1);
     }
 }

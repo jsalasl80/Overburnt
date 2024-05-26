@@ -2,7 +2,7 @@
 using namespace std;
 
 Customer::Customer(int id, const std::string& name)
-    : id(id), name(name), orderedMenuItemName(""), status(CustomerStatus::Waiting), waitingTime(0.0), eatingTime(NONE) {}
+    : id(id), name(name), orderedMenuItemName(NONE_STRING), status(CustomerStatus::Waiting), waitingTime(NONE_DOUBLE), eatingTime(NONE) {}
 
 int Customer::getId() const {
     return id;
@@ -27,6 +27,7 @@ void Customer::setEatingTime(int time) {
 
 void Customer::setOrderedMenuItem(std::string& itemName){
     orderedMenuItemName = itemName;
+    printf("Customer %s ordered %s\n", name.c_str(), orderedMenuItemName.c_str());
 }
 
 void Customer:: setWaitingTimeStart(){
@@ -56,6 +57,7 @@ void Customer::eat(int eatingTime){
         setEatingTime(eatingTime);
         updateStatus(CustomerStatus::Eating);
 
+        printf("%s eating %s for %i milliseconds\n", name.c_str(), orderedMenuItemName.c_str(), eatingTime);
         std::this_thread::sleep_for(std::chrono::milliseconds(eatingTime));
 
         updateStatus(CustomerStatus::WaitingToLeave);

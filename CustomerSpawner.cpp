@@ -14,6 +14,7 @@ void CustomerSpawner::spawnClients(){
 
     while (spawning){
         customerCount = random.generateRandomInRange(MIN_CUSTOMER_COUNT, MAX_CUSTOMER_COUNT);
+        printf("Spawned %i customers\n", customerCount);
         for (int i = 0; i < customerCount; ++i){
             customerName = generateCustomerName();
             customerId = i;

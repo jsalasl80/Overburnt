@@ -20,7 +20,6 @@ private:
     double getElapsedEatingTime() const;
     std::string durationToString(double) const;
 
-
 public:
     Customer(int id, const std::string& name);
 

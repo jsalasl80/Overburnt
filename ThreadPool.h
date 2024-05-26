@@ -72,7 +72,7 @@ public:
         return res; // Devuelve el future
     }
     
-    virtual ~ThreadPool(){
+    ~ThreadPool(){
         {
             std::unique_lock<std::mutex> lock(queue_mutex); // Adquiere el bloqueo exclusivo del mutex
             stop = true; // Indica que el pool debe detenerse
@@ -80,10 +80,6 @@ public:
         condition.notify_all(); // Notifica a todos los hilos en espera
         for (std::thread &worker : workers) // Une todos los hilos trabajadores
             worker.join();
-    }
-
-    void stopRunning(){
-        stop = true;
     }
 };
 

@@ -17,13 +17,15 @@ void Accountant::updateWinnings(Recipe* recipe){
         });
     }
     
-    int newWinnings = recipe -> getPrice();
+    float newWinnings = recipe -> getPrice();
     totalWinnings += newWinnings;
+    printf("New winnings: %f, Current winnings: %f\n", newWinnings, totalWinnings);
 }
 
-void Accountant::updateExpenses(Ingredient* ingredient){
-    int newExpenses = ingredient -> getConsumedPortions() * ingredient -> getUnitaryCost();
+void Accountant::updateExpenses(Ingredient* ingredient, int amountUsed){
+    int newExpenses = amountUsed * (ingredient -> getUnitaryCost());
     totalExpenses += newExpenses;
+    printf("Total expenses %f\n", totalExpenses);
 }
 
 void Accountant::setAsReporting(){

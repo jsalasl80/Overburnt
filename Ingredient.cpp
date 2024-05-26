@@ -14,6 +14,7 @@ string Ingredient::toString(){
 void Ingredient::consumePortions(int consumedQuantity){
     totalPortions -= consumedQuantity;
     consumedPortions += consumedQuantity;
+    printf("Consumed %i amount of %s\n", consumedQuantity, name.c_str());
 }
 
 bool Ingredient::checkConsumability(int consumedQuantity){

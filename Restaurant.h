@@ -14,8 +14,8 @@
 
 class Restaurant{
 private:
-    Kitchen *kitchen;
     CustomerSpawner *customerSpawner;
+    Kitchen *kitchen;
     Menu *menu;
     RecipeReader *recipeReader;
     Table **tables;

@@ -17,25 +17,27 @@ private:
 
     Inventory *inventory;
     vector<string> ingredientNames; //Optimizable
-    void storeIngredient(string ingredientName, int amount, float unitaryCost);
+    void storeIngredient(string, int, float);
     Accountant *accountant;
 
 public:
-    InventoryManager(Inventory *_inventory, Accountant* _accountant);
+    InventoryManager(Inventory*, Accountant*);
     ~InventoryManager();
     
     void setUpInventory();
 
-    void checkIngredientsAvailability(std::promise<bool>&& availabilityPromise, map<string,int>& totalIngredientsAndAmounts);
-    void updateInventory(map<string,int>& totalIngredientsAndAmounts);
+    void checkIngredientsAvailability(std::promise<bool>&&, map<string,int>&);
+    bool checkIngredientsAvailability(map<string,int>&);
+    
+    void updateInventory(map<string,int>&);
     
     void clearInventory();
 
     void reportInventoryState();
     
     //TESTING PURPOSES
-    bool useIngredient(string ingredientName, int amount); 
-    Ingredient* getIngredient(string ingredientName);
+    bool useIngredient(string, int); 
+    Ingredient* getIngredient(string);
 };
 
-#endif //INVENTORYMANAGER_H
+#endif

@@ -2,11 +2,10 @@
 #define RANDOM
 #include "Includes.h"
 #include "Constants.h"
-using namespace std;
 
 class Random{
 private:
-    random_device rd;
+    std::random_device rd;
 public:
     Random(){};
     int generateRandomInRange(int, int);

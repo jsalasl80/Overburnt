@@ -25,6 +25,7 @@ Restaurant::~Restaurant(){
     delete menu;
     delete recipeReader;
     delete accountant;
+    delete customerSpawner;
     cleanTables();
 }
 
@@ -40,15 +41,19 @@ void Restaurant::startRestaurantSimulation(){
     tKitchen.join();
     poolTables.join();
     tUnsatisfaction.join();
+
+    delete threadPoolTables;
+    printf("Simulation Ended");
 }
 
 void Restaurant::stopRestaurantSimulation(){
+    printf("A total of %d unsatisfied customers registered", customersUnsatisfiedCount);
     customerSpawner -> stopSpawning();
-    kitchen -> stopOperating();
-    threadPoolTables -> stopRunning();
-    printf("A total of %d unsatisfied customers registered", checkUnsatisfactionCount);
     reportRestaurantCurrentState();
-    simulating = false;
+    kitchen -> stopOperating();
+
+    threadPoolTables -> stopRunning();
+    simulating = HALT_SIMULATING;
 }
 
 void Restaurant::updateUnsatisfactionCount(){

@@ -17,8 +17,8 @@ public:
         clearInventory();
     }
     
-    void addIngredient(string ingredientName, Ingredient* ingredient);
-    Ingredient* getIngredient(string ingredientName);
+    void addIngredient(string, Ingredient*);
+    Ingredient* getIngredient(string);
     void clearInventory();
     bool getAvailability() const;
     void lock();
@@ -27,4 +27,4 @@ public:
 
 };
 
-#endif //INVENTORY_H
+#endif

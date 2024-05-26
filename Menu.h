@@ -1,5 +1,5 @@
-#ifndef MENU_H
-#define MENU_H
+#ifndef MENU
+#define MENU
 #include "Includes.h"
 #include "Constants.h"
 #include "Recipe.h"
@@ -10,14 +10,14 @@ private:
 public:
     Menu(){};
     ~Menu(){
-        for(int i = 0; i < menu.size(); i++){
+        for(size_t i = 0; i < menu.size(); i++){
             delete menu[i];
         }
     };
 
-    void storeRecipe(Recipe* recipe);
-    Recipe* getRecipe(int index);
+    void storeRecipe(Recipe*);
+    Recipe* getRecipe(int);
     int getMenuSize();
 };
 
-#endif //MENU_H
+#endif
