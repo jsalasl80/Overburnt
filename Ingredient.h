@@ -9,8 +9,9 @@ class Ingredient{
 private:
     string name;
     int totalPortions;
-    int consumedPortions;
     float unitaryCost;
+    int consumedPortions;
+    
 
 public:
     Ingredient(string&, int, float); 

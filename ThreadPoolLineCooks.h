@@ -11,8 +11,9 @@
 class ThreadPoolLineCooks : private ThreadPool {
 private:
     LineCook** lineCooks;
-    ResultsQueue<Order*> *ordersToDo;
     bool running;
+    ResultsQueue<Order*> *ordersToDo;
+    
 public:
     ThreadPoolLineCooks(LineCook** _lineCooks, ResultsQueue<Order*> *_ordersToDo);
     LineCook* getAvailableLineCook();

@@ -111,7 +111,7 @@ void InventoryManager::reportInventoryState(){
     Ingredient* ingredient;
     string message;
 
-    for (int i = 0; i < ingredientNames.size(); ++i){
+    for (int i = 0; i < static_cast<int>(ingredientNames.size()); ++i){
         ingredient = inventory -> getIngredient(ingredientNames[i]);
         message = ingredient -> toString() + "\n";
         FileWriter::appendLine(message);

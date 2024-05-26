@@ -9,10 +9,10 @@
 
 class Order {
 private:
-    Recipe *recipe;
-    Customer *associatedCustomer;
     int tableId;
     int customerId;
+    Recipe *recipe;
+    Customer *associatedCustomer;
     bool orderState;
     int preparationTime;
     int eatingTime;

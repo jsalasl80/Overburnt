@@ -30,7 +30,7 @@ int Recipe::getApproxPrepTime(){
 
 string Recipe::toStringIngredients(){
     string message = "\n";
-    for (int i = 0; i < ingredients.size(); ++i){
+    for (int i = 0; i < static_cast<int>(ingredients.size()); ++i){
         message += ingredients[i] + ": " + to_string(ingredientsAmounts[i]) + " ";
     }
     return message;

@@ -4,8 +4,8 @@ using namespace std;
 Ingredient::Ingredient(string& _name, int _totalPortions, float _unitaryCost):
     name(_name),
     totalPortions(_totalPortions),
-    unitaryCost(_unitaryCost),
-    consumedPortions(NONE){} 
+    consumedPortions(NONE),
+    unitaryCost(_unitaryCost){} 
 
 string Ingredient::toString(){
     return name + ": " + to_string(totalPortions);

@@ -10,7 +10,6 @@ int CustomersInLine::getCustomersInLine(){
 
 void CustomersInLine::addCustomers(std::vector<Customer*> customers){
     std::lock_guard<std::mutex> lg(customerCounterMutex);
-    printf("%i customers added to line\n", customers.size());
     enqueue(customers);
     numCustomersInLine += customers.size();
 }

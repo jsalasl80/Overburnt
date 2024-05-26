@@ -10,9 +10,7 @@ void Waiter::attendTable(std::promise<bool>&& ordersPromise, vector<Order*>& ord
     printf("Waiter attending table\n");
     customersOrders = orders;
     Recipe *recipe;
-    int tableId;
-    int customerId;
-
+    
     for (Order* order : customersOrders){
         recipe = order -> getRecipe();
         extractIngredientsAndAmounts(recipe);
@@ -45,8 +43,6 @@ bool Waiter::attendTable(vector<Order*>& orders){
     printf("Waiter attending table\n");
     customersOrders = orders;
     Recipe *recipe;
-    int tableId;
-    int customerId;
 
     for (Order* order : customersOrders){
         recipe = order -> getRecipe();
