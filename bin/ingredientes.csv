@@ -1,0 +1,62 @@
+ingrediente,cantidad,costo_unitario
+Harina de trigo,1000,50
+Azucar,500,30
+Sal,250,20
+Pimienta,100,75
+Aceite de oliva,500,350
+Huevos,12,180
+Leche,1000,90
+Tomate,1000,120
+Cebolla,1000,85
+Ajo,100,60
+Arroz,1000,70
+Papas,1000,65
+Zanahoria,1000,90
+Manzanas,1000,150
+Naranjas,1000,125
+Platanos,1000,80
+Lechuga,1,95
+Espinacas,500,110
+Calabacin,1000,120
+Berenjenas,1000,115
+Pechuga de pollo,1000,300
+Carne de res,1000,400
+Pescado,1000,500
+Camarones,500,850
+Queso,500,400
+Jamon,500,350
+Bacon,500,375
+Almendras,250,450
+Cacahuetes,500,200
+Cafe,250,325
+Te,100,175
+Chocolate,250,250
+Vino,750,800
+Cerveza,500,150
+Agua mineral,1000,50
+Miel,250,300
+Mostaza,250,125
+Ketchup,250,100
+Mantequilla,250,250
+Crema de leche,250,150
+Yogur,1000,200
+Pan,1000,125
+Pastas,500,85
+Vinagre,500,120
+Aceitunas,250,175
+Pepinos,1000,100
+Frijoles,1000,140
+Lentejas,1000,130
+Maiz,500,75
+Pimientos,1000,125
+curry en polvo,100,75
+atun en lata,200,250
+pollo,1000,300
+mejillones,500,500
+pimiento,1000,125
+azafran,10,1500
+limon,1000,100
+chorizo,500,350
+repollo,1000,120
+garbanzos,1000,180
+avena,1000,90
