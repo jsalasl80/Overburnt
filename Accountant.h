@@ -30,5 +30,4 @@ public:
     void reportWinnings();
 };
 
-
 #endif //ACCOUNTANT_H
