@@ -12,7 +12,8 @@ TEST(AccountantTest, UpdateWinnings) {
 
 TEST(AccountantTest, UpdateExpenses) {
     Accountant accountant;
-    Ingredient ingredient("Tomato", 1, 2.0);
+    std::string ingredientName = "Tomato";
+    Ingredient ingredient(ingredientName, 1, 2.0);
     accountant.updateExpenses(&ingredient, 3);
     // Verify that expenses were updated correctly
 }
