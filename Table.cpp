@@ -1,10 +1,11 @@
 #include "Table.h"
 
-Table::Table(int id, Menu *menu, InventoryManager* inventoryManager){
+Table::Table(int id, Menu *menu, InventoryManager* inventoryManager, Accountant *accountant, ResultsQueue<Order*> *ordersToDo, ResultsQueue<int> *_customersUnsatisfied){
     this->id = id;
     this->menu = menu;
     status = UNOCCUPIED;
-    waiter = new Waiter(inventoryManager);
+    waiter = new Waiter(inventoryManager, accountant, ordersToDo);
+    customersUnsatisfied = _customersUnsatisfied;
 }
 
 Table::~Table(){
@@ -29,40 +30,40 @@ void Table:: takeCustomersOrders() {
         customerChoice = customers[customerIndex] -> orderFromMenu(amountOfItemsInMenu);
         recipe = menu -> getRecipe(customerChoice);
         
-        order = new Order(id, customerIndex, recipe);
+        Customer* associatedCustomer = customers[customerIndex];
+        order = new Order(id, customerIndex, recipe, associatedCustomer);
         orders.push_back(order);
 
         setCustomerOrder(customerIndex, recipe);
     }
 }
 
-int Table::seatAndAttendCustomers(const std::vector<Customer*>& customers) {
+void Table::seatAndAttendCustomers(const std::vector<Customer*>& customers) {
+    std::lock_guard<mutex> lg(tableMutex); 
     this->customers = customers;
     customersSeated = customers.size();
     customersDoneEating = NONE;
-    setStatus(OCCUPIED);
 
     takeCustomersOrders();
 
     std::promise<bool> attendablePromise;
     std::future<bool> attendableFuture = attendablePromise.get_future();
 
-    thread t(Waiter::attendTable, *waiter, std::move(attendablePromise), orders);
+    thread t(&Waiter::attendTable, waiter, std::move(attendablePromise), orders);
     
     bool customersAttendable = attendableFuture.get();
 
-    int unsatisfiedCustomers = 0;
     if (customersAttendable){
         waitForCustomers();
     }
     else{
-        unsatisfiedCustomers = customersSeated;
+        int unsatisfiedCustomersCount = customersSeated;
+        customersUnsatisfied -> enqueue(unsatisfiedCustomersCount);
     }
 
     t.join();
 
     clearTableAndOrders();
-    return unsatisfiedCustomers;
 }
 
 void Table::waitForCustomers(){
@@ -95,11 +96,6 @@ void Table::setCustomerOrder(int customerIndex, Recipe *recipe){
     customers[customerIndex] -> setOrderedMenuItem(orderedItemName);
 }
 
-void Table::deliverOrder(int customerId){
-    int eatingTime = orders[customerId] -> getOrderEatingTime();
-    customers[customerId] -> eat(eatingTime);
-}
-
 string Table::reportCurrentState (){
     string currentState = "Table " + to_string(id) + ": Current State\n";
     for (int i = 0; i < customersSeated; ++i){
@@ -116,12 +112,18 @@ void Table::clearTableAndOrders() {
         }
         customers.clear();
         orders.clear();
-        status = UNOCCUPIED; 
+        setStatus(UNOCCUPIED);
     }
 }
 
-bool Table::isOccupied() const {
-    return status == OCCUPIED;
+void Table::isOccupied(std::promise<bool>&& occupiedPromise)  {
+    if (tableMutex.try_lock()){
+        occupiedPromise.set_value(status);
+        tableMutex.unlock();
+    }
+    else{
+        occupiedPromise.set_value(OCCUPIED);
+    }
 }
 
 void Table::setStatus(bool _status){

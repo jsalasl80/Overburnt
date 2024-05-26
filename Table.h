@@ -9,6 +9,8 @@
 #include "Order.h"
 #include "Waiter.h"
 #include "InventoryManager.h"
+#include "Accountant.h"
+#include "ResultsQueue.h"
 using namespace std;
 
 class Table {
@@ -20,34 +22,37 @@ private:
     map<Customer*, bool> customersEatingStatuses;
     int customersSeated;
     int customersDoneEating;
+    ResultsQueue<int> *customersUnsatisfied;
 
     Menu *menu;
     int amountOfItemsInMenu;
 
     Waiter *waiter;
     vector<Order*> orders;
+
+    mutex tableMutex;
     
     void takeCustomersOrders();
     void setCustomerOrder(int customerIndex, Recipe *recipe);
-    void setStatus(bool _status);
-
+    
     void setUpEatingStatuses();
     void insertCustomerAndStatus (Customer* customer, bool status);
     void waitForCustomers();
 
 public:
-    Table(int id, Menu *_menu, InventoryManager* inventoryManager);
+    Table(int id, Menu *_menu, InventoryManager* inventoryManager, Accountant *accountant, ResultsQueue<Order*> *ordersToDo, ResultsQueue<int> *_customersUnsatisfied);
     ~Table();
 
     int getId() const;
     vector<Customer*> getCustomers() const;
-    bool isOccupied() const;
+    void isOccupied(std::promise<bool>&& occupiedPromise); //For tables threadpool to determine if is assignable
 
-    int seatAndAttendCustomers(const vector<Customer*>& customers);
+    void seatAndAttendCustomers(const vector<Customer*>& customers);
 
-    void deliverOrder(int customerId);
-
+    string reportCurrentState();
+    
     void clearTableAndOrders();
+    void setStatus(bool _status);
 };
 
 #endif // TABLE_H
