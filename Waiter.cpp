@@ -20,7 +20,10 @@ void Waiter::attendTable(std::promise<bool>&& ordersPromise, vector<Order*>& ord
     std::promise<bool> availabilityPromise;
     std::future<bool> availabilityFuture = availabilityPromise.get_future();
 
-    thread t(InventoryManager::checkIngredientsAvailability, *inventoryManager, std::move(availabilityPromise), ordersTotalIngredientsAmounts);
+    std::thread t([&]() { 
+        inventoryManager->checkIngredientsAvailability(std::move(availabilityPromise), ordersTotalIngredientsAmounts); 
+        });
+        
     bool ordersDoable = availabilityFuture.get();
     ordersPromise.set_value(ordersDoable);  
     
