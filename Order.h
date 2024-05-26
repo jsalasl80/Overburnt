@@ -4,11 +4,13 @@
 #include "Includes.h"
 #include "Constants.h"
 #include "Recipe.h"
+#include "Customer.h"
 #include "Random.h"
 
 class Order {
 private:
-    Recipe *recipe;//need some way to translate the number from the customer to a recipe on the menu
+    Recipe *recipe;
+    Customer *associatedCustomer;
     int tableId;
     int customerId;
     bool orderState;
@@ -16,19 +18,19 @@ private:
     int eatingTime;
 
 public:
-    Order(int _tableId, int _customerId,  Recipe* _recipe);
+    Order(int _tableId, int _customerId, Recipe* _recipe, Customer *_associatedCustomer);
         
+    int getTableId() const;
+    int getCustomerId() const;
+    bool getOrderState() const;
+    int getOrderPrepTime() const;
+    int getOrderEatingTime() const;
+    Recipe* getRecipe() const;
+    Customer* getAssociatedCustomer() const;
 
-    int getTableId();
-    int getCustomerId();
-    bool getOrderState();
-    int getOrderPrepTime();
-    int getOrderEatingTime();
-    Recipe* getRecipe();
-    
     void markAsCompleted();
-    int calculateTime(int baseTime,int delay);
+    int calculateTime(int baseTime, int delay);
      
 };
 
-#endif 
+#endif //ORDER_H

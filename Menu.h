@@ -1,5 +1,5 @@
-#ifndef MENU
-#define MENU
+#ifndef MENU_H
+#define MENU_H
 #include "Includes.h"
 #include "Constants.h"
 #include "Recipe.h"
@@ -15,8 +15,9 @@ public:
         }
     };
 
-    void storeRecipe(Recipe*);
-    Recipe* getRecipe(int);
+    void storeRecipe(Recipe* recipe);
+    Recipe* getRecipe(int index);
+    int getMenuSize();
 };
 
-#endif
+#endif //MENU_H

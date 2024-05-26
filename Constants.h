@@ -2,11 +2,13 @@
 #define CONSTANTS
 #include "Includes.h"
 
-//Miscellaneous Constants
+//Nones
 #define NONE 0
-#define INGREDIENTS_AMOUNT 10
+#define NONE_FLOAT 0.0
+#define NONE_DOUBLE 0.0
+#define NONE_STRING ""
 
-//Files Constants: Related to CSV's
+//Constants for files management
 #define CSV_DIRECTORY "bin/"
 #define REPORT_TXT "RestaurantReport.txt"
 #define REPORT_HEADER_MESSAGE "Restaurant Report:\nInventory State\n<Ingredient>: <AmountLeft>\n"
@@ -14,18 +16,18 @@
 #define RECIPES_CSV "bin/recetas.csv"
 #define READ_MODE "r"
 
-//LockableMap Constants
+//Constants for Inventory
 #define UNLOCKED false
 #define LOCKED true
 
-//RecipeReader Constants
+//Constants for InventoryManager
+#define INGREDIENTS_AMOUNT 10
+
+//Constants for RecipeReader
 #define RECIPE_MAIN_ELEMENTS 4
 #define INGREDIENT_AND_AMOUNT_PAIR 2
 
-//Customer Constants
-#define WAITING "waiting"
-#define EATING "eating"
-#define FINISHED "finished"
+//Constants for Customers
 #define NAMES_AMOUNTS 30
 const std::string NAMES[NAMES_AMOUNTS] = {
     "John",
@@ -92,6 +94,9 @@ const std::string LAST_NAMES[NAMES_AMOUNTS] = {
     "Gonzalez",
     "Lee"
 };
+#define MILLI_TO_SEC_CONV 1000
+#define EATING false
+#define FINISHED true
 
 //Constants for customer spawner
 #define SPAWNING true
@@ -113,13 +118,24 @@ const std::string LAST_NAMES[NAMES_AMOUNTS] = {
 #define PREP_DELAY 500
 #define EATING_DELAY 1000
 
-//Constants for LineCook
+//Constants for LineCook and Deliverer
+#define LINE_COOKS_AMOUNT 5
+#define DELIVERERS_AMOUNT 5
 #define COOKING true
 #define CHILLING false
+#define DELIVERING true
+
+//Constants for ThreadPool
+#define ADDED true
+#define NOT_ADDED false
 
 //Constants for Accountant
 #define REPORTING true
 #define ACCOUNTING false
-#define NONE_FLOAT 0.0
+
+//Constants for Restaurant
+#define SIMULATING true
+#define HALT_SIMULATING false
+#define MAX_UNSATISFIED_CUSTOMERS 100
 
 #endif

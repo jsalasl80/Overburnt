@@ -7,12 +7,13 @@ using namespace std;
 class FileWriter{
 protected:
     string fileName;
+    fstream file;
 
 public:
-    FileWriter(string _fileName):
-        fileName (CSV_DIRECTORY+_fileName){}
+    FileWriter(string _fileName);
 
-    void appendLine(string);
-    void wipeAndRestartFile(string);
+    void appendLine(string line);
+    void wipeAndRestartFile(string openingLine);
 };
-#endif
+
+#endif //FILEWRITER_H

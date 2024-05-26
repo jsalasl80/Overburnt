@@ -1,43 +1,50 @@
 #include "Order.h"
 
-Order::Order(int _tableId, int _customerId,  Recipe* _recipe):
+Order::Order(int _tableId, int _customerId,  Recipe* _recipe, Customer *_associatedCustomer):
     tableId(_tableId),
     customerId(_customerId),
     recipe(_recipe),
-    orderState(false),
-    preparationTime(calculateTime(recipe->getApproxPrepTime(),PREP_DELAY)),
-    eatingTime(calculateTime(recipe->getApproxEatingTime(),EATING_DELAY))
+    associatedCustomer(_associatedCustomer),
+    orderState(IN_PREPARATION),
+    preparationTime(calculateTime(recipe->getApproxPrepTime(), PREP_DELAY)),
+    eatingTime(calculateTime(recipe->getApproxEatingTime(), EATING_DELAY))
     {};
 
-int Order::getTableId() {
+int Order::getTableId() const{
     return tableId;
 }
 
-int Order::getCustomerId() {
+int Order::getCustomerId() const{
     return customerId;
 }
 
-bool Order::getOrderState() {
+bool Order::getOrderState() const{
     return orderState;
 }
 
-int Order::getOrderPrepTime() {
-    return recipe -> getApproxPrepTime();
+int Order::getOrderPrepTime() const{
+    return preparationTime;
 }
 
-int Order::getOrderEatingTime() {
-    return recipe -> getApproxEatingTime();
+int Order::getOrderEatingTime() const{
+    return eatingTime;
 }
 
-Recipe* Order::getRecipe(){
+Recipe* Order::getRecipe() const{
     return recipe;
 }
-void Order::markAsCompleted() {
-    orderState = true;
+
+Customer* Order::getAssociatedCustomer() const{
+    return associatedCustomer;
 }
-int Order::calculateTime(int baseTime,int delay){
+
+void Order::markAsCompleted(){
+    orderState = READY;
+}
+
+int Order::calculateTime(int baseTime, int delay){
     Random randomGenerator;
-    int calculatedTime = baseTime +(baseTime*randomGenerator.generateBinaryRandom(1,-1)*randomGenerator.generateRandomInRange(0,delay));
-    return (calculatedTime<0) ? MIN_PREP_TIME : calculatedTime;
+    int calculatedTime = baseTime +(baseTime*randomGenerator.generateBinaryRandom(NEGATIVE, POSITIVE)*randomGenerator.generateRandomInRange(0, delay));
+    return (calculatedTime <= NONE) ? baseTime : calculatedTime;
 }
 
