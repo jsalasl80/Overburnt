@@ -115,8 +115,8 @@ const std::string LAST_NAMES[NAMES_AMOUNTS] = {
 #define POSITIVE 1
 #define READY true
 #define IN_PREPARATION false
-#define PREP_DELAY 500
-#define EATING_DELAY 1000
+#define PREP_DELAY 2
+#define EATING_DELAY 2
 
 //Constants for LineCook and Deliverer
 #define LINE_COOKS_AMOUNT 1
