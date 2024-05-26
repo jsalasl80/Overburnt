@@ -38,4 +38,4 @@ public:
     Ingredient* getIngredient(string ingredientName);
 };
 
-#endif
+#endif //INVENTORYMANAGER_H

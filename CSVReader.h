@@ -10,16 +10,16 @@ protected:
     FILE* CSVFile;
 
 private:
-    void readRecipeIngredients(vector<string>&, vector<int>&);
+    void readRecipeIngredients(vector<string>& recipeIngredients, vector<int>& ingredientsAmounts);
 
 public:
-    CSVReader(const char*);
+    CSVReader(const char *filename);
     
     void skipLine();
-    bool readInventory(string&, int&, float&);
-    bool readRecipes(string&, float&, int&, int&, vector<string>&, vector<int>&);
-    void normalizeIngredientName(string&);
+    bool readInventory(string& ingredientName, int& amount, float& unitaryCost);
+    bool readRecipes(string& recipeName, float& price, int& prepTime, int& eatTime, vector<string>& recipeIngredients, vector<int>& ingredientsAmounts);
+    void normalizeIngredientName(string& ingredientName);
     void closeFile();
 };
 
-#endif
+#endif //CSVREADER_H

@@ -1,19 +1,22 @@
 #include "Waiter.h"
 
-Waiter::Waiter(InventoryManager *_inventoryManager):
-    inventoryManager(_inventoryManager){}
+Waiter::Waiter(InventoryManager *_inventoryManager, Accountant *_accountant, ResultsQueue<Order*> *_ordersToDo):
+    inventoryManager(_inventoryManager),
+    ordersToDo(_ordersToDo),
+    accountant(_accountant)
+    {}
     
 void Waiter::attendTable(std::promise<bool>&& ordersPromise, vector<Order*>& orders){
-    customerOrders = orders;
+    customersOrders = orders;
     Recipe *recipe;
     int tableId;
     int customerId;
 
-    for (Order* order : customerOrders){
+    for (Order* order : customersOrders){
         recipe = order -> getRecipe();
         extractIngredientsAndAmounts(recipe);
     }
-    
+
     std::promise<bool> availabilityPromise;
     std::future<bool> availabilityFuture = availabilityPromise.get_future();
 
@@ -23,20 +26,23 @@ void Waiter::attendTable(std::promise<bool>&& ordersPromise, vector<Order*>& ord
     
     if (ordersDoable){
         sendOrdersToKitchen();
+        addWinnings();
     }
+
+    clearOrders();
+    clearMap();
 
     t.join();
 }
 
 void Waiter::extractIngredientsAndAmounts(Recipe* recipe){
-    vector<string> ingredients;
-    vector<int> ingredientsAmounts;
-
-    ingredients = recipe -> getAllIngredients();
-    ingredientsAmounts = recipe -> getAllIngredientsAmounts();
-
-    for (int j = 0; j < ingredients.size(); ++j){
-        insertIngredientAmount(ingredients[j], ingredientsAmounts[j]);
+    int totalIngredientsStored = recipe -> getTotalIngredientsStored();
+    string ingredient;
+    int amount;
+    for (int index = 0; index < totalIngredientsStored; ++index){
+        ingredient = recipe ->getIngredient(index);
+        amount = recipe -> getIngredientAmount(index);
+        insertIngredientAmount(ingredient, amount);
     }
 }
 
@@ -50,13 +56,22 @@ void Waiter::insertIngredientAmount(string ingredientName, int amount){
 }
 
 void Waiter::sendOrdersToKitchen(){
-    for (Order* order : customerOrders){
-        //send to kitchen via queue
+    for (Order* order : customersOrders){
+        ordersToDo->enqueue(order);
     }
-    customerOrders.clear();
-    clearMap();
+}
+
+void Waiter::addWinnings(){
+    for (Order* order : customersOrders){
+        Recipe *recipe = order -> getRecipe();
+        accountant -> updateWinnings(recipe);
+    }
 }
 
 void Waiter::clearMap(){
     ordersTotalIngredientsAmounts.clear();
+}
+
+void Waiter::clearOrders(){
+    customersOrders.clear();
 }
