@@ -28,6 +28,9 @@ public:
 
     void setAsReporting();
     void reportWinnings();
+
+    float getTotalExpenses();
+    float getTotalWinnings();
 };
 
 #endif //ACCOUNTANT_H

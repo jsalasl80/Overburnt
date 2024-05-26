@@ -42,3 +42,9 @@ void Accountant::reportWinnings(){
 
     cv.notify_one();
 }
+float Accountant::getTotalExpenses(){
+    return totalExpenses;
+}
+float Accountant::getTotalWinnings(){
+    return totalWinnings;
+}
