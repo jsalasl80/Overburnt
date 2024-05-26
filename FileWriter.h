@@ -10,9 +10,10 @@ protected:
     fstream file;
 
 public:
-    FileWriter(string);
+    FileWriter(string _fileName);
 
-    void appendLine(string);
-    void wipeAndRestartFile(string);
+    void appendLine(string line);
+    void wipeAndRestartFile(string openingLine);
 };
-#endif
+
+#endif //FILEWRITER_H
