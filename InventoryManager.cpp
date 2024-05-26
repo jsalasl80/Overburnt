@@ -33,10 +33,13 @@ void InventoryManager::setUpInventory(){
 
 void InventoryManager::checkIngredientsAvailability(std::promise<bool>&& availabilityPromise, map<string,int>& totalIngredientsAndAmounts){
     std::unique_lock<mutex> ul(inventoryMutex);
-    cv.wait(ul, [this](){
-        return inventory->getAvailability();
-        });
-
+    bool inventoryAvailable = inventory-> getAvailability();
+    if (!inventoryAvailable){
+        cv.wait(ul, [this](){
+        return inventory->getAvailability();}
+        );
+    }
+    
     bool allIngredientsAvailable = true;
 
     Ingredient *ingredient;
@@ -68,9 +71,8 @@ void InventoryManager::clearInventory(){
 
 void InventoryManager::reportInventoryState(){
     inventory -> lock();
-    std::lock_guard<mutex> lg(inventoryMutex);
     accountant -> setAsReporting();
-
+    std::lock_guard<mutex> lg(inventoryMutex);
     FileWriter::wipeAndRestartFile(REPORT_HEADER_MESSAGE);
     
     Ingredient* ingredient;
