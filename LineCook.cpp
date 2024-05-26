@@ -1,16 +1,17 @@
 #include "LineCook.h"
 
-LineCook::LineCook(): state(CHILLING){}
+LineCook::LineCook(ResultsQueue<Order*> *_completedOrdersQueue):
+    state(CHILLING),
+    ordersToDeliver(_completedOrdersQueue)
+    {}
 
 void LineCook::prepareOrder(Order *order){
-    state = COOKING;
-
+    std::lock_guard<mutex> lg(lineCookMutex);
     this->order = order;
     cookOrder();
     order -> markAsCompleted();
     deliverOrder();
-
-    state = CHILLING;
+    this -> setState(CHILLING);
 }
 
 void LineCook::cookOrder(){
@@ -19,5 +20,20 @@ void LineCook::cookOrder(){
 }
 
 void LineCook::deliverOrder(){
-    //Enqueue order to waiter threadpool with deliverOrder function and order
+    ordersToDeliver -> enqueue(order);
+}
+
+void LineCook::getAvailability(std::promise<bool>&& availablePromise){
+    //If it is able to lock the mutex, then the chef is available
+    if (lineCookMutex.try_lock()){
+        availablePromise.set_value(state); //In case we entered to check again but this line cook was already deployed
+        lineCookMutex.unlock();
+    }
+    else{
+        availablePromise.set_value(COOKING);
+    }
+}
+
+void LineCook::setState(bool _state){
+    state = _state;
 }
