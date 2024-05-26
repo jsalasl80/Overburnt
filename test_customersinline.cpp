@@ -1,10 +1,11 @@
 #include <gtest/gtest.h>
 #include "CustomersInLine.h"
 
-TEST(CustomersInLineTest, AddCustomer) {
+TEST(CustomersInLineTest, AddCustomers) {
     CustomersInLine customersInLine;
     Customer customer(1, "John Doe");
-    customersInLine.addCustomer(&customer);
+    std::vector<Customer*> customers = {&customer};
+    customersInLine.addCustomers(customers);
     // Verify that the customer was added correctly
 }
 
