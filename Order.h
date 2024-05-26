@@ -18,7 +18,7 @@ private:
     int eatingTime;
 
 public:
-    Order(int _tableId, int _customerId,  Recipe* _recipe);
+    Order(int _tableId, int _customerId, Recipe* _recipe, Customer *_associatedCustomer);
         
     int getTableId() const;
     int getCustomerId() const;
@@ -29,7 +29,7 @@ public:
     Customer* getAssociatedCustomer() const;
 
     void markAsCompleted();
-    int calculateTime(int baseTime,int delay);
+    int calculateTime(int baseTime, int delay);
      
 };
 
