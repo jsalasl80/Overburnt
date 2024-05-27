@@ -7,6 +7,7 @@
 #include "ResultsQueue.h"
 #include "CustomersInLine.h"
 #include "Customer.h"
+#include "RecipeReader.h"
 
 class ThreadPoolTablesTest : public ::testing::Test {
 protected:
