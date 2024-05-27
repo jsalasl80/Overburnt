@@ -1,52 +1,63 @@
-# Paths to Google Test
-GTEST_DIR = /usr/src/gtest
-GTEST_LIB_DIR = /usr/local/lib
-GTEST_SRC = $(GTEST_DIR)/src/gtest-all.cc
-GTEST_HEADERS = $(GTEST_DIR)/include/gtest/*.h $(GTEST_DIR)/include/gtest/internal/*.h
+# Makefile
 
-# Include directories for Google Test
-INCLUDES = -I$(GTEST_DIR) -I$(GTEST_DIR)/include
-
-# Compiler and linker configurations
 CXX = g++
-CXXFLAGS = -Wall -g -std=c++11 $(INCLUDES)
-GTEST_FLAGS = -L$(GTEST_LIB_DIR) -lgtest -lgtest_main -lpthread
+CXXFLAGS = -std=c++11 -I/path/to/gtest/include -I.
+LDFLAGS = -L/path/to/gtest/lib -lgtest -lgtest_main -pthread
 
-# Define targets
-TARGET = Trials
-OBJECTS = Accountant.o CSVReader.o Customer.o CustomersInLine.o CustomerSpawner.o Deliverer.o FileWriter.o Ingredient.o Inventory.o InventoryManager.o Kitchen.o LineCook.o Menu.o Order.o Random.o Recipe.o RecipeReader.o Restaurant.o ResultsQueue.o Table.o ThreadPoolDeliverer.o ThreadPoolLineCooks.o ThreadPoolTables.o Waiter.o Trials.o
+# Directorios
+SRC_DIR = src
+TEST_DIR = tests
+BIN_DIR = bin
 
-# Google Test objects
-GTEST_OBJECTS = gtest-all.o
+# Archivos fuente y de prueba
+SRCS = $(wildcard $(SRC_DIR)/*.cpp)
+TEST_SRCS = $(wildcard $(TEST_DIR)/*.cpp)
 
-# Test sources and objects
-TEST_SOURCES = test_accountant.cpp test_csvreader.cpp test_customer.cpp test_customersinline.cpp test_customerspawner.cpp test_deliverer.cpp test_filewriter.cpp test_ingredient.cpp test_inventory.cpp test_inventorymanager.cpp test_kitchen.cpp test_linecook.cpp test_menu.cpp test_order.cpp test_random.cpp test_recipe.cpp test_recipereader.cpp test_restaurant.cpp test_resultsqueue.cpp test_table.cpp test_threadpooldeliverer.cpp test_threadpoollinecooks.cpp test_threadpooltables.cpp test_waiter.cpp
-TEST_OBJECTS = $(TEST_SOURCES:.cpp=.o)
-TEST_EXEC = run_tests
+# Objetos
+OBJS = $(patsubst $(SRC_DIR)/%.cpp, $(BIN_DIR)/%.o, $(SRCS))
+TEST_OBJS = $(patsubst $(TEST_DIR)/%.cpp, $(BIN_DIR)/%.o, $(TEST_SRCS))
 
-# Compile Google Test
-$(GTEST_OBJECTS): $(GTEST_SRC) $(GTEST_HEADERS)
-	$(CXX) $(CXXFLAGS) -c $(GTEST_SRC) -o $(GTEST_OBJECTS)
+# Ejecutables
+EXECUTABLE = $(BIN_DIR)/restaurant_simulation
+TEST_EXECUTABLE = $(BIN_DIR)/run_tests
 
-# Link the main program
-$(TARGET): $(OBJECTS)
-	$(CXX) $(CXXFLAGS) -o $@ $(OBJECTS)
+# Todas las pruebas
+TESTS = test_accountant test_csvreader test_customer test_customersinline \
+        test_customerspawner test_deliverer test_filewriter test_ingredient \
+        test_inventory test_inventorymanager test_kitchen test_linecook \
+        test_menu test_order test_random test_recipe test_recipereader \
+        test_restaurant test_resultsqueue test_table test_threadpooldeliverer \
+        test_threadpoollinecooks test_threadpooltables test_waiter test_threadpooldeliverers
 
-# Link the test program
-$(TEST_EXEC): $(TEST_OBJECTS) $(GTEST_OBJECTS) $(filter-out Trials.o, $(OBJECTS))
-	$(CXX) $(CXXFLAGS) -o $@ $^ $(GTEST_FLAGS)
+# Compilar todo
+all: $(EXECUTABLE) $(TEST_EXECUTABLE)
 
-# Generic rule for building objects from cpp
-%.o: %.cpp
+# Compilar el ejecutable principal
+$(EXECUTABLE): $(OBJS)
+	$(CXX) $(OBJS) -o $@ $(LDFLAGS)
+
+# Compilar el ejecutable de pruebas
+$(TEST_EXECUTABLE): $(TEST_OBJS) $(OBJS)
+	$(CXX) $(TEST_OBJS) $(OBJS) -o $@ $(LDFLAGS)
+
+# Regla genérica para compilar archivos .o
+$(BIN_DIR)/%.o: $(SRC_DIR)/%.cpp
+	@mkdir -p $(BIN_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Run tests
-run_tests: $(TEST_EXEC)
-	./$(TEST_EXEC)
+$(BIN_DIR)/%.o: $(TEST_DIR)/%.cpp
+	@mkdir -p $(BIN_DIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Clean up build artifacts
+# Ejecutar las pruebas
+test: $(TEST_EXECUTABLE)
+	./$(TEST_EXECUTABLE)
+
+# Limpiar los archivos compilados
 clean:
-	rm -f $(TARGET) $(TEST_EXEC) $(OBJECTS) $(TEST_OBJECTS) $(GTEST_OBJECTS)
+	rm -f $(OBJS) $(TEST_OBJS) $(EXECUTABLE) $(TEST_EXECUTABLE)
 
-# Specify phony rules
-.PHONY: clean run_tests
+# Compilar y ejecutar pruebas individuales
+$(TESTS): %: $(TEST_DIR)/%.cpp $(SRCS)
+	$(CXX) $(CXXFLAGS) $^ -o $(BIN_DIR)/$@ $(LDFLAGS)
+	./$(BIN_DIR)/$
