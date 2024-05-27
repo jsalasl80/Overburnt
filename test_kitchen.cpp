@@ -18,7 +18,7 @@ protected:
         kitchen = new Kitchen(accountant, ordersToDo);
 
         // Crear un archivo CSV de prueba
-        std::ofstream outFile(INVENTORY_CSV);
+        std::ofstream outFile("test_inventory.csv");
         outFile << "Ingredient,Amount,UnitaryCost\n";
         outFile << "Tomato,100,0.5\n";
         outFile << "Pasta,200,1.2\n";
@@ -29,8 +29,7 @@ protected:
         delete kitchen;
         delete ordersToDo;
         delete accountant;
-        // Eliminar el archivo de prueba
-        std::remove(INVENTORY_CSV);
+        remove("test_inventory.csv");
     }
 };
 
