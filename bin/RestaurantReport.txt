@@ -65,3 +65,4 @@ AVENA: 10000
 
 Current winnings: $-72425.000000
 Current winnings: $0.000000
+Current winnings: $0.000000
