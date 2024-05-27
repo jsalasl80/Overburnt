@@ -13,7 +13,7 @@ CXXFLAGS = -Wall -g -std=c++11 $(INCLUDES)
 GTEST_FLAGS = -L$(GTEST_LIB_DIR) -lgtest -lgtest_main -lpthread
 
 # Define targets
-TARGET = Trials
+TARGET = Trials.cpp
 OBJECTS = Accountant.o CSVReader.o Customer.o CustomersInLine.o CustomerSpawner.o Deliverer.o FileWriter.o Ingredient.o Inventory.o InventoryManager.o Kitchen.o LineCook.o Menu.o Order.o Random.o Recipe.o RecipeReader.o Restaurant.o ResultsQueue.o Table.o ThreadPoolDeliverer.o ThreadPoolLineCooks.o ThreadPoolTables.o Waiter.o Trials.o
 
 # Google Test objects
