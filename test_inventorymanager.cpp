@@ -89,7 +89,3 @@ TEST_F(InventoryManagerTest, ClearInventory) {
     EXPECT_EQ(inventory->getSize(), 0);
 }
 
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

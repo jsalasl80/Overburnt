@@ -58,7 +58,7 @@ protected:
 
         customers.push_back(new Customer(1, "John Doe"));
     }
-
+    //deletes
     void TearDown() override {
         delete threadPoolTables;
         for (int i = 0; i < 2; ++i) {
@@ -107,7 +107,3 @@ TEST_F(TableTest, ReportCurrentState) {
     EXPECT_FALSE(state.empty());
 }
 
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

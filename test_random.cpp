@@ -41,7 +41,3 @@ TEST_F(RandomTest, GenerateBinaryRandom) {
     EXPECT_TRUE(alternativeSeen);
 }
 
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

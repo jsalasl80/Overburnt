@@ -45,7 +45,3 @@ TEST_F(CustomerSpawnerTest, StopSpawning) {
     EXPECT_EQ(countAfterStop, customersInLine->getCustomersInLine());
 }
 
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

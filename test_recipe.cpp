@@ -54,7 +54,3 @@ TEST_F(RecipeTest, ToString) {
     EXPECT_EQ(recipe->toString(), "Pasta $10.000000");
 }
 
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

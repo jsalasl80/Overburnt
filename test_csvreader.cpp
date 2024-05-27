@@ -44,7 +44,3 @@ TEST_F(CSVReaderTest, ReadInventory) {
     EXPECT_FALSE(result); // No hay más datos que leer
 }
 
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

@@ -45,7 +45,3 @@ TEST_F(IngredientTest, ToString) {
     EXPECT_EQ(ingredient->toString(), "Tomato: 90");
 }
 
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

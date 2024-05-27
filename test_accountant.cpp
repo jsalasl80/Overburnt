@@ -42,8 +42,3 @@ TEST_F(AccountantTest, ReportWinnings) {
     EXPECT_EQ(accountant->getTotalExpenses(), 0.0);
     EXPECT_EQ(accountant->getTotalWinnings(), 0.0);
 }
-
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

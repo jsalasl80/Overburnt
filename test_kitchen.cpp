@@ -53,8 +53,3 @@ TEST_F(KitchenTest, StopOperating) {
     kitchen->stopOperating();
     // Verificamos que el método no falle y que los hilos se detengan correctamente.
 }
-
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
