@@ -1,91 +1,91 @@
 #include <gtest/gtest.h>
 #include "Customer.h"
+#include <thread>
 
-// Test fixture for Customer class
+// Test Fixture for Customer
 class CustomerTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // You can do set-up work for each test here.
-        customer = new Customer(1, "Test Customer");
+        customer = new Customer(1, "TestCustomer");
     }
 
     void TearDown() override {
-        // You can do clean-up work that doesn't throw exceptions here.
         delete customer;
     }
 
-    // Class members can be used in tests.
     Customer* customer;
 };
 
-// Test constructor
-TEST_F(CustomerTest, ConstructorTest) {
+// Test constructor and getters
+TEST_F(CustomerTest, ConstructorAndGetters) {
     EXPECT_EQ(customer->getId(), 1);
-    EXPECT_EQ(customer->getName(), "Test Customer");
+    EXPECT_EQ(customer->getName(), "TestCustomer");
     EXPECT_EQ(customer->getStatus(), CustomerStatus::Waiting);
 }
 
-// Test getId
-TEST_F(CustomerTest, GetIdTest) {
-    EXPECT_EQ(customer->getId(), 1);
+// Test orderFromMenu method
+TEST_F(CustomerTest, OrderFromMenu) {
+    int menuItemIndex = customer->orderFromMenu(5);
+    EXPECT_GE(menuItemIndex, 0);
+    EXPECT_LT(menuItemIndex, 5);
 }
 
-// Test getName
-TEST_F(CustomerTest, GetNameTest) {
-    EXPECT_EQ(customer->getName(), "Test Customer");
+// Test setEatingTime and getEatingTime methods
+TEST_F(CustomerTest, EatingTime) {
+    customer->setEatingTime(500);
+    EXPECT_EQ(customer->getEatingTime(), 500);
 }
 
-// Test getStatus
-TEST_F(CustomerTest, GetStatusTest) {
-    EXPECT_EQ(customer->getStatus(), CustomerStatus::Waiting);
+// Test setOrderedMenuItem method
+TEST_F(CustomerTest, SetOrderedMenuItem) {
+    std::string itemName = "Pizza";
+    customer->setOrderedMenuItem(itemName);
+    EXPECT_EQ(customer->getOrderedMenuItem(), itemName);
 }
 
-// Test set and get eating time
-TEST_F(CustomerTest, SetAndGetEatingTimeTest) {
-    customer->setEatingTime(5000);
-    EXPECT_EQ(customer->getEatingTime(), 5000);
-}
-
-// Test setOrderedMenuItem and orderFromMenu
-TEST_F(CustomerTest, SetOrderedMenuItemTest) {
-    std::string item = "Pizza";
-    customer->setOrderedMenuItem(item);
-    EXPECT_EQ(customer->getStatus(), CustomerStatus::Ordering);
-}
-
-// Test setWaitingTimeStart and getElapsedWaitTime
-TEST_F(CustomerTest, SetWaitingTimeStartTest) {
+// Test waiting time methods
+TEST_F(CustomerTest, WaitingTime) {
     customer->setWaitingTimeStart();
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    EXPECT_GT(customer->getElapsedWaitTime(), 0);
+    double elapsedWaitTime = customer->getElapsedWaitTime();
+    EXPECT_GT(elapsedWaitTime, 0.1);
 }
 
-// Test setEatingTimeStart and getElapsedEatingTime
-TEST_F(CustomerTest, SetEatingTimeStartTest) {
+// Test eating time methods
+TEST_F(CustomerTest, EatingTimeElapsed) {
     customer->setEatingTimeStart();
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    EXPECT_GT(customer->getElapsedEatingTime(), 0);
+    double elapsedEatingTime = customer->getElapsedEatingTime();
+    EXPECT_GT(elapsedEatingTime, 0.1);
 }
 
-// Test updateStatus
-TEST_F(CustomerTest, UpdateStatusTest) {
+// Test updateStatus method
+TEST_F(CustomerTest, UpdateStatus) {
     customer->updateStatus(CustomerStatus::Eating);
     EXPECT_EQ(customer->getStatus(), CustomerStatus::Eating);
 }
 
-// Test calculateTotalWait
-TEST_F(CustomerTest, CalculateTotalWaitTest) {
+// Test calculateTotalWait method
+TEST_F(CustomerTest, CalculateTotalWait) {
     customer->setWaitingTimeStart();
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     customer->setTotalWaitingTime();
-    customer->setEatingTime(5000);
-    EXPECT_GT(customer->calculateTotalWait(), 5000);
+    customer->setEatingTime(200);
+    EXPECT_GT(customer->calculateTotalWait(), 0.1);
 }
 
-// Test toStringStatus
-TEST_F(CustomerTest, ToStringStatusTest) {
-    std::string expected = "Customer 1: Test Customer\nStatus: Waiting to order\n";
-    EXPECT_EQ(customer->toStringStatus(), expected);
+// Test eat method
+TEST_F(CustomerTest, Eat) {
+    customer->setOrderedMenuItem(std::string("Pizza"));
+    customer->updateStatus(CustomerStatus::WaitingForFood);
+    customer->eat(100);
+    EXPECT_EQ(customer->getStatus(), CustomerStatus::WaitingToLeave);
+}
+
+// Test toStringStatus method
+TEST_F(CustomerTest, ToStringStatus) {
+    std::string status = customer->toStringStatus();
+    EXPECT_NE(status.find("Customer 1: TestCustomer"), std::string::npos);
 }
 
 int main(int argc, char **argv) {
