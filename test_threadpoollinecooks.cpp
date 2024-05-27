@@ -9,14 +9,14 @@
 class ThreadPoolLineCooksTest : public ::testing::Test {
 protected:
     ThreadPoolLineCooks* threadPoolLineCooks;
-    ResultsQueue<Order*>* ordersToPrepare;
+    ResultsQueue<Order*>* ordersToDo;
     LineCook** lineCooks;
     Customer* customer;
     Recipe* recipe;
     Order* order;
 
     void SetUp() override {
-        ordersToPrepare = new ResultsQueue<Order*>();
+        ordersToDo = new ResultsQueue<Order*>();
 
         customer = new Customer(1, "John Doe");
         std::vector<std::string> ingredients = {"Tomato", "Pasta"};
@@ -24,56 +24,64 @@ protected:
         recipe = new Recipe("Pasta", 10.0, 15, 10, ingredients, amounts);
         order = new Order(1, 1, recipe, customer);
 
-        // Crear LineCooks
-        lineCooks = new LineCook*[2];
-        for (int i = 0; i < 2; ++i) {
-            lineCooks[i] = new LineCook(ordersToPrepare);
+        // Create LineCooks
+        lineCooks = new LineCook*[LINE_COOKS_AMOUNT];
+        for (int i = 0; i < LINE_COOKS_AMOUNT; ++i) {
+            lineCooks[i] = new LineCook();
         }
 
-        threadPoolLineCooks = new ThreadPoolLineCooks(lineCooks, ordersToPrepare);
+        threadPoolLineCooks = new ThreadPoolLineCooks(lineCooks, ordersToDo);
     }
 
     void TearDown() override {
         delete threadPoolLineCooks;
-        delete ordersToPrepare;
+        delete ordersToDo;
         delete order;
         delete recipe;
         delete customer;
 
-        for (int i = 0; i < 2; ++i) {
+        for (int i = 0; i < LINE_COOKS_AMOUNT; ++i) {
             delete lineCooks[i];
         }
         delete[] lineCooks;
     }
 };
 
-TEST_F(ThreadPoolLineCooksTest, EnqueueOrder) {
-    threadPoolLineCooks->enqueueOrder(order);
-    EXPECT_FALSE(ordersToPrepare->isEmpty());
-    Order* dequeuedOrder = ordersToPrepare->dequeue();
-    EXPECT_EQ(dequeuedOrder, order);
+TEST_F(ThreadPoolLineCooksTest, GetAvailableLineCook) {
+    LineCook* availableLineCook = threadPoolLineCooks->getAvailableLineCook();
+    ASSERT_NE(availableLineCook, nullptr);
+    EXPECT_EQ(availableLineCook->getState(), COOKING);
 }
 
-TEST_F(ThreadPoolLineCooksTest, PrepareOrders) {
-    threadPoolLineCooks->enqueueOrder(order);
-
-    std::thread prepareThread(&ThreadPoolLineCooks::prepareOrders, threadPoolLineCooks);
-    std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Espera para asegurar que los hilos se inicien
-    threadPoolLineCooks->stopPreparing();
-    prepareThread.join();
-
-    EXPECT_EQ(order->getOrderState(), READY);
+TEST_F(ThreadPoolLineCooksTest, AddLineCookToRotation) {
+    LineCook* lineCook = threadPoolLineCooks->getAvailableLineCook();
+    ordersToDo->enqueue(order);
+    bool added = threadPoolLineCooks->addLineCookToRotation(lineCook);
+    EXPECT_TRUE(added);
 }
 
-TEST_F(ThreadPoolLineCooksTest, StopPreparing) {
-    threadPoolLineCooks->enqueueOrder(order);
+TEST_F(ThreadPoolLineCooksTest, RunAndStop) {
+    std::thread poolThread(&ThreadPoolLineCooks::run, threadPoolLineCooks);
+    ordersToDo->enqueue(order);
+    std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Wait to ensure threads start
+    threadPoolLineCooks->stopRunning();
+    poolThread.join();
 
-    std::thread prepareThread(&ThreadPoolLineCooks::prepareOrders, threadPoolLineCooks);
-    std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Espera para asegurar que los hilos se inicien
-    threadPoolLineCooks->stopPreparing();
-    prepareThread.join();
+    for (int i = 0; i < LINE_COOKS_AMOUNT; ++i) {
+        if (!lineCooks[i]->isAvailable()) {
+            EXPECT_EQ(lineCooks[i]->getState(), COOKING);
+        }
+    }
+}
 
-    EXPECT_FALSE(ordersToPrepare->isEmpty()); // Debería haber detenido la preparación antes de que se vacíe
+TEST_F(ThreadPoolLineCooksTest, StopRunning) {
+    std::thread poolThread(&ThreadPoolLineCooks::run, threadPoolLineCooks);
+    ordersToDo->enqueue(order);
+    std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Wait to ensure threads start
+    threadPoolLineCooks->stopRunning();
+    poolThread.join();
+
+    EXPECT_FALSE(threadPoolLineCooks->running);
 }
 
 int main(int argc, char **argv) {
