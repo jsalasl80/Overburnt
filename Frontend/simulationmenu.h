@@ -4,6 +4,8 @@
 #include <QDialog>
 #include <QPixmap>
 #include <QMessageBox>
+#include <QMediaPlayer>
+#include <QAudioOutput>
 
 namespace Ui {
 class SimulationMenu;
@@ -27,6 +29,9 @@ private slots:
 
 private:
     Ui::SimulationMenu *ui;
+
+    QMediaPlayer *mMediaPlayer;
+    QAudioOutput *mAudioOutput;
 
 };
 

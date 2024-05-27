@@ -11,6 +11,13 @@ SimulationOver::SimulationOver(QWidget *parent)
 {
     ui->setupUi(this);
 
+    mMediaPlayer = new QMediaPlayer(this);
+    mAudioOutput = new QAudioOutput(this);
+    // Configura el reproductor de medios
+    mMediaPlayer->setAudioOutput(mAudioOutput);
+    mMediaPlayer->setSource(QUrl("qrc:/Music/PopSound.mp3"));
+    mAudioOutput->setVolume(5); // Ajusta el volumen según sea necesario
+
     QPixmap FoodSimulationOver(":/Images/FoodSimulationOver.png");
     ui->FoodSimulationOver_pic->setPixmap(FoodSimulationOver);
 
@@ -40,12 +47,16 @@ void SimulationOver::closeEvent(QCloseEvent *event)
 
 void SimulationOver::on_ShutDownButton_clicked()
 {
+    mMediaPlayer->play();
+
     exit(0);
 }
 
 
 void SimulationOver::on_RestartButton_clicked()
 {
+    mMediaPlayer->play();
+
     if (!tastiestRestaurantInstance) {
         // Si no hay una instancia de TastiestRestaurant, crear una nueva
         tastiestRestaurantInstance = new TastiestRestaurant(nullptr);

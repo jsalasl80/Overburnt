@@ -31,7 +31,9 @@ private:
     Ui::OverBurntMain *ui;
 
     QMediaPlayer *mMediaPlayer;
-
     QAudioOutput *mAudioOutput;
+
+    QMediaPlayer *nMediaPlayer;
+    QAudioOutput *nAudioOutput;
 };
 #endif // OVERBURNT_H

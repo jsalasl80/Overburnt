@@ -10,6 +10,13 @@ TastiestRestaurant::TastiestRestaurant(QWidget *parent)
 {
     ui->setupUi(this);
 
+    mMediaPlayer = new QMediaPlayer(this);
+    mAudioOutput = new QAudioOutput(this);
+    // Configura el reproductor de medios
+    mMediaPlayer->setAudioOutput(mAudioOutput);
+    mMediaPlayer->setSource(QUrl("qrc:/Music/PopSound.mp3"));
+    mAudioOutput->setVolume(5); // Ajusta el volumen según sea necesario
+
     QPixmap KitchenBar(":/Images/KitchenBar.png");
     ui->KitchenBar_pic->setPixmap(KitchenBar);
 
@@ -285,6 +292,8 @@ TastiestRestaurant::~TastiestRestaurant()
 
 void TastiestRestaurant::on_ManageSimulation_btn_clicked()
 {
+    mMediaPlayer->play();
+
     ui->ManageSimulation_btn->setEnabled(false);
 
     SimulationMenu *sm = new SimulationMenu();
@@ -309,55 +318,55 @@ void TastiestRestaurant::closeEvent(QCloseEvent *event)
 
 void TastiestRestaurant::on_ButtonTable0_clicked()
 {
-    QString mensaje = "¡Hola desde un QString!";
+    QString message = "¡Hola desde un QString!";
 
     // Crear un QMessageBox con un texto personalizado
-    QMessageBox::information(nullptr, "Reporte", mensaje);
+    QMessageBox::information(nullptr, "Report", message);
 }
 
 
 void TastiestRestaurant::on_ButtonTable1_clicked()
 {
-    QString mensaje = "¡Hola desde un QString!";
+    QString message = "¡Hola desde un QString!";
 
     // Crear un QMessageBox con un texto personalizado
-    QMessageBox::information(nullptr, "Reporte", mensaje);
+    QMessageBox::information(nullptr, "Report", message);
 }
 
 
 void TastiestRestaurant::on_ButtonTable2_clicked()
 {
-    QString mensaje = "¡Hola desde un QString!";
+    QString message = "¡Hola desde un QString!";
 
     // Crear un QMessageBox con un texto personalizado
-    QMessageBox::information(nullptr, "Reporte", mensaje);
+    QMessageBox::information(nullptr, "Report", message);
 }
 
 
 void TastiestRestaurant::on_ButtonTable3_clicked()
 {
-    QString mensaje = "¡Hola desde un QString!";
+    QString message = "¡Hola desde un QString!";
 
     // Crear un QMessageBox con un texto personalizado
-    QMessageBox::information(nullptr, "Título del MessageBox", mensaje);
+    QMessageBox::information(nullptr, "Report", message);
 }
 
 
 void TastiestRestaurant::on_ButtonTable4_clicked()
 {
-    QString mensaje = "¡Hola desde un QString!";
+    QString message = "¡Hola desde un QString!";
 
     // Crear un QMessageBox con un texto personalizado
-    QMessageBox::information(nullptr, "Reporte", mensaje);
+    QMessageBox::information(nullptr, "Report", message);
 }
 
 
 void TastiestRestaurant::on_ButtonTable5_clicked()
 {
-    QString mensaje = "¡Hola desde un QString!";
+    QString message = "¡Hola desde un QString!";
 
     // Crear un QMessageBox con un texto personalizado
-    QMessageBox::information(nullptr, "Reporte", mensaje);
+    QMessageBox::information(nullptr, "Report", message);
 }
 
 int TastiestRestaurant::getRandomClient() {

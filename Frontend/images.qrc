@@ -42,5 +42,6 @@
         <file>Images/Dish10.png</file>
         <file>Images/Dish11.png</file>
         <file>Images/Dish12.png</file>
+        <file>Music/PopSound.mp3</file>
     </qresource>
 </RCC>

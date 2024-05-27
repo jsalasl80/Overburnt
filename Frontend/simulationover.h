@@ -4,6 +4,8 @@
 #include <QDialog>
 #include <QPixmap>
 #include <QCloseEvent>
+#include <QMediaPlayer>
+#include <QAudioOutput>
 
 namespace Ui {
 class SimulationOver;
@@ -30,6 +32,9 @@ signals:
 
 private:
     Ui::SimulationOver *ui;
+
+    QMediaPlayer *mMediaPlayer;
+    QAudioOutput *mAudioOutput;
 };
 
 #endif // SIMULATIONOVER_H

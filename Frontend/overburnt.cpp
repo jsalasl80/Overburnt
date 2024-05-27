@@ -30,7 +30,7 @@ OverBurntMain::OverBurntMain(QWidget *parent)
     // Configura el reproductor de medios
     mMediaPlayer->setAudioOutput(mAudioOutput);
     mMediaPlayer->setSource(QUrl("qrc:/Music/BackgroundMusic.mp3"));
-    mAudioOutput->setVolume(50); // Ajusta el volumen según sea necesario
+    mAudioOutput->setVolume(5); // Ajusta el volumen según sea necesario
 
     // Reproduce el audio
     mMediaPlayer->play();
@@ -44,6 +44,17 @@ OverBurntMain::~OverBurntMain()
 
 void OverBurntMain::on_ButtonMenu_clicked()
 {
+    nMediaPlayer = new QMediaPlayer(this);
+    nAudioOutput = new QAudioOutput(this);
+
+    // Configura el reproductor de medios
+    nMediaPlayer->setAudioOutput(nAudioOutput);
+    nMediaPlayer->setSource(QUrl("qrc:/Music/PopSound.mp3"));
+    nAudioOutput->setVolume(5); // Ajusta el volumen según sea necesario
+
+    // Reproduce el audio
+    nMediaPlayer->play();
+
     this->hide();
 
     TastiestRestaurant *tr = new TastiestRestaurant();

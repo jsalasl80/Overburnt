@@ -7,6 +7,8 @@
 #include <QMessageBox>
 #include <cstdlib>
 #include <ctime>
+#include <QMediaPlayer>
+#include <QAudioOutput>
 
 namespace Ui {
 class TastiestRestaurant;
@@ -44,6 +46,9 @@ private slots:
 
 private:
     Ui::TastiestRestaurant *ui;
+
+    QMediaPlayer *mMediaPlayer;
+    QAudioOutput *mAudioOutput;
 };
 
 #endif // TASTIESTRESTAURANT_H
