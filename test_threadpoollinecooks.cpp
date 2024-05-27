@@ -1,3 +1,5 @@
+// test_threadpoollinecooks.cpp
+
 #include <gtest/gtest.h>
 #include "ThreadPoolLineCooks.h"
 #include "LineCook.h"
@@ -10,6 +12,7 @@ class ThreadPoolLineCooksTest : public ::testing::Test {
 protected:
     ThreadPoolLineCooks* threadPoolLineCooks;
     ResultsQueue<Order*>* ordersToDo;
+    ResultsQueue<Order*>* completedOrders;
     LineCook** lineCooks;
     Customer* customer;
     Recipe* recipe;
@@ -17,6 +20,7 @@ protected:
 
     void SetUp() override {
         ordersToDo = new ResultsQueue<Order*>();
+        completedOrders = new ResultsQueue<Order*>();
 
         customer = new Customer(1, "John Doe");
         std::vector<std::string> ingredients = {"Tomato", "Pasta"};
@@ -27,7 +31,7 @@ protected:
         // Create LineCooks
         lineCooks = new LineCook*[LINE_COOKS_AMOUNT];
         for (int i = 0; i < LINE_COOKS_AMOUNT; ++i) {
-            lineCooks[i] = new LineCook();
+            lineCooks[i] = new LineCook(completedOrders);
         }
 
         threadPoolLineCooks = new ThreadPoolLineCooks(lineCooks, ordersToDo);
@@ -36,6 +40,7 @@ protected:
     void TearDown() override {
         delete threadPoolLineCooks;
         delete ordersToDo;
+        delete completedOrders;
         delete order;
         delete recipe;
         delete customer;
@@ -68,7 +73,7 @@ TEST_F(ThreadPoolLineCooksTest, RunAndStop) {
     poolThread.join();
 
     for (int i = 0; i < LINE_COOKS_AMOUNT; ++i) {
-        if (!lineCooks[i]->isAvailable()) {
+        if (!lineCooks[i]->getAvailability()) {
             EXPECT_EQ(lineCooks[i]->getState(), COOKING);
         }
     }
@@ -81,7 +86,7 @@ TEST_F(ThreadPoolLineCooksTest, StopRunning) {
     threadPoolLineCooks->stopRunning();
     poolThread.join();
 
-    EXPECT_FALSE(threadPoolLineCooks->getRunning());
+    EXPECT_FALSE(threadPoolLineCooks->running);
 }
 
 int main(int argc, char **argv) {
