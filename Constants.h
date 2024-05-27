@@ -12,8 +12,8 @@
 #define CSV_DIRECTORY "bin/"
 #define REPORT_TXT "RestaurantReport.txt"
 #define REPORT_HEADER_MESSAGE "Restaurant Report:\nInventory State\n<Ingredient>: <AmountLeft>\n"
-#define INVENTORY_CSV "/bin/ingredientes.csv"
-#define RECIPES_CSV "/bin/recetas.csv"
+#define INVENTORY_CSV "bin/ingredientes.csv"
+#define RECIPES_CSV "bin/recetas.csv"
 #define READ_MODE "r"
 
 //Constants for Inventory
