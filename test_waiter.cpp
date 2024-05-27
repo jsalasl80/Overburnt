@@ -2,93 +2,98 @@
 #include "Waiter.h"
 #include "InventoryManager.h"
 #include "Accountant.h"
-#include "Order.h"
 #include "ResultsQueue.h"
-#include "Customer.h"
 #include "Recipe.h"
+#include "Order.h"
 
+// Test fixture for the Waiter class
 class WaiterTest : public ::testing::Test {
 protected:
     Waiter* waiter;
+    Inventory* inventory;
     InventoryManager* inventoryManager;
     Accountant* accountant;
     ResultsQueue<Order*>* ordersToDo;
-    Customer* customer;
     Recipe* recipe;
-    Order* order;
+    std::vector<Order*> orders;
 
-    void SetUp() override {
-        // Crear archivos CSV de prueba
-        std::ofstream inventoryFile(INVENTORY_CSV);
-        inventoryFile << "Ingredient,Amount,UnitaryCost\n";
-        inventoryFile << "Tomato,100,0.5\n";
-        inventoryFile << "Pasta,200,1.2\n";
-        inventoryFile.close();
-
-        std::ofstream recipesFile(RECIPES_CSV);
-        recipesFile << "RecipeName,Price,PrepTime,EatingTime,Ingredients,Amounts\n";
-        recipesFile << "Pasta,10.0,15,10,Tomato:Pasta,2:3\n";
-        recipesFile.close();
-
+    virtual void SetUp() {
+        // Create instances for the test
+        inventory = new Inventory();
         accountant = new Accountant();
-        Inventory* inventory = new Inventory();
         inventoryManager = new InventoryManager(inventory, accountant);
-        inventoryManager->setUpInventory();
-
         ordersToDo = new ResultsQueue<Order*>();
-
         waiter = new Waiter(inventoryManager, accountant, ordersToDo);
 
-        customer = new Customer(1, "John Doe");
+        // Set up a test recipe
         std::vector<std::string> ingredients = {"Tomato", "Pasta"};
         std::vector<int> amounts = {2, 3};
         recipe = new Recipe("Pasta", 10.0, 15, 10, ingredients, amounts);
-        order = new Order(1, 1, recipe, customer);
+
+        // Create a test order
+        Customer* customer = new Customer(1, "John Doe");
+        Order* order = new Order(1, 1, recipe, customer);
+        orders.push_back(order);
     }
 
-    void TearDown() override {
+    virtual void TearDown() {
+        // Clean up after each test
         delete waiter;
-        delete ordersToDo;
-        delete order;
-        delete recipe;
-        delete customer;
         delete inventoryManager;
+        delete inventory;
         delete accountant;
-
-        // Eliminar los archivos de prueba
-        std::remove(INVENTORY_CSV);
-        std::remove(RECIPES_CSV);
+        delete ordersToDo;
+        delete recipe;
+        for (Order* order : orders) {
+            delete order->getAssociatedCustomer();
+            delete order;
+        }
     }
 };
 
-TEST_F(WaiterTest, AttendTable) {
-    std::promise<bool> promiseObj;
-    std::future<bool> futureObj = promiseObj.get_future();
-    std::vector<Order*> orders = {order};
+TEST_F(WaiterTest, AttendTableSuccess) {
+    // Test attendTable with successful orders
+    std::promise<bool> ordersPromise;
+    std::future<bool> ordersFuture = ordersPromise.get_future();
+    waiter->attendTable(std::move(ordersPromise), orders);
 
-    std::thread attendThread(&Waiter::attendTable, waiter, std::move(promiseObj), orders);
-    bool result = futureObj.get();
-    attendThread.join();
+    bool ordersDoable = ordersFuture.get();
+    EXPECT_TRUE(ordersDoable);
+}
 
-    EXPECT_TRUE(result);
-    EXPECT_EQ(order->getOrderState(), IN_PREPARATION);
+TEST_F(WaiterTest, AttendTableFailure) {
+    // Test attendTable with failed orders (not enough ingredients)
+    // Manually reduce inventory to cause failure
+    inventoryManager->clearInventory();
+    std::promise<bool> ordersPromise;
+    std::future<bool> ordersFuture = ordersPromise.get.future();
+    waiter->attendTable(std::move(ordersPromise), orders);
+
+    bool ordersDoable = ordersFuture.get();
+    EXPECT_FALSE(ordersDoable);
 }
 
 TEST_F(WaiterTest, ExtractIngredientsAndAmounts) {
-    std::map<std::string, int> ingredientsMap = waiter->extractIngredientsAndAmounts(order);
+    // Test extractIngredientsAndAmounts
+    waiter->extractIngredientsAndAmounts(recipe);
 
-    EXPECT_EQ(ingredientsMap["Tomato"], 2);
-    EXPECT_EQ(ingredientsMap["Pasta"], 3);
+    std::map<std::string, int> expected = {{"Tomato", 2}, {"Pasta", 3}};
+    for (const auto& ingredient : expected) {
+        EXPECT_EQ(waiter->ordersTotalIngredientsAmounts[ingredient.first], ingredient.second);
+    }
 }
 
 TEST_F(WaiterTest, SendOrdersToKitchen) {
-    waiter->sendOrdersToKitchen({order});
+    // Test sendOrdersToKitchen
+    waiter->sendOrdersToKitchen();
     EXPECT_FALSE(ordersToDo->isEmpty());
+    EXPECT_EQ(ordersToDo->dequeue(), orders[0]);
 }
 
 TEST_F(WaiterTest, AddWinnings) {
+    // Test addWinnings
     float initialWinnings = accountant->getTotalWinnings();
-    waiter->addWinnings({order});
+    waiter->addWinnings();
     EXPECT_GT(accountant->getTotalWinnings(), initialWinnings);
 }
 
