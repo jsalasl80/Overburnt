@@ -31,6 +31,7 @@ SimulationMenu::SimulationMenu(QWidget *parent)
 SimulationMenu::~SimulationMenu()
 {
     delete ui;
+    delete mMediaPlayer;
 }
 
 void SimulationMenu::on_ReturnButton_clicked()
@@ -56,8 +57,6 @@ void SimulationMenu::on_WinningsButton_clicked()
     mMediaPlayer->play();
 
     QString message = "Report created.";
-
-    // Crear un QMessageBox con un texto personalizado
     QMessageBox::information(nullptr, "Report", message);
 }
 

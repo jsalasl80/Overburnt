@@ -34,6 +34,7 @@ SimulationOver::SimulationOver(QWidget *parent)
 SimulationOver::~SimulationOver()
 {
     delete ui;
+    delete mMediaPlayer;
 }
 
 void SimulationOver::closeEvent(QCloseEvent *event)

@@ -285,6 +285,7 @@ TastiestRestaurant::TastiestRestaurant(QWidget *parent)
 TastiestRestaurant::~TastiestRestaurant()
 {
     delete ui;
+    delete mMediaPlayer;
 }
 
 void TastiestRestaurant::on_ManageSimulation_btn_clicked()
