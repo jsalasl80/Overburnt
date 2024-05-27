@@ -7,10 +7,11 @@
 class Menu{
 private:
     vector<Recipe*> menu;
+    int menuSize;
 public:
-    Menu(){};
+    Menu():menuSize(NONE){};
     ~Menu(){
-        for(size_t i = 0; i < menu.size(); i++){
+        for(int i = 0; i < menuSize; i++){
             delete menu[i];
         }
     };

@@ -27,12 +27,7 @@ void LineCook::deliverOrder(){
 }
 
 bool LineCook::getAvailability(){
-    bool availability = COOKING;
-    if (lineCookMutex.try_lock()){
-        availability = state;
-        lineCookMutex.unlock();
-    }
-    return availability;
+    return state;
 }
 
 void LineCook::setState(bool _state){

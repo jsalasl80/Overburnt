@@ -42,7 +42,7 @@ void ThreadPoolDeliverers::run()
             std::this_thread::sleep_for(std::chrono::milliseconds(5*MILLI_TO_SEC_CONV));
         }
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(MILLI_TO_SEC_CONV));
+        std::this_thread::sleep_for(std::chrono::milliseconds(5*MILLI_TO_SEC_CONV));
     }
 }
 

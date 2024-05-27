@@ -1,0 +1,47 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Images/ButtonMenu.png</file>
+        <file>Images/ChopsticksLMenu.png</file>
+        <file>Images/ChopsticksRMenu.png</file>
+        <file>Images/FoodMenu.png</file>
+        <file>Images/LogoRestaurant.png</file>
+        <file>Images/TitleMenu.png</file>
+        <file>Images/Button.png</file>
+        <file>Images/ManageSimulation.png</file>
+        <file>Images/ReturnButton.png</file>
+        <file>Images/EndButton.png</file>
+        <file>Images/WinningsButton.png</file>
+        <file>Images/ShutDownButton.png</file>
+        <file>Images/RestartDayButton.png</file>
+        <file>Images/SimulationMenuTitle.png</file>
+        <file>Images/AngryClients.png</file>
+        <file>Images/CatImage.png</file>
+        <file>Images/FoodSimulationOver.png</file>
+        <file>Images/HorizontalTable.png</file>
+        <file>Images/ImageEnd.png</file>
+        <file>Images/ImageReturn.png</file>
+        <file>Images/ImageWinnings.png</file>
+        <file>Images/KitchenBar.png</file>
+        <file>Images/RoundTable.png</file>
+        <file>Images/VerticalTable.png</file>
+        <file>Images/TitleSimulationOver.png</file>
+        <file>Images/Client1.png</file>
+        <file>Images/Client2.png</file>
+        <file>Images/Waiter.png</file>
+        <file>Music/BackgroundMusic.mp3</file>
+        <file>Images/WaitingClients.png</file>
+        <file>Images/Dish1.png</file>
+        <file>Images/Dish2.png</file>
+        <file>Images/Dish3.png</file>
+        <file>Images/Dish4.png</file>
+        <file>Images/Dish5.png</file>
+        <file>Images/Dish6.png</file>
+        <file>Images/Dish7.png</file>
+        <file>Images/Dish8.png</file>
+        <file>Images/Dish9.png</file>
+        <file>Images/Dish10.png</file>
+        <file>Images/Dish11.png</file>
+        <file>Images/Dish12.png</file>
+        <file>Music/PopSound.mp3</file>
+    </qresource>
+</RCC>

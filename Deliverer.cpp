@@ -19,12 +19,7 @@ void Deliverer::deliverOrder(Order* order){
 }
 
 bool Deliverer::getAvailability(){
-    bool availability = COOKING;
-    if (delivererMutex.try_lock()){
-        availability = state;
-        delivererMutex.unlock();
-    }
-    return availability;
+    return state;
 }
 
 void Deliverer::setState(bool _state){

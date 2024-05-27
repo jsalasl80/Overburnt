@@ -27,6 +27,8 @@ Restaurant::~Restaurant(){
     delete recipeReader;
     delete accountant;
     delete customerSpawner;
+    delete customersUnsatisfied;
+    delete customersInLine;
     cleanTables();
 }
 
@@ -70,7 +72,7 @@ void Restaurant::updateUnsatisfactionCount(){
 
             checkUnsatisfactionCount();
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(SPAWN_RATE));
+        std::this_thread::sleep_for(std::chrono::milliseconds(2*SPAWN_RATE));
     }
 }
 

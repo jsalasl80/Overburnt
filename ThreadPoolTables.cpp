@@ -43,7 +43,7 @@ void ThreadPoolTables::run(){
             std::this_thread::sleep_for(std::chrono::milliseconds(4*MILLI_TO_SEC_CONV));
         }
         
-        std::this_thread::sleep_for(std::chrono::milliseconds(SPAWN_RATE / 2));
+        std::this_thread::sleep_for(std::chrono::milliseconds(SPAWN_RATE));
 
     }
 }

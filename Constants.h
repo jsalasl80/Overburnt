@@ -106,7 +106,7 @@ const std::string LAST_NAMES[NAMES_AMOUNTS] = {
 #define SPAWN_RATE 2000
 
 //Constants for tables
-#define TABLES_AMOUNT 1
+#define TABLES_AMOUNT 6
 #define OCCUPIED true
 #define UNOCCUPIED false
 
@@ -119,8 +119,8 @@ const std::string LAST_NAMES[NAMES_AMOUNTS] = {
 #define EATING_DELAY 2
 
 //Constants for LineCook and Deliverer
-#define LINE_COOKS_AMOUNT 1
-#define DELIVERERS_AMOUNT 1
+#define LINE_COOKS_AMOUNT 5
+#define DELIVERERS_AMOUNT 5
 #define COOKING true
 #define CHILLING false
 #define DELIVERING true
