@@ -15,7 +15,7 @@ $(TARGET): $(OBJECTS)
 	$(CXX) $(CXXFLAGS) -o $@ $(OBJECTS)
 
 # Link the test program
-$(TEST_EXEC): $(TEST_OBJECTS) $(filter-out $(TARGET).o, $(OBJECTS))
+$(TEST_EXEC): $(TEST_OBJECTS) $(filter-out main.o, $(OBJECTS))
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(GTEST_FLAGS)
 
 # Generic rule for building objects from cpp
