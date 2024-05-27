@@ -115,3 +115,10 @@ std::string Customer::durationToString(double duration) const{
 
     return duration_str;
 }
+
+int Customer::getEatingTime(){
+    return eatingTime;
+}
+double Customer::getWaitingTime(){
+    return waitingTime;
+}

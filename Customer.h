@@ -26,6 +26,8 @@ public:
     int getId() const;
     std::string getName() const;
     CustomerStatus getStatus() const;
+    int getEatingTime();
+    double getWaitingTime();
 
     int orderFromMenu(int availableMenuItems);
 
