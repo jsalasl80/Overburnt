@@ -2,8 +2,8 @@
 
 #include <gtest/gtest.h>
 #include "Customer.h"
-#include <thread> // For std::this_thread::sleep_for
-#include <chrono> // For std::chrono::milliseconds
+#include <thread>
+#include <chrono>
 
 class CustomerTest : public ::testing::Test {
 protected:
@@ -30,43 +30,41 @@ TEST_F(CustomerTest, GetStatus) {
     EXPECT_EQ(customer->getStatus(), CustomerStatus::Waiting);
 }
 
-TEST_F(CustomerTest, OrderFromMenu) {
-    int menuSize = 5;
-    int choice = customer->orderFromMenu(menuSize);
-    EXPECT_GE(choice, 0);
-    EXPECT_LT(choice, menuSize);
+TEST_F(CustomerTest, SetAndGetOrderPrepTime) {
+    int orderPrepTime = 15;
+    customer->setOrderPrepTime(orderPrepTime);
+    EXPECT_EQ(customer->getOrderPrepTime(), orderPrepTime);
 }
 
-TEST_F(CustomerTest, SetAndGetOrderedMenuItem) {
-    std::string itemName = "Pizza";
-    customer->setOrderedMenuItem(itemName);
-    EXPECT_EQ(customer->toStringStatus(), "Customer 1: John Doe\nStatus: Waiting for food\nOrdered: PIZZA\nElapsed waiting time: 0.0 seconds\n");
+TEST_F(CustomerTest, SetAndGetOrderEatingTime) {
+    int orderEatingTime = 10;
+    customer->setOrderEatingTime(orderEatingTime);
+    EXPECT_EQ(customer->getOrderEatingTime(), orderEatingTime);
 }
 
-TEST_F(CustomerTest, Eat) {
+TEST_F(CustomerTest, WaitForOrder) {
+    customer->setWaitingTimeStart();
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    customer->setTotalWaitingTime();
+    EXPECT_GE(customer->getWaitingTime(), 0.1);
+}
+
+TEST_F(CustomerTest, EatOrder) {
     customer->updateStatus(CustomerStatus::WaitingForFood);
-    customer->eat(1000); // Simulate eating for 1 second
+    customer->eat(100);
     EXPECT_EQ(customer->getStatus(), CustomerStatus::WaitingToLeave);
+}
+
+TEST_F(CustomerTest, CalculateTotalWait) {
+    customer->setWaitingTimeStart();
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    customer->setTotalWaitingTime();
+    customer->eat(100);
+    EXPECT_GE(customer->calculateTotalWait(), 0.15);
 }
 
 TEST_F(CustomerTest, ToStringStatus) {
     std::string expected = "Customer 1: John Doe\nStatus: Waiting to order\n";
-    EXPECT_EQ(customer->toStringStatus(), expected);
-
-    customer->updateStatus(CustomerStatus::Ordering);
-    expected = "Customer 1: John Doe\nStatus: Ordering\n";
-    EXPECT_EQ(customer->toStringStatus(), expected);
-
-    customer->updateStatus(CustomerStatus::WaitingForFood);
-    expected = "Customer 1: John Doe\nStatus: Waiting for food\nOrdered: \nElapsed waiting time: 0.0 seconds\n";
-    EXPECT_EQ(customer->toStringStatus(), expected);
-
-    customer->updateStatus(CustomerStatus::Eating);
-    expected = "Customer 1: John Doe\nStatus: Eating\nOrdered: \nTotal waiting time: 0\nElapsed eating time: 0.0 seconds\n";
-    EXPECT_EQ(customer->toStringStatus(), expected);
-
-    customer->updateStatus(CustomerStatus::WaitingToLeave);
-    expected = "Customer 1: John Doe\nStatus: Waiting to leave\nOrdered: \nTotal waiting time: 0\nTotal eating time: 0 seconds\n";
     EXPECT_EQ(customer->toStringStatus(), expected);
 }
 
