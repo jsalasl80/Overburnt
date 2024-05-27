@@ -26,8 +26,6 @@ protected:
     void TearDown() override {
         delete inventoryManager;
         delete accountant;
-        // Eliminar el archivo de prueba
-        std::remove(INVENTORY_CSV);
     }
 };
 
