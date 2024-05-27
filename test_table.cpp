@@ -4,7 +4,9 @@
 #include "InventoryManager.h"
 #include "Accountant.h"
 #include "ResultsQueue.h"
+#include "CustomersInLine.h"
 #include "Customer.h"
+#include "RecipeReader.h"  // Include the RecipeReader header file
 
 class TableTest : public ::testing::Test {
 protected:
@@ -15,6 +17,7 @@ protected:
     Accountant* accountant;
     ResultsQueue<Order*>* ordersToDo;
     ResultsQueue<int>* customersUnsatisfied;
+    CustomersInLine* customersInLine;
     std::vector<Customer*> customers;
 
     void SetUp() override {
@@ -24,6 +27,7 @@ protected:
         inventoryManager = new InventoryManager(inventory, accountant);
         ordersToDo = new ResultsQueue<Order*>();
         customersUnsatisfied = new ResultsQueue<int>();
+        customersInLine = new CustomersInLine();
 
         // Crear un archivo CSV de prueba
         std::ofstream outFile(INVENTORY_CSV);
@@ -37,20 +41,31 @@ protected:
         recipesFile << "Pasta,10.0,15,10,Tomato:Pasta,2:3\n";
         recipesFile.close();
 
-        RecipeReader recipeReader(menu);
-        recipeReader.setUpMenu();
+        RecipeReader recipeReader(menu);  // Declare RecipeReader object
+        recipeReader.setUpMenu();  // Call setUpMenu method
 
-        table = new Table(1, menu, inventoryManager, accountant, ordersToDo, customersUnsatisfied);
+        tables = new Table*[2];
+        for (int i = 0; i < 2; ++i) {
+            tables[i] = new Table(i, menu, inventoryManager, accountant, ordersToDo, customersUnsatisfied);
+        }
+
+        threadPoolTables = new ThreadPoolTables(tables, customersInLine);
+
         customers.push_back(new Customer(1, "John Doe"));
     }
 
     void TearDown() override {
-        delete table;
+        delete threadPoolTables;
+        for (int i = 0; i < 2; ++i) {
+            delete tables[i];
+        }
+        delete[] tables;
         delete menu;
         delete inventoryManager;
         delete accountant;
         delete ordersToDo;
         delete customersUnsatisfied;
+        delete customersInLine;
 
         for (auto customer : customers) {
             delete customer;
