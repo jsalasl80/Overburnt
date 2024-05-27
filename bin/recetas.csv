@@ -1,33 +1,21 @@
-recipename,price,approx_prep_time,approx_eating_time,ingredient1,amount1,ingredient2,amount2,ingredient3,amount3,ingredient4,amount4,ingredient5,amount5,ingredient6,amount6,ingredient7,amount7,ingredient8,amount8,ingredient9,amount9,ingredient10,amount10
-Arroz con Camarones,1550,1800,900,Arroz,200,Camarones,200,Aceite de oliva,30,Ajo,8,,,,,,,,,,,,
-Tarta de Manzana,1275,3600,1800,Harina de trigo,200,Manzanas,300,Azucar,100,Mantequilla,50,,,,,,,,,,,,
-Pollo al Curry,1130,2400,900,Pechuga de pollo,300,Leche,200,Curry en polvo,5,Aceite de oliva,30,,,,,,,,,,,,
-Bocadillo de Jamon,750,300,300,Pan,100,Jamon,50,Tomate,50,,,,,,,,,,,,,,
-Hamburguesa de Res,1325,1200,600,Carne de res,200,Pan,50,Queso,50,Tomate,50,Cebolla,30,,,,,,,,,,
-Ensalada de Atun,905,600,600,Lechuga,100,Atun en lata,100,Aceite de oliva,20,Vinagre,10,,,,,,,,,,,,
-Brownie de Chocolate,1350,2700,1800,Harina de trigo,150,Chocolate,150,Azucar,100,Mantequilla,50,Huevos,3,,,,,,,,,,
-Spaghetti Bolognesa,1225,2700,900,Pastas,200,Carne de res,100,Tomate,150,Cebolla,50,Ajo,10,Aceite de oliva,30,,,,,,,,
-Paella,2030,3600,1200,Arroz,200,Pollo,100,Camarones,100,Mejillones,100,Aceite de oliva,30,Tomate,50,Pimiento,50,Azafran,1,,,,
-Pechuga al Limon,1070,1800,900,Pechuga de pollo,300,Limon,50,Aceite de oliva,30,Ajo,10,,,,,,,,,,,,
-Batido de Frutas,325,300,300,Platanos,100,Leche,200,,,,,,,,,,,,,,,,
-Sopa de Lentejas,1375,2400,900,Lentejas,200,Chorizo,50,Aceite de oliva,30,Agua mineral,500,Cebolla,50,Pimiento,50,,,,,,,,
-Macarrones con Queso,875,1800,600,Pastas,200,Queso,150,Leche,100,Mantequilla,20,,,,,,,,,,,,
-Paella Vegetariana,1220,3600,1200,Arroz,200,Aceite de oliva,30,Tomate,100,Pimiento,50,Calabacin,100,Cebolla,50,,,,,,,,
-Ceviche,1175,1200,600,Pescado,200,Cebolla,50,Limon,30,Tomate,50,,,,,,,,,,,,
-Flan de Huevo,670,2700,1800,Leche,200,Azucar,100,Huevos,3,,,,,,,,,,,,,,
-Ensalada Cesar,840,900,600,Lechuga,100,Pollo,100,Pan,50,Aceite de oliva,30,,,,,,,,,,,,
-Croquetas de Pollo,920,2700,600,Harina de trigo,100,Pechuga de pollo,150,Leche,100,Mantequilla,20,,,,,,,,,,,,
-Galletas de Avena,755,1800,600,Harina de trigo,150,Avena,100,Azucar,50,Mantequilla,50,,,,,,,,,,,,
-Cocido Madrileño,2050,7200,1800,Carne de res,200,Chorizo,100,Papas,100,Zanahoria,50,Repollo,50,Garbanzos,100,Cebolla,50,,,,,,
-Ensalada Mixta,675,600,900,Tomate,200,Lechuga,50,Cebolla,100,Zanahoria,150,,,,,,,,,,,,
-Tortilla Española,305,1200,600,Huevos,6,Papas,300,Cebolla,150,,,,,,,,,,,,,,
-Sopa de Verduras,1025,1800,900,Calabacin,100,Zanahoria,100,Cebolla,50,Ajo,10,Agua mineral,500,Tomate,150,,,,,,,,
-Pizza Margarita,855,2400,1200,Harina de trigo,200,Tomate,100,Queso,150,Aceite de oliva,20,,,,,,,,,,,,
-Café con Leche,190,120,300,Cafe,50,Leche,200,,,,,,,,,,,,,,,,
-Arroz con Pollo,810,1800,900,Arroz,200,Pechuga de pollo,300,Aceite de oliva,30,Zanahoria,100,,,,,,,,,,,,
-Pastel de Chocolate,1175,3000,1800,Harina de trigo,200,Azucar,150,Huevos,3,Chocolate,100,Leche,200,Mantequilla,50,,,,,,,,
-Ensalada de Frutas,455,600,600,Manzanas,150,Naranjas,150,Platanos,100,Miel,30,,,,,,,,,,,,
-Gazpacho,570,900,600,Tomate,200,Pimiento,100,Cebolla,50,Aceite de oliva,30,Vinagre,20,Agua mineral,300,,,,,,,,
-Crema de Calabacin,685,1200,600,Calabacin,300,Leche,200,Cebolla,50,Ajo,10,Mantequilla,20,,,,,,,,,,
-Omelette de Jamon y Queso,995,900,600,Huevos,4,Jamon,100,Queso,100,Tomate,50,Pimientos,50,,,,,,,,,,
-Lentejas Caseras,1415,3600,1200,Lentejas,200,Zanahoria,100,Papas,100,Chorizo,50,Aceite de oliva,30,Agua mineral,500,Cebolla,50,Pimiento,50,Ajo,10,,
+recipename,price,approx_prep_time,approx_eating_time,ingredients,amounts,...
+Plain rice,1.55,20000,5000,rice,2,oil,1,salt,1,water,2
+Curry Bowl,9.55,15000,10000,rice,2,potato,2,carrot,1,mushroom,3,vegetarian ham,1,tomato,1,bell pepper,1,vegetarian meatball,3,cauliflower,1,curry mix,1
+Fried Rice With Veggies,6.55,15000,15000,rice,2,carrot,1,mushroom,6,cabbage,1,bell pepper,1,cauliflower,1,eggs,2,oil,2,salt,1,soy sauce,2
+Tastiest Fried Rice,10.55,20000,20000,rice,3,potato,1,carrot,1,mushroom,8,cabbage,1,vegetarian ham,1,egg,3,oil,2,salt,1,vegetarian barbecue sauce,2
+Fried Rice with Eggs,4.45,10000,10000,rice,2,egg,2,mushroom,6,bell pepper,1,corn,2,oil,2,salt,1,soy sauce,2
+Fried Noodles with Vegetables,7.55,20000,10000,noodles,1,cabbage,1,carrot,1,mushroom,6,tofu,1,corn,1,cauliflower,1,oil,2,salt,2,soy sauce,2
+Tastiest Fried Rice Noodle,10.55,20000,10000,rice noodle,2,cabbage,1,carrot,1,mushroom,8,celery,1,vegetarian ham,1,egg,2,oil,2,salt,2,mushroom sauce,1
+Tastiest Ramen,9.55,15000,10000,ramen noodles,1,ginger,1,mushroom,6,carrot,1,tofu,2,vegetarian meatball,3,egg,1,sesame oil,1,salt,2,soy sauce,2
+Mapo Tofu,7.55,20000,10000,tofu,4,oil,2,ginger,1,chili bean paste,1,soy sauce,2, sugar,1,bell pepper,2,mushroom,10,black bean sauce,1
+Spicy Green Bean,7.55,15000,15000,green beans,5,oil,2,ginger,1,soy sauce,2,chili flakes,2,rice vinegar,1,sugar,1,sesame oil,1,sesame seeds,3
+Seasonal Chinese Vegetables,7.55,15000,15000,cauliflower,1,carrot,1,bell pepper,2,mushrooms,6,ginger,1,soy sauce,2,rice vinegar,1,sesame oil,2,salt,2,pepper,1
+Dumplings,4.95,30000,10000,dumpling wrapper,15,tofu,2,mushroom,10, cabbage,1,carrot,1,corn,2,ginger,1,soy sauce,2,sesame oil,1,salt,2
+Xiao Long Bao,5.95,30000,10000,wonton wrapper,10,tofu,2,cabbage,1,carrot,1, ginger,1,soy sauce,2,sesame oil,1,salt,2,pepper,1
+Bao,4.95,40000,15000,flour,1,yeast,1,sugar,2,mushrooms,10,cabbage,1,carrot,1,ginger,1,soy sauce,2, sesame oil,2,salt,2
+Corn Chowder,4.55,20000,10000,corn,3,milk,1,carrot,1,potato,2,salt,1,celery,1,butter,1,cheese,2,flour,1
+Algae Soup,5.55,20000,10000,algae,1,tofu,3,carrot,1,mushrooms,6,soy sauce,2,sesame oil,1,ginger,1,salt,2,pepper,1,egg,2
+Hot and Sour Soup,5.55,20000,10000,tofu,3,mushrooms,6,carrot,1,bell pepper,1, ginger,1,soy sauce,3,sesame oil,1,pepper,1,egg,2
+Boba,5.55,10000,10000,tapioca pearl,1,milk,1,black tea leaf,2,water,2,sugar,1
+Green Tea,1.55,8000,5000,green tea leaf,2,water,1
+Black Tea,1.55,8000,5000,black tea leaf,2,water,1
