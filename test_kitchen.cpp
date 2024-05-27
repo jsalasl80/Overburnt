@@ -35,10 +35,10 @@ protected:
 
 TEST_F(KitchenTest, StartOperating) {
     // Verificar que el inventario se configura correctamente y los hilos se ejecutan
-    /*kitchen->startOperating();
+    /*kitchen->startOperating();*/
     InventoryManager* inventoryManager = kitchen->getInventoryManager();
-    kitchen->stopOperating();*/
-    EXPECT_EQ(inventoryManager->getIngredient("Tomato")->getIngredientName(), "Tomato");
+    /*kitchen->stopOperating();*/
+    EXPECT_EQ(InventoryManager->getIngredient("Tomato")->getIngredientName(), "Tomato");
 }
 /*
 TEST_F(KitchenTest, ReportCurrentState) {
