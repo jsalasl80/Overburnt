@@ -76,7 +76,8 @@ TEST_F(CustomerTest, CalculateTotalWait) {
 
 // Test eat method
 TEST_F(CustomerTest, Eat) {
-    customer->setOrderedMenuItem(std::string("Pizza"));
+    std::string itemName = "Pizza";
+    customer->setOrderedMenuItem(itemName);
     customer->updateStatus(CustomerStatus::WaitingForFood);
     customer->eat(100);
     EXPECT_EQ(customer->getStatus(), CustomerStatus::WaitingToLeave);
