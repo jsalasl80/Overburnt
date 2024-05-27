@@ -7,7 +7,7 @@ bool ResultsQueue<Value>::isEmpty(){
 
 template <typename Value>
 Node<Value>* ResultsQueue<Value>::createNode(Value element){
-    Node *newNode = new Node;
+    Node<Value> *newNode = new Node<Value>;
     newNode->value = element;
     newNode->next = nullptr;
     newNode->prev = nullptr;
@@ -17,9 +17,9 @@ Node<Value>* ResultsQueue<Value>::createNode(Value element){
 
 template <typename Value>
 void ResultsQueue<Value>::enqueue(Value element){
-    Node *newNode = createNode(element);
+    Node<Value> *newNode = createNode(element);
     if (isEmpty()){
-        head = tail = nullptr;
+        head = tail = newNode;
     }
     else{
         newNode -> prev = tail;
@@ -31,7 +31,7 @@ void ResultsQueue<Value>::enqueue(Value element){
 template <typename Value>
 void ResultsQueue<Value>::popFront(){
     if(!isEmpty()){
-        Node * temp = head;
+        Node<Value> * temp = head;
 
         head = head -> next;
 

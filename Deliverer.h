@@ -13,8 +13,8 @@ private:
 public:
     Deliverer();
     void deliverOrder(Order* orderToDeliver);
-    void getAvailability(std::promise<bool>&& availablePromise);
+    bool getAvailability();
     void setState(bool _state);
 };
 
-#endif //DELIVERER_H
+#endif //DELIVER_H

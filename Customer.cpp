@@ -2,7 +2,7 @@
 using namespace std;
 
 Customer::Customer(int id, const std::string& name)
-    : id(id), name(name), orderedMenuItemName(""), status(CustomerStatus::Waiting), waitingTime(0.0), eatingTime(NONE) {}
+    : id(id), name(name), orderedMenuItemName(NONE_STRING), status(CustomerStatus::Waiting), waitingTime(NONE_DOUBLE), eatingTime(NONE) {}
 
 int Customer::getId() const {
     return id;
