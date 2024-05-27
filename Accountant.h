@@ -23,7 +23,7 @@ private:
 public:
     Accountant();
 
-    void updateExpenses(Ingredient* ingredient);
+    void updateExpenses(Ingredient* ingredient, int amountUsed);
     void updateWinnings(Recipe* recipe);
 
     void setAsReporting();
