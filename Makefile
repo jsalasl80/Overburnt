@@ -1,63 +1,45 @@
-# Makefile
-
+# Compiler and flags
 CXX = g++
-CXXFLAGS = -std=c++11 -I/path/to/gtest/include -I.
-LDFLAGS = -L/path/to/gtest/lib -lgtest -lgtest_main -pthread
+CXXFLAGS = -std=c++11 -isystem /usr/src/gtest -pthread
 
-# Directorios
-SRC_DIR = src
-TEST_DIR = tests
-BIN_DIR = bin
+# Directories
+SRC_DIR = overburnt
+TEST_DIR = overburnt
+BUILD_DIR = build
 
-# Archivos fuente y de prueba
+# Sources and tests
 SRCS = $(wildcard $(SRC_DIR)/*.cpp)
-TEST_SRCS = $(wildcard $(TEST_DIR)/*.cpp)
+TESTS = $(wildcard $(TEST_DIR)/test_*.cpp)
+OBJS = $(SRCS:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
+TEST_OBJS = $(TESTS:$(TEST_DIR)/%.cpp=$(BUILD_DIR)/%.o)
+DEPS = $(OBJS:.o=.d) $(TEST_OBJS:.o=.d)
 
-# Objetos
-OBJS = $(patsubst $(SRC_DIR)/%.cpp, $(BIN_DIR)/%.o, $(SRCS))
-TEST_OBJS = $(patsubst $(TEST_DIR)/%.cpp, $(BIN_DIR)/%.o, $(TEST_SRCS))
+# Target executable
+TARGET = test_runner
 
-# Ejecutables
-EXECUTABLE = $(BIN_DIR)/restaurant_simulation
-TEST_EXECUTABLE = $(BIN_DIR)/run_tests
+# Include directories
+INCLUDES = -I$(SRC_DIR) -I$(TEST_DIR)
 
-# Todas las pruebas
-TESTS = test_accountant test_csvreader test_customer test_customersinline \
-        test_customerspawner test_deliverer test_filewriter test_ingredient \
-        test_inventory test_inventorymanager test_kitchen test_linecook \
-        test_menu test_order test_random test_recipe test_recipereader \
-        test_restaurant test_resultsqueue test_table test_threadpooldeliverer \
-        test_threadpoollinecooks test_threadpooltables test_waiter test_threadpooldeliverers
+# Google Test library
+GTEST_LIB = /usr/src/gtest/libgtest.a /usr/src/gtest/libgtest_main.a
 
-# Compilar todo
-all: $(EXECUTABLE) $(TEST_EXECUTABLE)
+# Rules
+all: $(TARGET)
 
-# Compilar el ejecutable principal
-$(EXECUTABLE): $(OBJS)
-	$(CXX) $(OBJS) -o $@ $(LDFLAGS)
+$(TARGET): $(OBJS) $(TEST_OBJS)
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(GTEST_LIB) -lpthread
 
-# Compilar el ejecutable de pruebas
-$(TEST_EXECUTABLE): $(TEST_OBJS) $(OBJS)
-	$(CXX) $(TEST_OBJS) $(OBJS) -o $@ $(LDFLAGS)
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
+	@mkdir -p $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -MMD -c $< -o $@
 
-# Regla genérica para compilar archivos .o
-$(BIN_DIR)/%.o: $(SRC_DIR)/%.cpp
-	@mkdir -p $(BIN_DIR)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+$(BUILD_DIR)/%.o: $(TEST_DIR)/%.cpp
+	@mkdir -p $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -MMD -c $< -o $@
 
-$(BIN_DIR)/%.o: $(TEST_DIR)/%.cpp
-	@mkdir -p $(BIN_DIR)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+-include $(DEPS)
 
-# Ejecutar las pruebas
-test: $(TEST_EXECUTABLE)
-	./$(TEST_EXECUTABLE)
-
-# Limpiar los archivos compilados
 clean:
-	rm -f $(OBJS) $(TEST_OBJS) $(EXECUTABLE) $(TEST_EXECUTABLE)
+	rm -rf $(BUILD_DIR) $(TARGET)
 
-# Compilar y ejecutar pruebas individuales
-$(TESTS): %: $(TEST_DIR)/%.cpp $(SRCS)
-	$(CXX) $(CXXFLAGS) $^ -o $(BIN_DIR)/$@ $(LDFLAGS)
-	./$(BIN_DIR)/$
+.PHONY: all clean
