@@ -14,7 +14,7 @@ private:
     
 
 public:
-    Ingredient(string&, int, float); 
+    Ingredient(string& _name, int _totalPortions, float _unitaryCost); 
     string toString();
 
     void consumePortions(int);
@@ -24,4 +24,5 @@ public:
     int getConsumedPortions();
     float getUnitaryCost();
 };
-#endif
+
+#endif //INGREDIENT_H

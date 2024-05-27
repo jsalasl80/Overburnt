@@ -38,6 +38,7 @@ public:
     void stopRestaurantSimulation();
     void updateUnsatisfactionCount();
     void checkUnsatisfactionCount();
+    void joinThread(std::thread& thread);
 
     void setTables();
     void cleanTables();

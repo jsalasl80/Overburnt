@@ -10,7 +10,7 @@ void LineCook::prepareOrder(Order *order){
     printf("Line cook preparing order\n");
     this->order = order;
     cookOrder();
-    order -> markAsCompleted();
+    this-> order -> markAsCompleted();
     deliverOrder();
     this -> setState(CHILLING);
     printf("Line cook chilling\n");

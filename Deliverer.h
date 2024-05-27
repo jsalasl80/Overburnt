@@ -18,4 +18,4 @@ public:
     bool getState();
 };
 
-#endif
+#endif  //DELIVER_H

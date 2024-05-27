@@ -17,6 +17,9 @@ void InventoryManager::storeIngredient(string ingredientName, int amount, float 
 }
 
 void InventoryManager::setUpInventory(){
+    inventory -> lock();
+    std::lock_guard<mutex> lg(inventoryMutex);
+
     string ingredientName;
     int amount;
     float unitaryCost;
@@ -29,6 +32,8 @@ void InventoryManager::setUpInventory(){
     }
 
     CSVReader::closeFile();
+    inventory -> unlock();
+    cv.notify_one();
 }
 
 void InventoryManager::checkIngredientsAvailability(std::promise<bool>&& availabilityPromise, map<string,int>& totalIngredientsAndAmounts){
@@ -39,62 +44,31 @@ void InventoryManager::checkIngredientsAvailability(std::promise<bool>&& availab
         return inventory->getAvailability();}
         );
     }
-    printf("Checking ingredient availability\n");
     bool allIngredientsAvailable = true;
 
     Ingredient *ingredient;
     for (auto itr = totalIngredientsAndAmounts.begin(); itr != totalIngredientsAndAmounts.end() && allIngredientsAvailable; ++itr){
         ingredient = inventory -> getIngredient(itr->first);
-        allIngredientsAvailable = ingredient -> checkConsumability(itr->second);
+        if (ingredient) allIngredientsAvailable = ingredient -> checkConsumability(itr->second);
     }
 
     availabilityPromise.set_value(allIngredientsAvailable);
-    printf("Availability determined\n");
-
-    if (allIngredientsAvailable){
-        //must be sure that all ingredients will be used to update inventory
-        updateInventory(totalIngredientsAndAmounts);
-    }
-
-    printf("Inventory manager freed\n");
-}
-
-
-bool InventoryManager::checkIngredientsAvailability(map<string,int>& totalIngredientsAndAmounts){
-    std::unique_lock<mutex> ul(inventoryMutex);
-    bool inventoryAvailable = inventory-> getAvailability();
-    if (!inventoryAvailable){
-        cv.wait(ul, [this](){
-        return inventory->getAvailability();}
-        );
-    }
-    printf("Checking ingredient availability\n");
-    bool allIngredientsAvailable = true;
-
-    Ingredient *ingredient;
-    for (auto itr = totalIngredientsAndAmounts.begin(); itr != totalIngredientsAndAmounts.end() && allIngredientsAvailable; ++itr){
-        ingredient = inventory -> getIngredient(itr->first);
-        allIngredientsAvailable = ingredient -> checkConsumability(itr->second);
-    }
-    printf("Availability determined\n");
     
     if (allIngredientsAvailable){
-        //must be sure that all ingredients will be used to update inventory
         updateInventory(totalIngredientsAndAmounts);
     }
-
-    printf("Inventory manager freed\n");
-    return allIngredientsAvailable;
 }
 
-void InventoryManager::updateInventory(map<string,int>& totalIngredientsAndAmounts){
+void InventoryManager::updateInventory(std::map<string, int>& totalIngredientsAndAmounts){
     Ingredient *ingredient;
     int portionsUsed;
     for (auto itr = totalIngredientsAndAmounts.begin(); itr != totalIngredientsAndAmounts.end(); ++itr){
         ingredient = inventory -> getIngredient(itr->first);
-        portionsUsed = itr -> second;
-        ingredient -> consumePortions(portionsUsed);
-        accountant -> updateExpenses(ingredient, portionsUsed);
+        if (ingredient){
+            portionsUsed = itr -> second;
+            ingredient -> consumePortions(portionsUsed);
+            accountant -> updateExpenses(ingredient, portionsUsed);
+        }
     }
 }
 
@@ -111,7 +85,7 @@ void InventoryManager::reportInventoryState(){
     Ingredient* ingredient;
     string message;
 
-    for (int i = 0; i < static_cast<int>(ingredientNames.size()); ++i){
+    for (int i = 0; i < ingredientNames.size(); ++i){
         ingredient = inventory -> getIngredient(ingredientNames[i]);
         message = ingredient -> toString() + "\n";
         FileWriter::appendLine(message);

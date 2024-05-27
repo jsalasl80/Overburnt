@@ -17,18 +17,23 @@ Kitchen::~Kitchen(){
     printf("Kitchen Destructor called\n");
     delete inventoryManager;
     delete ordersToDeliver;
-    deleteLineCooks();
     deleteDeliverers();
+    deleteLineCooks();
 }
 
 void Kitchen::startOperating(){
     inventoryManager -> setUpInventory();
     std::thread poolLineCooks(&ThreadPoolLineCooks::run, threadPoolLineCooks);
     std::thread poolDeliverers(&ThreadPoolDeliverers::run, threadPoolDeliverers);
-    poolLineCooks.join();
-    poolDeliverers.join();
-    delete threadPoolDeliverers;
+    if (poolLineCooks.joinable()){
+        poolLineCooks.join();
+    }
+
+    if (poolDeliverers.joinable()){
+        poolDeliverers.join();
+    }
     delete threadPoolLineCooks;
+    delete threadPoolDeliverers;
 }
 
 void Kitchen::stopOperating(){

@@ -27,7 +27,6 @@ void Customer::setEatingTime(int time) {
 
 void Customer::setOrderedMenuItem(std::string& itemName){
     orderedMenuItemName = itemName;
-    printf("Customer %s ordered %s\n", name.c_str(), orderedMenuItemName.c_str());
 }
 
 void Customer:: setWaitingTimeStart(){
@@ -57,7 +56,6 @@ void Customer::eat(int eatingTime){
         setEatingTime(eatingTime);
         updateStatus(CustomerStatus::Eating);
 
-        printf("%s eating %s for %i milliseconds\n", name.c_str(), orderedMenuItemName.c_str(), eatingTime);
         std::this_thread::sleep_for(std::chrono::milliseconds(eatingTime));
 
         updateStatus(CustomerStatus::WaitingToLeave);
@@ -115,7 +113,6 @@ std::string Customer::durationToString(double duration) const{
 
     return duration_str;
 }
-
 int Customer::getEatingTime(){
     return eatingTime;
 }

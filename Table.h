@@ -19,7 +19,7 @@ private:
     bool status; // UNOCCUPIED = false, OCCUPIED = true
     
     vector<Customer*> customers;
-    map<Customer*, bool> customersEatingStatuses;
+    unordered_map<Customer*, bool> customersEatingStatuses;
     int customersSeated;
     int customersDoneEating;
     ResultsQueue<int> *customersUnsatisfied;

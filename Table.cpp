@@ -117,7 +117,6 @@ void Table::clearTableAndOrders() {
         setStatus(UNOCCUPIED);
     }
 
-    printf("Table %i cleared\n", id);
 }
 
 bool Table::isOccupied(){

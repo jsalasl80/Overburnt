@@ -23,6 +23,7 @@ void Accountant::updateWinnings(Recipe* recipe){
 }
 
 void Accountant::updateExpenses(Ingredient* ingredient, int amountUsed){
+    std::unique_lock<mutex> ul(winningsMutex);
     int newExpenses = amountUsed * (ingredient -> getUnitaryCost());
     totalExpenses += newExpenses;
     printf("Total expenses %f\n", totalExpenses);

@@ -21,6 +21,7 @@ Table* ThreadPoolTables::getUnoccupiedTable(){
             break;
         }
     }
+
     return ptrTable;
 }
 
@@ -34,7 +35,6 @@ void ThreadPoolTables::run(){
         }
         
         if (table != nullptr){
-            printf("Table addable\n");
             tablesCheckable = addTasksToQueue(table);
         }
         else{
@@ -48,10 +48,9 @@ void ThreadPoolTables::run(){
     }
 }
 
-
 bool ThreadPoolTables::addTasksToQueue(Table *table){
     std::future<bool> customersExist; //To check if there are customers in line yet
-    std::future<std::vector<Customer*>> customersToAttend;
+    std::vector<Customer*> customersToAttend;
     bool addedTask = NOT_ADDED;
 
     customersExist = std::async(std::launch::async, [this]{
@@ -59,12 +58,8 @@ bool ThreadPoolTables::addTasksToQueue(Table *table){
         );
 
     if (!customersExist.get()){
-        printf("assigning table\n");
-        customersToAttend = std::async(std::launch::async, [this]{
-            return customersInLine -> extractCustomers();}
-        );
-        
-        enqueue(&Table::seatAndAttendCustomers, table, customersToAttend.get());
+        customersToAttend = customersInLine -> extractCustomers();
+        enqueue(&Table::seatAndAttendCustomers, table, customersToAttend);
 
         addedTask = ADDED;
     }

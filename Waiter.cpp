@@ -7,10 +7,10 @@ Waiter::Waiter(InventoryManager *_inventoryManager, Accountant *_accountant, Res
     {}
     
 void Waiter::attendTable(std::promise<bool>&& ordersPromise, vector<Order*>& orders){
-    printf("Waiter attending table\n");
+    clearMap(); 
     customersOrders = orders;
     Recipe *recipe;
-    
+
     for (Order* order : customersOrders){
         recipe = order -> getRecipe();
         extractIngredientsAndAmounts(recipe);
@@ -20,9 +20,9 @@ void Waiter::attendTable(std::promise<bool>&& ordersPromise, vector<Order*>& ord
     std::promise<bool> availabilityPromise;
     std::future<bool> availabilityFuture = availabilityPromise.get_future();
 
-    std::thread([&]() { 
+    std::thread t([&]() { 
         inventoryManager->checkIngredientsAvailability(std::move(availabilityPromise), ordersTotalIngredientsAmounts); 
-        }).detach();
+        });
 
     bool ordersDoable = availabilityFuture.get();
     ordersPromise.set_value(ordersDoable);  
@@ -32,49 +32,26 @@ void Waiter::attendTable(std::promise<bool>&& ordersPromise, vector<Order*>& ord
         addWinnings();
         printf("Orders sent to kitchen\n");
     }
-
-    clearOrders();
-    clearMap(); 
-
-    printf("Waiter chilling\n");
-}
-
-bool Waiter::attendTable(vector<Order*>& orders){
-    printf("Waiter attending table\n");
-    customersOrders = orders;
-    Recipe *recipe;
-
-    for (Order* order : customersOrders){
-        recipe = order -> getRecipe();
-        extractIngredientsAndAmounts(recipe);
-        printf("Waiter extracted orders\n");
+    
+    if (t.joinable()){
+        t.join();
     }
-
-    bool ordersDoable = inventoryManager -> checkIngredientsAvailability(ordersTotalIngredientsAmounts);
-
-    if (ordersDoable){
-        sendOrdersToKitchen();
-        addWinnings();
-        printf("Orders sent to kitchen\n");
-    }
-
+    
     clearOrders();
-    clearMap(); 
-
-    printf("Waiter chilling\n");
-
-    return ordersDoable;
 }
 
 void Waiter::extractIngredientsAndAmounts(Recipe* recipe){
-    int totalIngredientsStored = recipe -> getTotalIngredientsStored();
-    string ingredient;
-    int amount;
-    for (int index = 0; index < totalIngredientsStored; ++index){
-        ingredient = recipe ->getIngredient(index);
-        amount = recipe -> getIngredientAmount(index);
-        insertIngredientAmount(ingredient, amount);
+    if (recipe){
+        int totalIngredientsStored = recipe -> getTotalIngredientsStored();
+        string ingredient;
+        int amount;
+        for (int index = 0; index < totalIngredientsStored; ++index){
+            ingredient = recipe ->getIngredient(index);
+            amount = recipe -> getIngredientAmount(index);
+            insertIngredientAmount(ingredient, amount);
+        }
     }
+    
 }
 
 void Waiter::insertIngredientAmount(string ingredientName, int amount){

@@ -8,11 +8,13 @@ void Deliverer::deliverOrder(Order* order){
     std::lock_guard<mutex> lg(delivererMutex);
     
     Customer* targetCustomer = order -> getAssociatedCustomer();
-    printf("Deliverer delivering to %s\n",targetCustomer -> getName().c_str());
+    if (targetCustomer){
+        printf("Deliverer delivering to %s\n",targetCustomer -> getName().c_str());
     
-    int eatingTime = order -> getOrderEatingTime();
-    targetCustomer -> eat(eatingTime);
-
+        int eatingTime = order -> getOrderEatingTime();
+        targetCustomer -> eat(eatingTime);
+    }
+    
     this -> setState (CHILLING);
 }
 

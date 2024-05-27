@@ -11,6 +11,7 @@ Restaurant::Restaurant(){
     ordersToDo = new ResultsQueue<Order*>();
 
     customersUnsatisfied = new ResultsQueue<int>();
+    customersUnsatisfiedCount = NONE;
     
     kitchen = new Kitchen(accountant, ordersToDo);
 
@@ -36,35 +37,40 @@ void Restaurant::startRestaurantSimulation(){
     std::thread tSpawner(&CustomerSpawner::spawnClients, customerSpawner);
     std::thread poolTables(&ThreadPoolTables::run, threadPoolTables);
     std::thread tUnsatisfaction(&Restaurant::updateUnsatisfactionCount, this);
-    
-    tSpawner.join();
-    tKitchen.join();
-    poolTables.join();
-    tUnsatisfaction.join();
+
+    joinThread(tSpawner);
+    joinThread(tKitchen);
+    joinThread(poolTables);
+    joinThread(tUnsatisfaction);
 
     delete threadPoolTables;
-    printf("Simulation Ended");
+}
+
+void Restaurant::joinThread(std::thread& thread){
+    if (thread.joinable()){
+        thread.join();
+    }
 }
 
 void Restaurant::stopRestaurantSimulation(){
+    simulating = HALT_SIMULATING;
+    threadPoolTables -> stopRunning();
     printf("A total of %d unsatisfied customers registered", customersUnsatisfiedCount);
     customerSpawner -> stopSpawning();
     reportRestaurantCurrentState();
     kitchen -> stopOperating();
-
-    threadPoolTables -> stopRunning();
-    simulating = HALT_SIMULATING;
 }
 
 void Restaurant::updateUnsatisfactionCount(){
+    bool empty;
     while (simulating){
-        bool empty = customersUnsatisfied -> isEmpty();
+        empty = customersUnsatisfied -> isEmpty();
         if (!empty){
             customersUnsatisfiedCount += customersUnsatisfied -> dequeue();
 
             checkUnsatisfactionCount();
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(MILLI_TO_SEC_CONV));
+        std::this_thread::sleep_for(std::chrono::milliseconds(SPAWN_RATE));
     }
 }
 
