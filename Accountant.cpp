@@ -17,12 +17,13 @@ void Accountant::updateWinnings(Recipe* recipe){
         });
     }
     
-    int newWinnings = recipe -> getPrice();
+    float newWinnings = recipe -> getPrice();
     totalWinnings += newWinnings;
 }
 
-void Accountant::updateExpenses(Ingredient* ingredient){
-    int newExpenses = ingredient -> getConsumedPortions() * ingredient -> getUnitaryCost();
+void Accountant::updateExpenses(Ingredient* ingredient, int amountUsed){
+    std::unique_lock<mutex> ul(winningsMutex);
+    int newExpenses = amountUsed * (ingredient -> getUnitaryCost());
     totalExpenses += newExpenses;
 }
 
