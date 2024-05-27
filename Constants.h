@@ -11,7 +11,7 @@
 //Constants for files management
 #define CSV_DIRECTORY "bin/"
 #define REPORT_TXT "RestaurantReport.txt"
-#define REPORT_HEADER_MESSAGE "Restaurant Report:\nInventory State\n<Ingredient>: <AmountLeft>\n"
+#define REPORT_HEADER_MESSAGE "Restaurant Report:\nInventory State\nIngredient: Current Amount Left\n"
 #define INVENTORY_CSV "bin/ingredientes.csv"
 #define RECIPES_CSV "bin/recetas.csv"
 #define READ_MODE "r"
@@ -115,8 +115,8 @@ const std::string LAST_NAMES[NAMES_AMOUNTS] = {
 #define POSITIVE 1
 #define READY true
 #define IN_PREPARATION false
-#define PREP_DELAY 500
-#define EATING_DELAY 1000
+#define PREP_DELAY 2
+#define EATING_DELAY 2
 
 //Constants for LineCook and Deliverer
 #define LINE_COOKS_AMOUNT 5
