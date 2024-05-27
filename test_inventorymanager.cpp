@@ -40,25 +40,6 @@ TEST_F(InventoryManagerTest, SetUpInventory) {
     EXPECT_FLOAT_EQ(ingredient->getUnitaryCost(), 0.5);
 }
 
-TEST_F(InventoryManagerTest, CheckIngredientsAvailability) {
-    inventoryManager->setUpInventory();
-
-    std::map<std::string, int> ingredientsNeeded = {
-        {"Tomato", 50},
-        {"Pasta", 150}
-    };
-
-    bool available = inventoryManager->checkIngredientsAvailability(ingredientsNeeded);
-    EXPECT_TRUE(available);
-
-    ingredientsNeeded = {
-        {"Tomato", 101}
-    };
-
-    available = inventoryManager->checkIngredientsAvailability(ingredientsNeeded);
-    EXPECT_FALSE(available);
-}
-
 TEST_F(InventoryManagerTest, UpdateInventory) {
     inventoryManager->setUpInventory();
 

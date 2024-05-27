@@ -38,12 +38,14 @@ TEST_F(KitchenTest, StartOperating) {
     // Verificar que el inventario se configura correctamente y los hilos se ejecutan
     kitchen->startOperating();
     InventoryManager* inventoryManager = kitchen->getInventoryManager();
+    kitchen->stopOperating();
     EXPECT_EQ(inventoryManager->getIngredient("Tomato")->getIngredientName(), "Tomato");
 }
 
 TEST_F(KitchenTest, ReportCurrentState) {
     kitchen->startOperating();
     kitchen->reportCurrentState();
+    kitchen->stopOperating();
     // Aquí podríamos verificar el archivo generado o la salida, pero para simplificar,
     // verificamos que el método no falle.
 }

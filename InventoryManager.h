@@ -27,7 +27,6 @@ public:
     void setUpInventory();
 
     void checkIngredientsAvailability(std::promise<bool>&&, map<string,int>&);
-    bool checkIngredientsAvailability(map<string,int>&);
     
     void updateInventory(map<string,int>&);
     
