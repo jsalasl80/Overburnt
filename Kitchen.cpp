@@ -39,6 +39,15 @@ void Kitchen::startOperating(){
 void Kitchen::stopOperating(){
     threadPoolDeliverers -> stopRunning();
     threadPoolLineCooks -> stopRunning();
+
+    if (threadPoolDeliverers.joinable()){
+        threadPoolDeliverers.join();
+    }
+
+    if (threadPoolLineCooks.joinable()){
+        threadPoolLineCooks.join();
+    }
+    
 }
 
 void Kitchen::reportCurrentState(){
