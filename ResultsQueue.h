@@ -10,15 +10,15 @@ using namespace std;
 template <typename Value>
 struct Node {
     Value value;
-    struct Node * next;
-    struct Node * prev;
+    struct Node<Value> * next;
+    struct Node<Value> * prev;
 };
 
 template <typename Value>
 class ResultsQueue{
 protected:
-    Node *head;
-    Node *tail;
+    Node<Value> *head;
+    Node<Value> *tail;
     Node<Value>* createNode(Value);
     void popFront();
 
@@ -27,7 +27,7 @@ public:
         head(nullptr),
         tail(nullptr){};
 
-    void enqueue (Value element);
+    void enqueue (Value);
     
     Value dequeue();
     bool isEmpty();
@@ -38,5 +38,6 @@ public:
         }
     };
 };
+
 
 #endif //RESULTSQUEUE_H
