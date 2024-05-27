@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "ThreadPoolDeliverer.h"
+#include "ThreadPoolDeliverers.h"
 #include "Order.h"
 #include "ResultsQueue.h"
 #include "Deliverer.h"
@@ -8,7 +8,7 @@
 
 class ThreadPoolDelivererTest : public ::testing::Test {
 protected:
-    ThreadPoolDeliverer* threadPoolDeliverer;
+    ThreadPoolDeliverers* threadPoolDeliverer;
     ResultsQueue<Order*>* ordersToDeliver;
     Deliverer** deliverers;
     Customer* customer;
