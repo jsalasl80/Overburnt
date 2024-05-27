@@ -65,7 +65,3 @@ TEST_F(OrderTest, CalculateTime) {
     EXPECT_LE(calculatedTime, baseTime + delay);
 }
 
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

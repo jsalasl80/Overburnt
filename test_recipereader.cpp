@@ -55,7 +55,3 @@ TEST_F(RecipeReaderTest, SetUpMenu) {
     EXPECT_EQ(recipe2->getIngredient(1), "Rice");
 }
 
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

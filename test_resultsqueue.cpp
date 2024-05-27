@@ -45,7 +45,3 @@ TEST_F(ResultsQueueTest, EnqueueAndDequeueMultipleItems) {
     EXPECT_TRUE(queue->isEmpty());
 }
 
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

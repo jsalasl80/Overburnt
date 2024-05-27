@@ -94,7 +94,3 @@ TEST_F(ThreadPoolTablesTest, RunAndStop) {
     EXPECT_EQ(customersInLine->getCustomersInLine(), 0); // Verificar que los clientes en la fila fueron atendidos
 }
 
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
