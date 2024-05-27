@@ -1,6 +1,6 @@
 # Compiler and flags
 CXX = g++
-CXXFLAGS = -std=c++11 -isystem /usr/src/gtest -pthread
+CXXFLAGS = -std=c++11 -isystem /usr/src/googletest/googletest -pthread
 
 # Directories
 SRC_DIR = overburnt
