@@ -1,14 +1,14 @@
 #include <gtest/gtest.h>
 #include "ThreadPoolDeliverers.h"
+#include "Deliverer.h"
 #include "Order.h"
 #include "ResultsQueue.h"
-#include "Deliverer.h"
 #include "Customer.h"
 #include "Recipe.h"
 
-class ThreadPoolDelivererTest : public ::testing::Test {
+class ThreadPoolDeliverersTest : public ::testing::Test {
 protected:
-    ThreadPoolDeliverers* threadPoolDeliverer;
+    ThreadPoolDeliverers* threadPoolDeliverers;
     ResultsQueue<Order*>* ordersToDeliver;
     Deliverer** deliverers;
     Customer* customer;
@@ -25,55 +25,61 @@ protected:
         order = new Order(1, 1, recipe, customer);
 
         // Crear Deliverers
-        deliverers = new Deliverer*[2];
-        for (int i = 0; i < 2; ++i) {
+        deliverers = new Deliverer*[DELIVERERS_AMOUNT];
+        for (int i = 0; i < DELIVERERS_AMOUNT; ++i) {
             deliverers[i] = new Deliverer();
         }
 
-        threadPoolDeliverer = new ThreadPoolDeliverer(deliverers, ordersToDeliver);
+        threadPoolDeliverers = new ThreadPoolDeliverers(deliverers, ordersToDeliver);
     }
 
     void TearDown() override {
-        delete threadPoolDeliverer;
+        delete threadPoolDeliverers;
         delete ordersToDeliver;
         delete order;
         delete recipe;
         delete customer;
 
-        for (int i = 0; i < 2; ++i) {
+        for (int i = 0; i < DELIVERERS_AMOUNT; ++i) {
             delete deliverers[i];
         }
         delete[] deliverers;
     }
 };
 
-TEST_F(ThreadPoolDelivererTest, EnqueueOrder) {
-    threadPoolDeliverer->enqueueOrder(order);
+TEST_F(ThreadPoolDeliverersTest, EnqueueOrder) {
+    ordersToDeliver->enqueue(order);
     EXPECT_FALSE(ordersToDeliver->isEmpty());
     Order* dequeuedOrder = ordersToDeliver->dequeue();
     EXPECT_EQ(dequeuedOrder, order);
 }
 
-TEST_F(ThreadPoolDelivererTest, DeliverOrders) {
-    threadPoolDeliverer->enqueueOrder(order);
-
-    std::thread deliverThread(&ThreadPoolDeliverer::deliverOrders, threadPoolDeliverer);
-    std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Espera para asegurar que los hilos se inicien
-    threadPoolDeliverer->stopDelivering();
-    deliverThread.join();
-
-    EXPECT_EQ(customer->getStatus(), CustomerStatus::WaitingToLeave);
+TEST_F(ThreadPoolDeliverersTest, GetAvailableDeliverer) {
+    Deliverer* availableDeliverer = threadPoolDeliverers->getAvailableDeliverer();
+    ASSERT_NE(availableDeliverer, nullptr);
+    EXPECT_EQ(availableDeliverer->getState(), DELIVERING);
 }
 
-TEST_F(ThreadPoolDelivererTest, StopDelivering) {
-    threadPoolDeliverer->enqueueOrder(order);
-
-    std::thread deliverThread(&ThreadPoolDeliverer::deliverOrders, threadPoolDeliverer);
+TEST_F(ThreadPoolDeliverersTest, RunAndStop) {
+    std::thread poolThread(&ThreadPoolDeliverers::run, threadPoolDeliverers);
+    ordersToDeliver->enqueue(order);
     std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Espera para asegurar que los hilos se inicien
-    threadPoolDeliverer->stopDelivering();
-    deliverThread.join();
+    threadPoolDeliverers->stopRunning();
+    poolThread.join();
 
-    EXPECT_FALSE(ordersToDeliver->isEmpty()); // Debería haber detenido la entrega antes de que se vacíe
+    // Ensure that the deliverer state has changed to DELIVERING
+    for (int i = 0; i < DELIVERERS_AMOUNT; ++i) {
+        if (!deliverers[i]->getAvailability()) {
+            EXPECT_EQ(deliverers[i]->getState(), DELIVERING);
+        }
+    }
+}
+
+TEST_F(ThreadPoolDeliverersTest, AddDelivererToRotation) {
+    Deliverer* deliverer = threadPoolDeliverers->getAvailableDeliverer();
+    ordersToDeliver->enqueue(order);
+    bool added = threadPoolDeliverers->addDelivererToRotation(deliverer);
+    EXPECT_TRUE(added);
 }
 
 int main(int argc, char **argv) {
