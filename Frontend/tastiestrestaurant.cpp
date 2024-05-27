@@ -12,10 +12,8 @@ TastiestRestaurant::TastiestRestaurant(QWidget *parent)
 
     mMediaPlayer = new QMediaPlayer(this);
     mAudioOutput = new QAudioOutput(this);
-    // Configura el reproductor de medios
     mMediaPlayer->setAudioOutput(mAudioOutput);
     mMediaPlayer->setSource(QUrl("qrc:/Music/PopSound.mp3"));
-    mAudioOutput->setVolume(5); // Ajusta el volumen según sea necesario
 
     QPixmap KitchenBar(":/Images/KitchenBar.png");
     ui->KitchenBar_pic->setPixmap(KitchenBar);
@@ -281,7 +279,6 @@ TastiestRestaurant::TastiestRestaurant(QWidget *parent)
     QPixmap Dish36(":/Images/Dish3.png");
     ui->Dish5_5->setPixmap(Dish36);
 
-    // En tu función main() o en algún lugar apropiado antes de llamar a getRandomClient()
     srand(time(nullptr));
 }
 
@@ -299,8 +296,6 @@ void TastiestRestaurant::on_ManageSimulation_btn_clicked()
     SimulationMenu *sm = new SimulationMenu();
     sm->show();
 
-    // Conectar la señal finished() de la ventana SimulationMenu
-    // para habilitar el botón una vez que se cierre la ventana.
     connect(sm, &QDialog::finished, this, [=](){
         ui->ManageSimulation_btn->setEnabled(true);
     });
@@ -308,19 +303,15 @@ void TastiestRestaurant::on_ManageSimulation_btn_clicked()
 
 void TastiestRestaurant::closeEvent(QCloseEvent *event)
 {
-    // Show the SimulationOver window when the close button is clicked
     SimulationOver *so = new SimulationOver();
     so->show();
 
-    // Close the OverBurntMain window
     event->accept();
 }
 
 void TastiestRestaurant::on_ButtonTable0_clicked()
 {
     QString message = "¡Hola desde un QString!";
-
-    // Crear un QMessageBox con un texto personalizado
     QMessageBox::information(nullptr, "Report", message);
 }
 
@@ -328,8 +319,6 @@ void TastiestRestaurant::on_ButtonTable0_clicked()
 void TastiestRestaurant::on_ButtonTable1_clicked()
 {
     QString message = "¡Hola desde un QString!";
-
-    // Crear un QMessageBox con un texto personalizado
     QMessageBox::information(nullptr, "Report", message);
 }
 
@@ -337,8 +326,6 @@ void TastiestRestaurant::on_ButtonTable1_clicked()
 void TastiestRestaurant::on_ButtonTable2_clicked()
 {
     QString message = "¡Hola desde un QString!";
-
-    // Crear un QMessageBox con un texto personalizado
     QMessageBox::information(nullptr, "Report", message);
 }
 
@@ -346,8 +333,6 @@ void TastiestRestaurant::on_ButtonTable2_clicked()
 void TastiestRestaurant::on_ButtonTable3_clicked()
 {
     QString message = "¡Hola desde un QString!";
-
-    // Crear un QMessageBox con un texto personalizado
     QMessageBox::information(nullptr, "Report", message);
 }
 
@@ -355,8 +340,6 @@ void TastiestRestaurant::on_ButtonTable3_clicked()
 void TastiestRestaurant::on_ButtonTable4_clicked()
 {
     QString message = "¡Hola desde un QString!";
-
-    // Crear un QMessageBox con un texto personalizado
     QMessageBox::information(nullptr, "Report", message);
 }
 
@@ -364,23 +347,19 @@ void TastiestRestaurant::on_ButtonTable4_clicked()
 void TastiestRestaurant::on_ButtonTable5_clicked()
 {
     QString message = "¡Hola desde un QString!";
-
-    // Crear un QMessageBox con un texto personalizado
     QMessageBox::information(nullptr, "Report", message);
 }
 
 int TastiestRestaurant::getRandomClient() {
-    // Generate a random number between 1 and 2
     int random = rand() % 2 + 1;
     if (random == 1) {
-        return 1; // Client1.png
+        return 1;
     } else {
-        return 2; // Client2.png
+        return 2;
     }
 }
 
 void TastiestRestaurant::setClientImage(QLabel *label, int client) {
-    // Set the label's pixmap to the corresponding client image
     if (client == 1) {
         label->setPixmap(QPixmap(":/Images/Client1.png"));
     } else {

@@ -2,7 +2,6 @@
 #include "ui_simulationover.h"
 #include "tastiestrestaurant.h"
 
-// Declarar una variable estática para almacenar la instancia de TastiestRestaurant
 static TastiestRestaurant *tastiestRestaurantInstance = nullptr;
 
 SimulationOver::SimulationOver(QWidget *parent)
@@ -13,10 +12,8 @@ SimulationOver::SimulationOver(QWidget *parent)
 
     mMediaPlayer = new QMediaPlayer(this);
     mAudioOutput = new QAudioOutput(this);
-    // Configura el reproductor de medios
     mMediaPlayer->setAudioOutput(mAudioOutput);
     mMediaPlayer->setSource(QUrl("qrc:/Music/PopSound.mp3"));
-    mAudioOutput->setVolume(5); // Ajusta el volumen según sea necesario
 
     QPixmap FoodSimulationOver(":/Images/FoodSimulationOver.png");
     ui->FoodSimulationOver_pic->setPixmap(FoodSimulationOver);
@@ -41,7 +38,6 @@ SimulationOver::~SimulationOver()
 
 void SimulationOver::closeEvent(QCloseEvent *event)
 {
-    // Close the OverBurntMain window
     event->accept();
 }
 
@@ -58,15 +54,12 @@ void SimulationOver::on_RestartButton_clicked()
     mMediaPlayer->play();
 
     if (!tastiestRestaurantInstance) {
-        // Si no hay una instancia de TastiestRestaurant, crear una nueva
         tastiestRestaurantInstance = new TastiestRestaurant(nullptr);
         tastiestRestaurantInstance->show();
     } else {
-        // Si ya existe una instancia de TastiestRestaurant, simplemente mostrarla
         tastiestRestaurantInstance->show();
     }
 
-    // Cerrar la ventana actual
     this->accept();
 }
 

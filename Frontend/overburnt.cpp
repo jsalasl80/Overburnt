@@ -26,33 +26,24 @@ OverBurntMain::OverBurntMain(QWidget *parent)
 
     mMediaPlayer = new QMediaPlayer(this);
     mAudioOutput = new QAudioOutput(this);
-
-    // Configura el reproductor de medios
     mMediaPlayer->setAudioOutput(mAudioOutput);
     mMediaPlayer->setSource(QUrl("qrc:/Music/BackgroundMusic.mp3"));
-    mAudioOutput->setVolume(5); // Ajusta el volumen según sea necesario
-
-    // Reproduce el audio
     mMediaPlayer->play();
 }
 
 OverBurntMain::~OverBurntMain()
 {
     delete ui;
-    delete mMediaPlayer; // Asegúrate de eliminar el reproductor de medios
+    delete mMediaPlayer;
+    delete nMediaPlayer;
 }
 
 void OverBurntMain::on_ButtonMenu_clicked()
 {
     nMediaPlayer = new QMediaPlayer(this);
     nAudioOutput = new QAudioOutput(this);
-
-    // Configura el reproductor de medios
     nMediaPlayer->setAudioOutput(nAudioOutput);
     nMediaPlayer->setSource(QUrl("qrc:/Music/PopSound.mp3"));
-    nAudioOutput->setVolume(5); // Ajusta el volumen según sea necesario
-
-    // Reproduce el audio
     nMediaPlayer->play();
 
     this->hide();
@@ -64,10 +55,8 @@ void OverBurntMain::on_ButtonMenu_clicked()
 
 void OverBurntMain::closeEvent(QCloseEvent *event)
 {
-    // Show the SimulationOver window when the close button is clicked
     SimulationOver *so = new SimulationOver();
     so->show();
 
-    // Close the OverBurntMain window
     event->accept();
 }

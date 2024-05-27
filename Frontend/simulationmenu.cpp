@@ -11,10 +11,8 @@ SimulationMenu::SimulationMenu(QWidget *parent)
 
     mMediaPlayer = new QMediaPlayer(this);
     mAudioOutput = new QAudioOutput(this);
-    // Configura el reproductor de medios
     mMediaPlayer->setAudioOutput(mAudioOutput);
     mMediaPlayer->setSource(QUrl("qrc:/Music/PopSound.mp3"));
-    mAudioOutput->setVolume(5); // Ajusta el volumen según sea necesario
 
     QPixmap SimulationMenuTitle(":/Images/SimulationMenuTitle.png");
     ui->SimulationMenuTitle_pic->setPixmap(SimulationMenuTitle);
@@ -37,7 +35,6 @@ SimulationMenu::~SimulationMenu()
 
 void SimulationMenu::on_ReturnButton_clicked()
 {
-    // Reproduce el audio
     mMediaPlayer->play();
 
     this->close();
@@ -47,10 +44,8 @@ void SimulationMenu::on_EndButton_clicked()
 {
     mMediaPlayer->play();
 
-    // Close all open windows
     qApp->closeAllWindows();
 
-    // Show the SimulationOver window
     SimulationOver *so = new SimulationOver();
     so->show();
 }
