@@ -1,5 +1,5 @@
-#ifndef FILEWRITER
-#define FILEWRITER
+#ifndef FILEWRITER_H
+#define FILEWRITER_H
 #include "Includes.h"
 #include "Constants.h"
 using namespace std;
