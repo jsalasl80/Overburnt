@@ -20,6 +20,7 @@ public:
     void run();
     bool addLineCookToRotation(LineCook *cook);
     void stopRunning();
+    bool getRunning();
 };
 
 #endif //THREADPOOLLINECOOKS_H

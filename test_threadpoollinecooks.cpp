@@ -81,7 +81,7 @@ TEST_F(ThreadPoolLineCooksTest, StopRunning) {
     threadPoolLineCooks->stopRunning();
     poolThread.join();
 
-    EXPECT_FALSE(threadPoolLineCooks->running);
+    EXPECT_FALSE(threadPoolLineCooks->getRunning());
 }
 
 int main(int argc, char **argv) {

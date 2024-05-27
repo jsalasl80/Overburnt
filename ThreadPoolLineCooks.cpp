@@ -62,3 +62,6 @@ bool ThreadPoolLineCooks::addLineCookToRotation(LineCook *lineCook){
 void ThreadPoolLineCooks::stopRunning(){
     running = false;
 }
+bool ThreadPoolLineCooks::getRunning(){
+    return running;
+}

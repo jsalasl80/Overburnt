@@ -22,6 +22,7 @@ public:
     void deliverOrder();
     bool getAvailability();
     void setState(bool _state);
+    bool getState();
 };
 
 #endif //LINECOOK_H

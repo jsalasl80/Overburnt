@@ -38,3 +38,6 @@ bool LineCook::getAvailability(){
 void LineCook::setState(bool _state){
     state = _state;
 }
+bool LineCook::getState(){
+    return state;
+}
