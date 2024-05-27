@@ -25,9 +25,6 @@ protected:
 
     void TearDown() override {
         delete restaurant;
-        // Eliminar los archivos de prueba
-        std::remove(INVENTORY_CSV);
-        std::remove(RECIPES_CSV);
     }
 };
 

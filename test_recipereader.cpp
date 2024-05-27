@@ -25,8 +25,6 @@ protected:
     void TearDown() override {
         delete recipeReader;
         delete menu;
-        // Eliminar el archivo de prueba
-        std::remove(RECIPES_CSV);
     }
 };
 

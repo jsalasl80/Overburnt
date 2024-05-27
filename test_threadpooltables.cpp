@@ -72,10 +72,6 @@ protected:
         for (auto customer : customers) {
             delete customer;
         }
-
-        // Eliminar los archivos de prueba
-        std::remove(INVENTORY_CSV);
-        std::remove(RECIPES_CSV);
     }
 };
 
