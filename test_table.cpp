@@ -1,3 +1,5 @@
+// test_table.cpp
+
 #include <gtest/gtest.h>
 #include "Table.h"
 #include "Menu.h"
@@ -6,7 +8,8 @@
 #include "ResultsQueue.h"
 #include "CustomersInLine.h"
 #include "Customer.h"
-#include "RecipeReader.h"  // Include the RecipeReader header file
+#include "RecipeReader.h"
+#include "ThreadPoolTables.h"  // Include the ThreadPoolTables header file
 
 class TableTest : public ::testing::Test {
 protected:
@@ -19,6 +22,8 @@ protected:
     ResultsQueue<int>* customersUnsatisfied;
     CustomersInLine* customersInLine;
     std::vector<Customer*> customers;
+    Table** tables;  // Declare tables as a pointer to an array of Table pointers
+    ThreadPoolTables* threadPoolTables;  // Declare threadPoolTables
 
     void SetUp() override {
         menu = new Menu();
