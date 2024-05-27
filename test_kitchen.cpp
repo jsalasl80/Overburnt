@@ -38,7 +38,7 @@ TEST_F(KitchenTest, StartOperating) {
     kitchen->startOperating();
     InventoryManager* inventoryManager = kitchen->getInventoryManager();
     kitchen->stopOperating();
-    EXPECT_EQ(InventoryManager->getIngredient("Tomato")->getIngredientName(), "Tomato");
+    EXPECT_EQ(inventoryManager->getIngredient("Tomato")->getIngredientName(), "Tomato");
 }
 
 TEST_F(KitchenTest, ReportCurrentState) {
