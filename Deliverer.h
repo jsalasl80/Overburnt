@@ -15,6 +15,7 @@ public:
     void deliverOrder(Order* orderToDeliver);
     bool getAvailability();
     void setState(bool _state);
+    bool getState();
 };
 
 #endif

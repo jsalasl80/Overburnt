@@ -28,3 +28,7 @@ bool Deliverer::getAvailability(){
 void Deliverer::setState(bool _state){
     state = _state;
 }
+
+bool Deliverer::getState(){
+    return state;
+}
