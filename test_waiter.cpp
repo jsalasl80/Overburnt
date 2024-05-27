@@ -66,7 +66,7 @@ TEST_F(WaiterTest, AttendTableFailure) {
     // Manually reduce inventory to cause failure
     inventoryManager->clearInventory();
     std::promise<bool> ordersPromise;
-    std::future<bool> ordersFuture = ordersPromise.get.future();
+    std::future<bool> ordersFuture = ordersPromise.get_future();
     waiter->attendTable(std::move(ordersPromise), orders);
 
     bool ordersDoable = ordersFuture.get();
@@ -79,7 +79,7 @@ TEST_F(WaiterTest, ExtractIngredientsAndAmounts) {
 
     std::map<std::string, int> expected = {{"Tomato", 2}, {"Pasta", 3}};
     for (const auto& ingredient : expected) {
-        EXPECT_EQ(waiter->ordersTotalIngredientsAmounts[ingredient.first], ingredient.second);
+        EXPECT_EQ(waiter->getOrdersTotalIngredientsAmounts().at(ingredient.first), ingredient.second);
     }
 }
 

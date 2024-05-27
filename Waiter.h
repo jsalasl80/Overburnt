@@ -11,7 +11,7 @@
 class Waiter{
 private:
     InventoryManager *inventoryManager;
-    map<string, int> ordersTotalIngredientsAmounts;
+    std::map<string, int> ordersTotalIngredientsAmounts;
     vector<Order*> customersOrders;
     ResultsQueue<Order*> *ordersToDo;
     Accountant *accountant;
@@ -24,6 +24,7 @@ public:
 
     void extractIngredientsAndAmounts(Recipe* recipe);
 
+    const std::map<std::string,int> getOrdersTotalIngredientsAmounts() const;
     void insertIngredientAmount(string ingredientName, int ingredientAmount);
     void sendOrdersToKitchen();
     void addWinnings();

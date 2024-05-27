@@ -106,3 +106,6 @@ void Waiter::clearMap(){
 void Waiter::clearOrders(){
     customersOrders.clear();
 }
+const std::map<std::string, int> Waiter::getOrdersTotalIngredientsAmounts() const {
+        return ordersTotalIngredientsAmounts;
+}
