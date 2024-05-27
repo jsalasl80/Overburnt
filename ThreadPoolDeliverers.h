@@ -8,15 +8,17 @@
 
 #include "Deliverer.h"
 
-class ThreadPoolDeliverers : public ThreadPool {
+class ThreadPoolDeliverers : private ThreadPool {
 private:
     Deliverer** deliverers;
     ResultsQueue<Order*> *ordersToDeliver;
+    bool running;
 public:
     ThreadPoolDeliverers(Deliverer** _deliverers, ResultsQueue<Order*> *_ordersToDeliver);
     Deliverer* getAvailableDeliverer();
     void run();
     bool addDelivererToRotation(Deliverer *deliverer);
+    void stopRunning();
 };
 
 #endif //THREADPOOLDELIVERERS_H

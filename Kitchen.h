@@ -27,7 +27,7 @@ public:
     ~Kitchen();
     void startOperating();
     void stopOperating();
-    
+
     void reportCurrentState();
 
     void setLineCooks();

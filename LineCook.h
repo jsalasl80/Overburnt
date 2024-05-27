@@ -20,7 +20,7 @@ public:
     void prepareOrder(Order *order);
     void cookOrder();
     void deliverOrder();
-    void getAvailability(std::promise<bool>&& availablePromise);
+    bool getAvailability();
     void setState(bool _state);
 };
 

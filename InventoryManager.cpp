@@ -17,6 +17,9 @@ void InventoryManager::storeIngredient(string ingredientName, int amount, float 
 }
 
 void InventoryManager::setUpInventory(){
+    inventory -> lock();
+    std::lock_guard<mutex> lg(inventoryMutex);
+
     string ingredientName;
     int amount;
     float unitaryCost;
@@ -25,10 +28,12 @@ void InventoryManager::setUpInventory(){
     while (CSVReader::readInventory(ingredientName, amount, unitaryCost)){
         storeIngredient(ingredientName, amount, unitaryCost);
         ingredientNames.push_back(ingredientName); 
-        printf("%s: %i %f\n", ingredientName.c_str(), amount, unitaryCost);
+        //printf("%s: %i %f\n", ingredientName.c_str(), amount, unitaryCost);
     }
 
     CSVReader::closeFile();
+    inventory -> unlock();
+    cv.notify_one();
 }
 
 void InventoryManager::checkIngredientsAvailability(std::promise<bool>&& availabilityPromise, map<string,int>& totalIngredientsAndAmounts){
@@ -39,29 +44,31 @@ void InventoryManager::checkIngredientsAvailability(std::promise<bool>&& availab
         return inventory->getAvailability();}
         );
     }
-    
     bool allIngredientsAvailable = true;
 
     Ingredient *ingredient;
     for (auto itr = totalIngredientsAndAmounts.begin(); itr != totalIngredientsAndAmounts.end() && allIngredientsAvailable; ++itr){
         ingredient = inventory -> getIngredient(itr->first);
-        allIngredientsAvailable = ingredient -> checkConsumability(itr->second);
+        if (ingredient) allIngredientsAvailable = ingredient -> checkConsumability(itr->second);
     }
 
     availabilityPromise.set_value(allIngredientsAvailable);
-
+    
     if (allIngredientsAvailable){
-        //must be sure that all ingredients will be used to update inventory
         updateInventory(totalIngredientsAndAmounts);
     }
 }
 
-void InventoryManager::updateInventory(map<string,int>& totalIngredientsAndAmounts){
+void InventoryManager::updateInventory(std::map<string, int>& totalIngredientsAndAmounts){
     Ingredient *ingredient;
+    int portionsUsed;
     for (auto itr = totalIngredientsAndAmounts.begin(); itr != totalIngredientsAndAmounts.end(); ++itr){
         ingredient = inventory -> getIngredient(itr->first);
-        ingredient -> consumePortions(itr->second);
-        accountant -> updateExpenses(ingredient);
+        if (ingredient){
+            portionsUsed = itr -> second;
+            ingredient -> consumePortions(portionsUsed);
+            accountant -> updateExpenses(ingredient, portionsUsed);
+        }
     }
 }
 

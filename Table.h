@@ -19,7 +19,7 @@ private:
     bool status; // UNOCCUPIED = false, OCCUPIED = true
     
     vector<Customer*> customers;
-    map<Customer*, bool> customersEatingStatuses;
+    unordered_map<Customer*, bool> customersEatingStatuses;
     int customersSeated;
     int customersDoneEating;
     ResultsQueue<int> *customersUnsatisfied;
@@ -45,7 +45,7 @@ public:
 
     int getId() const;
     vector<Customer*> getCustomers() const;
-    void isOccupied(std::promise<bool>&& occupiedPromise); //For tables threadpool to determine if is assignable
+    bool isOccupied();
 
     void seatAndAttendCustomers(const vector<Customer*>& customers);
 

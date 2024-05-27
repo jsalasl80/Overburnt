@@ -82,9 +82,6 @@ public:
             worker.join();
     }
 
-    void stopRunning(){
-        stop = true;
-    }
 };
 
 #endif //THREADPOOL_H
