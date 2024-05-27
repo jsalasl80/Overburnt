@@ -14,8 +14,8 @@
 
 class Restaurant{
 private:
-    Kitchen *kitchen;
     CustomerSpawner *customerSpawner;
+    Kitchen *kitchen;
     Menu *menu;
     RecipeReader *recipeReader;
     Table **tables;
@@ -38,6 +38,7 @@ public:
     void stopRestaurantSimulation();
     void updateUnsatisfactionCount();
     void checkUnsatisfactionCount();
+    void joinThread(std::thread& thread);
 
     void setTables();
     void cleanTables();

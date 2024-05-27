@@ -18,7 +18,9 @@ void CustomerSpawner::spawnClients(){
             customerName = generateCustomerName();
             customerId = i;
             customer = new Customer(customerId, customerName);
-            customers.push_back(customer);
+            if (customer){
+                customers.push_back(customer);                
+            }
         }    
 
         customersInLine -> addCustomers(customers);

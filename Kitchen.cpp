@@ -16,18 +16,23 @@ Kitchen::Kitchen(Accountant *accountant, ResultsQueue<Order*> *ordersToDo){
 Kitchen::~Kitchen(){
     delete inventoryManager;
     delete ordersToDeliver;
-    delete threadPoolLineCooks;
-    delete threadPoolDeliverers;
-    deleteLineCooks();
     deleteDeliverers();
+    deleteLineCooks();
 }
 
 void Kitchen::startOperating(){
     inventoryManager -> setUpInventory();
     std::thread poolLineCooks(&ThreadPoolLineCooks::run, threadPoolLineCooks);
     std::thread poolDeliverers(&ThreadPoolDeliverers::run, threadPoolDeliverers);
-    poolLineCooks.join();
-    poolDeliverers.join();
+    if (poolLineCooks.joinable()){
+        poolLineCooks.join();
+    }
+
+    if (poolDeliverers.joinable()){
+        poolDeliverers.join();
+    }
+    delete threadPoolLineCooks;
+    delete threadPoolDeliverers;
 }
 
 void Kitchen::stopOperating(){
